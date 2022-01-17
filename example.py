@@ -10,7 +10,7 @@ import sys
 sys.path.append(os.getcwd())
 import argparse
 import basetrainer
-from torchvision import models, transforms
+from torchvision import transforms
 from torchvision.datasets import ImageFolder
 from basetrainer.engine import trainer
 from basetrainer.engine.launch import launch
@@ -20,6 +20,7 @@ from basetrainer.callbacks import log_history, model_checkpoint, losses_recorder
 from basetrainer.scheduler import build_scheduler
 from basetrainer.optimizer.build_optimizer import get_optimizer
 from basetrainer.utils import log, file_utils, setup_config, torch_tools
+from basetrainer.models import build_models
 
 print(basetrainer.__version__)
 
@@ -104,12 +105,8 @@ class ClassificationTrainer(trainer.EngineTrainer):
     def build_model(self, cfg, **kwargs):
         """build_model"""
         self.logger.info("build_model,net_type:{}".format(cfg.net_type))
-        if cfg.net_type == "resnet18":
-            model = models.resnet18(pretrained=True)
-        elif cfg.net_type == "mobilenet_v2":
-            model = models.mobilenet_v2(pretrained=True)
-        else:
-            raise Exception("nonsupport build model:{}".format(cfg.net_type))
+        model = build_models.get_models(net_type=cfg.net_type, input_size=cfg.input_size,
+                                        num_classes=cfg.num_classes, pretrained=True)
         if cfg.finetune:
             self.logger.info("finetune:{}".format(cfg.finetune))
             state_dict = torch_tools.load_state_dict(cfg.finetune)
