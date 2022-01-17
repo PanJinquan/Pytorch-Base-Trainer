@@ -94,11 +94,12 @@ if __name__ == "__main__":
 
 回调函数需要继承`Callback`, 使用方法可以参考[log_history.py](basetrainer/callbacks/log_history.py)
 
-## 4.Example参数说明
+## 4.Example
 
 - `basetrainer`使用方法可以参考[example.py](./example.py)
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
-- 其他backbone可以自定义添加
+，其他backbone可以自定义添加
+- 训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过[config.yaml](configs/config.yaml)配置文件，当存在同名参数时，以配置文件为默认值
 
 |**参数**     |**类型**      |**参考值** |**说明**            |
 |:----------- |:-------------|:----------|:-------------------|
@@ -129,7 +130,6 @@ if __name__ == "__main__":
 |check        |bool          |True       |是否检测数据，可去除空数据|
 |progress     |bool          |True       |是否显示进度条|
 |distributed  |bool          |False      |是否使用分布式训练|
-
 
 ## 5.其他说明
 

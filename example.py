@@ -163,7 +163,8 @@ def main(cfg):
 
 def get_parser():
     parser = argparse.ArgumentParser(description="Training Pipeline")
-    parser.add_argument("-c", "--config_file", help="configs file", default=None, type=str)
+    parser.add_argument("-c", "--config_file", help="configs file", default="configs/config.yaml", type=str)
+    # parser.add_argument("-c", "--config_file", help="configs file", default=None, type=str)
     parser.add_argument("--input_size", help="input size", nargs="+", default=[224, 224], type=int)
     parser.add_argument("--batch_size", help="batch_size", default=32, type=int)
     parser.add_argument("--gpu_id", help="specify your GPU ids", nargs="+", default=[0], type=int)
@@ -192,8 +193,7 @@ def get_parser():
 
 if __name__ == "__main__":
     parser = get_parser()
-    args = parser.parse_args()
-    cfg = setup_config.parser_config(args)
+    cfg = setup_config.parser_config(parser.parse_args(), cfg_updata=True)
     launch(main,
            num_gpus_per_machine=len(cfg.gpu_id),
            dist_url="tcp://127.0.0.1:28661",
