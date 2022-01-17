@@ -90,10 +90,47 @@ if __name__ == "__main__":
 
 ```
 
-## 3. 回调函数
+## 3.回调函数
 
 回调函数需要继承`Callback`, 使用方法可以参考[log_history.py](basetrainer/callbacks/log_history.py)
 
-## 4.其他说明
+## 4.Example参数说明
+
+- `basetrainer`使用方法可以参考[example.py](./example.py)
+- 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
+- 其他backbone可以自定义添加
+
+|**参数**     |**类型**      |**参考值** |**说明**            |
+|:----------- |:-------------|:----------|:-------------------|
+|train_data   |str, list     |-          |训练数据文件，可支持多个文件|
+|test_data    |str, list     |-          |测试数据文件，可支持多个文件|
+|class_name   |str,list,dict |-          |需要训练的类别|
+|data_type    |str           |VOC        |数据类型，{text,folder}|
+|work_dir     |str           |work_space |训练输出工作空间|
+|net_type     |str           |RFB        |backbone类型,{resnet,resnest,mobilenet_v2,...}|
+|width_mult   |int           |1.0        |宽度因子|
+|flag         |str           |-          |实验标志|
+|input_size   |list          |[128,128]  |模型输入大小[W,H]|
+|batch_size   |int           |32         |batch size|
+|lr           |float         |0.1        |初始学习率大小|
+|optim_type   |str           |SGD        |优化器，{SGD,Adam}|
+|scheduler    |str           |multi-step |学习率调整策略，{multi-step,cosine}|
+|milestones   |list          |[30,80,100]|降低学习率的节点，仅仅scheduler=multi-step有效|
+|momentum     |float         |0.9        |SGD动量因子|
+|num_epochs   |int           |120        |循环训练的次数|
+|num_warn_up  |int           |3          |warn_up的次数|
+|num_workers  |int           |12         |DataLoader开启线程数|
+|weight_decay |float         |5e-4       |权重衰减系数|
+|gpu_id       |list          |[ 0 ]      |指定训练的GPU卡号，可指定多个|
+|start_save   |int           |null       |从epochs开始保存模型，null表示仅保存最后10个|
+|log_freq     |in            |20         |显示LOG信息的频率|
+|pretrained   |bool          |True       |是否使用pretrained|
+|finetune     |str           |model.pth  |finetune的模型|
+|check        |bool          |True       |是否检测数据，可去除空数据|
+|progress     |bool          |True       |是否显示进度条|
+|distributed  |bool          |False      |是否使用分布式训练|
+
+
+## 5.其他说明
 
 @pan_jinquan@163.com
