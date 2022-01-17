@@ -1,0 +1,35 @@
+train_data: './data/dataset/train'
+test_data: './data/dataset/val'
+class_file: "data/dataset/class_name.txt"
+
+train_transform: "train"
+test_transform: "val"
+data_type: "folder"
+
+work_dir: "work_space/test"
+net_type: "mobilenet_v2" # resnet_model,mobilenet_v2,ir_resnet26,custom_resnet18,mobilenet_v2
+width_mult: 1.0
+flag: ""
+
+input_size: [ 128,128 ]
+rgb_mean: [ 0.5, 0.5, 0.5 ]  # for normalize inputs to [-1, 1],Sequence of means for each channel.
+rgb_std: [ 0.5, 0.5, 0.5 ]   # for normalize,Sequence of standard deviations for each channel.
+batch_size: 2
+lr: 0.1
+optim_type: "SGD"             # SGD,Adam
+loss_type: "CrossEntropyLoss"  # FocalLoss,CrossEntropyLoss,LabelSmoothing
+momentum: 0.9              # SGD momentum
+num_epochs: 120
+num_warn_up: 3
+num_workers: 8
+weight_decay: 0.0005 #5e-4
+scheduler: "cosine" # cosine,multi-step
+milestones: [ 30,80,100 ]
+gpu_id: [ 0 ]
+start_save: null
+log_freq: 50
+progress: True
+
+pretrained: True
+finetune: False
+model_file: ""
