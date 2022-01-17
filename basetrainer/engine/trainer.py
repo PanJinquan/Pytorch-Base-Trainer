@@ -41,6 +41,7 @@ class EngineTrainer(engine.Engine):
         self.optimizer = self.build_optimizer(cfg, **kwargs)
         self.criterion = self.build_criterion(cfg, **kwargs)
         self.callbacks = self.build_callbacks(cfg, **kwargs)
+        self.callbacks = [c for c in self.callbacks if c]
 
     def build_train_loader(self, cfg, **kwargs):
         """定义训练数据"""
