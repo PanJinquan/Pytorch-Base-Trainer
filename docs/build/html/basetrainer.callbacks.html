@@ -1,0 +1,474 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>basetrainer.callbacks package &mdash; pytorch-base-trainer V0.6.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytorch-base-trainer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">basetrainer.callbacks package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks.callbacks">basetrainer.callbacks.callbacks module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks.log_history">basetrainer.callbacks.log_history module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks.losses_recorder">basetrainer.callbacks.losses_recorder module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks.model_checkpoint">basetrainer.callbacks.model_checkpoint module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks.multi_losses_recorder">basetrainer.callbacks.multi_losses_recorder module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.callbacks">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytorch-base-trainer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>basetrainer.callbacks package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/basetrainer.callbacks.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basetrainer-callbacks-package">
+<h1>basetrainer.callbacks package<a class="headerlink" href="#basetrainer-callbacks-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-basetrainer.callbacks.callbacks">
+<span id="basetrainer-callbacks-callbacks-module"></span><h2>basetrainer.callbacks.callbacks module<a class="headerlink" href="#module-basetrainer.callbacks.callbacks" title="永久链接至标题">¶</a></h2>
+<p># ——————————————————–
+# &#64;Project: dmengine
+# &#64;Author : panjq
+# &#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+# &#64;Date   : 2021-07-26 10:54:14
+# ——————————————————–</p>
+<dl class="py class">
+<dt id="basetrainer.callbacks.callbacks.Callback">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.callbacks.callbacks.</span></code><code class="sig-name descname"><span class="pre">Callback</span></code><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="basetrainer.engine.html#basetrainer.engine.base.Base" title="basetrainer.engine.base.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.engine.base.Base</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_batch_begin">
+<code class="sig-name descname"><span class="pre">on_batch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_batch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_batch_end">
+<code class="sig-name descname"><span class="pre">on_batch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_batch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_epoch_begin">
+<code class="sig-name descname"><span class="pre">on_epoch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_epoch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_test_begin">
+<code class="sig-name descname"><span class="pre">on_test_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_test_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_test_end">
+<code class="sig-name descname"><span class="pre">on_test_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_test_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_test_summary">
+<code class="sig-name descname"><span class="pre">on_test_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_test_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，测试结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_train_begin">
+<code class="sig-name descname"><span class="pre">on_train_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_train_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_train_end">
+<code class="sig-name descname"><span class="pre">on_train_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_train_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.on_train_summary">
+<code class="sig-name descname"><span class="pre">on_train_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.on_train_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，训练结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.callbacks.Callback.set_model">
+<code class="sig-name descname"><span class="pre">set_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.callbacks.Callback.set_model" title="永久链接至目标">¶</a></dt>
+<dd><p>设置模型</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.callbacks.log_history">
+<span id="basetrainer-callbacks-log-history-module"></span><h2>basetrainer.callbacks.log_history module<a class="headerlink" href="#module-basetrainer.callbacks.log_history" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 14:57:10</p>
+<dl class="py class">
+<dt id="basetrainer.callbacks.log_history.LogHistory">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.callbacks.log_history.</span></code><code class="sig-name descname"><span class="pre">LogHistory</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">log_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log_freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicators</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_main_process</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.log_history.LogHistory" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.callbacks.callbacks.Callback" title="basetrainer.callbacks.callbacks.Callback"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.callbacks.callbacks.Callback</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.callbacks.log_history.LogHistory.get_indicators_values">
+<code class="sig-name descname"><span class="pre">get_indicators_values</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indicator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.log_history.LogHistory.get_indicators_values" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.log_history.LogHistory.on_batch_end">
+<code class="sig-name descname"><span class="pre">on_batch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.log_history.LogHistory.on_batch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.log_history.LogHistory.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.log_history.LogHistory.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.log_history.LogHistory.summary">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">writer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicators</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.log_history.LogHistory.summary" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.callbacks.losses_recorder">
+<span id="basetrainer-callbacks-losses-recorder-module"></span><h2>basetrainer.callbacks.losses_recorder module<a class="headerlink" href="#module-basetrainer.callbacks.losses_recorder" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 11:32:42</p>
+<dl class="py class">
+<dt id="basetrainer.callbacks.losses_recorder.LossesRecorder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.callbacks.losses_recorder.</span></code><code class="sig-name descname"><span class="pre">LossesRecorder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indicator</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'loss'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.losses_recorder.LossesRecorder" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.callbacks.callbacks.Callback" title="basetrainer.callbacks.callbacks.Callback"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.callbacks.callbacks.Callback</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.callbacks.losses_recorder.LossesRecorder.on_test_begin">
+<code class="sig-name descname"><span class="pre">on_test_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.losses_recorder.LossesRecorder.on_test_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.losses_recorder.LossesRecorder.on_test_summary">
+<code class="sig-name descname"><span class="pre">on_test_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.losses_recorder.LossesRecorder.on_test_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，测试结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.losses_recorder.LossesRecorder.on_train_summary">
+<code class="sig-name descname"><span class="pre">on_train_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.losses_recorder.LossesRecorder.on_train_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，训练结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.losses_recorder.LossesRecorder.summary">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_meter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="basetrainer.metric.eval_tools.html#basetrainer.metric.eval_tools.metrics.AverageMeter" title="basetrainer.metric.eval_tools.metrics.AverageMeter"><span class="pre">basetrainer.metric.eval_tools.metrics.AverageMeter</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.losses_recorder.LossesRecorder.summary" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.callbacks.model_checkpoint">
+<span id="basetrainer-callbacks-model-checkpoint-module"></span><h2>basetrainer.callbacks.model_checkpoint module<a class="headerlink" href="#module-basetrainer.callbacks.model_checkpoint" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 14:57:10</p>
+<dl class="py class">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.callbacks.model_checkpoint.</span></code><code class="sig-name descname"><span class="pre">ModelCheckpoint</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">model:</span> <span class="pre">torch.nn.modules.module.Module</span></em>, <em class="sig-param"><span class="pre">optimizer:</span> <span class="pre">&lt;module</span> <span class="pre">'torch.optim'</span> <span class="pre">from</span> <span class="pre">'/home/dm/anaconda3/envs/pytorch-py36/lib/python3.6/site-packages/torch/optim/__init__.py'&gt;</span></em>, <em class="sig-param"><span class="pre">moder_dir:</span> <span class="pre">str</span></em>, <em class="sig-param"><span class="pre">epochs:</span> <span class="pre">int</span></em>, <em class="sig-param"><span class="pre">start_save:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">-1</span></em>, <em class="sig-param"><span class="pre">indicator:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></em>, <em class="sig-param"><span class="pre">inverse:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></em>, <em class="sig-param"><span class="pre">logger=None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.callbacks.callbacks.Callback" title="basetrainer.callbacks.callbacks.Callback"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.callbacks.callbacks.Callback</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint.get_indicators_values">
+<code class="sig-name descname"><span class="pre">get_indicators_values</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indicator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint.get_indicators_values" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint.resume_model">
+<code class="sig-name descname"><span class="pre">resume_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resume</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint.resume_model" title="永久链接至目标">¶</a></dt>
+<dd><p>optimizer_pth = os.path.join(self.model_root, “optimizer_{}.pth”.format(self.net_type))
+resume or finetune model
+torch.save({“epoch”: epoch,</p>
+<blockquote>
+<div><p>“model”: model.state_dict(),
+“optimizer”: optimizer.state_dict()}, optimizer_pth)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint.save_best_model">
+<code class="sig-name descname"><span class="pre">save_best_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint.save_best_model" title="永久链接至目标">¶</a></dt>
+<dd><p>保存关注的指标(indicator)最优的模型</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.model_checkpoint.ModelCheckpoint.save_model">
+<code class="sig-name descname"><span class="pre">save_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_save</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.model_checkpoint.ModelCheckpoint.save_model" title="永久链接至目标">¶</a></dt>
+<dd><p>保存模型</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.callbacks.multi_losses_recorder">
+<span id="basetrainer-callbacks-multi-losses-recorder-module"></span><h2>basetrainer.callbacks.multi_losses_recorder module<a class="headerlink" href="#module-basetrainer.callbacks.multi_losses_recorder" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 11:32:42</p>
+<dl class="py class">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.callbacks.multi_losses_recorder.</span></code><code class="sig-name descname"><span class="pre">MultiLossesRecorder</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">indicators</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span> </span><span class="pre">List</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.callbacks.callbacks.Callback" title="basetrainer.callbacks.callbacks.Callback"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.callbacks.callbacks.Callback</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_indicators">
+<code class="sig-name descname"><span class="pre">init_indicators</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">losses</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_indicators" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_test_recorder">
+<code class="sig-name descname"><span class="pre">init_test_recorder</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_test_recorder" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_train_recorder">
+<code class="sig-name descname"><span class="pre">init_train_recorder</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.init_train_recorder" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_test_summary">
+<code class="sig-name descname"><span class="pre">on_test_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_test_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，测试结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_train_summary">
+<code class="sig-name descname"><span class="pre">on_train_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.on_train_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，训练结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.summary">
+<em class="property"><span class="pre">static</span> </em><code class="sig-name descname"><span class="pre">summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average_meter</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indicators</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.callbacks.multi_losses_recorder.MultiLossesRecorder.summary" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.callbacks">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-basetrainer.callbacks" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 14:54:51</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2022, panjinquan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

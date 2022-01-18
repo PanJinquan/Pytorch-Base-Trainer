@@ -1,0 +1,636 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>basetrainer.engine package &mdash; pytorch-base-trainer V0.6.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytorch-base-trainer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">basetrainer.engine package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine.base">basetrainer.engine.base module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine.comm">basetrainer.engine.comm module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine.engine">basetrainer.engine.engine module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine.launch">basetrainer.engine.launch module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine.trainer">basetrainer.engine.trainer module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.engine">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytorch-base-trainer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>basetrainer.engine package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/basetrainer.engine.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basetrainer-engine-package">
+<h1>basetrainer.engine package<a class="headerlink" href="#basetrainer-engine-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-basetrainer.engine.base">
+<span id="basetrainer-engine-base-module"></span><h2>basetrainer.engine.base module<a class="headerlink" href="#module-basetrainer.engine.base" title="永久链接至标题">¶</a></h2>
+<p># ——————————————————–
+# &#64;Project: dmengine
+# &#64;Author : panjq
+# &#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+# &#64;Date   : 2021-07-26 10:54:14
+# ——————————————————–</p>
+<dl class="py class">
+<dt id="basetrainer.engine.base.Base">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.engine.base.</span></code><code class="sig-name descname"><span class="pre">Base</span></code><a class="headerlink" href="#basetrainer.engine.base.Base" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_batch_begin">
+<code class="sig-name descname"><span class="pre">on_batch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_batch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_batch_end">
+<code class="sig-name descname"><span class="pre">on_batch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_batch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_epoch_begin">
+<code class="sig-name descname"><span class="pre">on_epoch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_epoch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_test_begin">
+<code class="sig-name descname"><span class="pre">on_test_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_test_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_test_end">
+<code class="sig-name descname"><span class="pre">on_test_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_test_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_test_summary">
+<code class="sig-name descname"><span class="pre">on_test_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_test_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，测试结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_train_begin">
+<code class="sig-name descname"><span class="pre">on_train_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_train_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_train_end">
+<code class="sig-name descname"><span class="pre">on_train_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_train_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.on_train_summary">
+<code class="sig-name descname"><span class="pre">on_train_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.on_train_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，训练结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.base.Base.set_model">
+<code class="sig-name descname"><span class="pre">set_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.base.Base.set_model" title="永久链接至目标">¶</a></dt>
+<dd><p>设置模型</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.engine.comm">
+<span id="basetrainer-engine-comm-module"></span><h2>basetrainer.engine.comm module<a class="headerlink" href="#module-basetrainer.engine.comm" title="永久链接至标题">¶</a></h2>
+<p>This file contains primitives for multi-gpu communication.
+This is useful when doing distributed training.</p>
+<dl class="py function">
+<dt id="basetrainer.engine.comm.all_gather">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">all_gather</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.comm.all_gather" title="永久链接至目标">¶</a></dt>
+<dd><p>Run all_gather on arbitrary picklable data (not necessarily tensors).
+:param data: any picklable object
+:param group: a torch process group. By default, will use a group which</p>
+<blockquote>
+<div><p>contains all ranks on gloo backend.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>list of data gathered from each rank</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>list[data]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.gather">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">gather</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.comm.gather" title="永久链接至目标">¶</a></dt>
+<dd><p>Run gather on arbitrary picklable data (not necessarily tensors).
+:param data: any picklable object
+:param dst: destination rank
+:type dst: int
+:param group: a torch process group. By default, will use a group which</p>
+<blockquote>
+<div><p>contains all ranks on gloo backend.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>on dst, a list of data gathered from each rank. Otherwise,</dt><dd><p>an empty list.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>list[data]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.get_device">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">get_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_ids</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.device</span><a class="headerlink" href="#basetrainer.engine.comm.get_device" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.get_local_rank">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">get_local_rank</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#basetrainer.engine.comm.get_local_rank" title="永久链接至目标">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>The rank of the current process within the local (per-machine) process group.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.get_local_size">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">get_local_size</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#basetrainer.engine.comm.get_local_size" title="永久链接至目标">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>The size of the per-machine process group,
+i.e. the number of processes per machine.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.get_rank">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">get_rank</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#basetrainer.engine.comm.get_rank" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.get_world_size">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">get_world_size</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#basetrainer.engine.comm.get_world_size" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.is_main_process">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">is_main_process</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#basetrainer.engine.comm.is_main_process" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.reduce_dict">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">reduce_dict</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">average</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.comm.reduce_dict" title="永久链接至目标">¶</a></dt>
+<dd><p>Reduce the values in the dictionary from all processes so that process with rank
+0 has the reduced results.
+:param input_dict: inputs to be reduced. All the values must be scalar CUDA Tensor.
+:type input_dict: dict
+:param average: whether to do average or sum
+:type average: bool</p>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p>a dict with the same keys as input_dict, after reduction.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.shared_random_seed">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">shared_random_seed</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.comm.shared_random_seed" title="永久链接至目标">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p><dl class="simple">
+<dt>a random number that is the same across all workers.</dt><dd><p>If workers need a shared RNG, they can use this shared seed to
+create one.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">返回类型</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+<p>All workers must call this function, otherwise it will deadlock.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.engine.comm.synchronize">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.comm.</span></code><code class="sig-name descname"><span class="pre">synchronize</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.comm.synchronize" title="永久链接至目标">¶</a></dt>
+<dd><p>Helper function to synchronize (barrier) among all processes when
+using distributed training</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.engine.engine">
+<span id="basetrainer-engine-engine-module"></span><h2>basetrainer.engine.engine module<a class="headerlink" href="#module-basetrainer.engine.engine" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 09:09:32</p>
+<dl class="py class">
+<dt id="basetrainer.engine.engine.Engine">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.engine.engine.</span></code><code class="sig-name descname"><span class="pre">Engine</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.engine.base.Base" title="basetrainer.engine.base.Base"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.engine.base.Base</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_batch_begin">
+<code class="sig-name descname"><span class="pre">on_batch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_batch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_batch_end">
+<code class="sig-name descname"><span class="pre">on_batch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_batch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_epoch_begin">
+<code class="sig-name descname"><span class="pre">on_epoch_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_epoch_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch开始时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_epoch_end">
+<code class="sig-name descname"><span class="pre">on_epoch_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_epoch_end" title="永久链接至目标">¶</a></dt>
+<dd><p>每个epoch结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_test_begin">
+<code class="sig-name descname"><span class="pre">on_test_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_test_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_test_end">
+<code class="sig-name descname"><span class="pre">on_test_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_test_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束测试时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_test_summary">
+<code class="sig-name descname"><span class="pre">on_test_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_test_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，测试结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_train_begin">
+<code class="sig-name descname"><span class="pre">on_train_begin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_train_begin" title="永久链接至目标">¶</a></dt>
+<dd><p>开始训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_train_end">
+<code class="sig-name descname"><span class="pre">on_train_end</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_train_end" title="永久链接至目标">¶</a></dt>
+<dd><p>结束训练时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.on_train_summary">
+<code class="sig-name descname"><span class="pre">on_train_summary</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">losses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epoch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.on_train_summary" title="永久链接至目标">¶</a></dt>
+<dd><p>每次迭代，训练结束时回调</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.run">
+<code class="sig-name descname"><span class="pre">run</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.run" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.run_step">
+<code class="sig-name descname"><span class="pre">run_step</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.run_step" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.run_test_epoch">
+<code class="sig-name descname"><span class="pre">run_test_epoch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.run_test_epoch" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.run_train_epoch">
+<code class="sig-name descname"><span class="pre">run_train_epoch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataloader.DataLoader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">dict</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.run_train_epoch" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.set_model">
+<code class="sig-name descname"><span class="pre">set_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.set_model" title="永久链接至目标">¶</a></dt>
+<dd><p>设置模型</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.engine.Engine.to">
+<code class="sig-name descname"><span class="pre">to</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.engine.Engine.to" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.engine.launch">
+<span id="basetrainer-engine-launch-module"></span><h2>basetrainer.engine.launch module<a class="headerlink" href="#module-basetrainer.engine.launch" title="永久链接至标题">¶</a></h2>
+<p>&#64;author:  xingyu liao
+&#64;contact: <a class="reference external" href="mailto:sherlockliao01&#37;&#52;&#48;gmail&#46;com">sherlockliao01<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
+<dl class="py function">
+<dt id="basetrainer.engine.launch.launch">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.engine.launch.</span></code><code class="sig-name descname"><span class="pre">launch</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_gpus_per_machine</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_machines</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">machine_rank</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dist_url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.launch.launch" title="永久链接至目标">¶</a></dt>
+<dd><p>Launch multi-gpu or distributed training.
+This function must be called on all machines involved in the training.
+It will spawn child processes (defined by <a href="#id1"><span class="problematic" id="id2">``</span></a>num_gpus_per_machine`) on each machine.
+:param main_func: a function that will be called by <cite>main_func(*args)</cite>
+:param num_gpus_per_machine: number of GPUs per machine
+:type num_gpus_per_machine: int
+:param num_machines: the total number of machines
+:type num_machines: int
+:param machine_rank: the rank of this machine
+:type machine_rank: int
+:param dist_url: url to connect to for distributed jobs, including protocol</p>
+<blockquote>
+<div><p>e.g. “<a class="reference external" href="tcp://127.0.0.1:8686">tcp://127.0.0.1:8686</a>”.
+Can be set to “auto” to automatically select a free port on localhost</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distributed</strong> – running Mode
+True use DistributedDataParallel(DDP), multi-gpu-distributed training；
+Fase use DataParallel(DDP), only multi-gpu training(DP)</p></li>
+<li><p><strong>args</strong> (<em>tuple</em>) – arguments passed to main_func</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.engine.trainer">
+<span id="basetrainer-engine-trainer-module"></span><h2>basetrainer.engine.trainer module<a class="headerlink" href="#module-basetrainer.engine.trainer" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-28 09:09:32</p>
+<dl class="py class">
+<dt id="basetrainer.engine.trainer.EngineTrainer">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.engine.trainer.</span></code><code class="sig-name descname"><span class="pre">EngineTrainer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<a class="reference internal" href="#basetrainer.engine.engine.Engine" title="basetrainer.engine.engine.Engine"><code class="xref py py-class docutils literal notranslate"><span class="pre">basetrainer.engine.engine.Engine</span></code></a></p>
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build">
+<code class="sig-name descname"><span class="pre">build</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_callbacks">
+<code class="sig-name descname"><span class="pre">build_callbacks</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_callbacks" title="永久链接至目标">¶</a></dt>
+<dd><p>定义回调函数</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_criterion">
+<code class="sig-name descname"><span class="pre">build_criterion</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_criterion" title="永久链接至目标">¶</a></dt>
+<dd><p>定义损失函数</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_dataloader">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">build_dataloader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.utils.data.dataset.Dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_workers</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">str</span></span> <span class="o"><span class="pre">=</span></span> <span class="default_value"><span class="pre">'train'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.utils.data.dataloader.DataLoader</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_dataloader" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_model">
+<code class="sig-name descname"><span class="pre">build_model</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_model" title="永久链接至目标">¶</a></dt>
+<dd><p>定于训练模型</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_model_parallel">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">build_model_parallel</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_ids</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">distributed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">torch.nn.modules.module.Module</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_model_parallel" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_optimizer">
+<code class="sig-name descname"><span class="pre">build_optimizer</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_optimizer" title="永久链接至目标">¶</a></dt>
+<dd><p>定义优化器</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_test_loader">
+<code class="sig-name descname"><span class="pre">build_test_loader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_test_loader" title="永久链接至目标">¶</a></dt>
+<dd><p>定义测试数据</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="basetrainer.engine.trainer.EngineTrainer.build_train_loader">
+<code class="sig-name descname"><span class="pre">build_train_loader</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cfg</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.engine.trainer.EngineTrainer.build_train_loader" title="永久链接至目标">¶</a></dt>
+<dd><p>定义训练数据</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.engine">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-basetrainer.engine" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-07-30 19:27:28</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2022, panjinquan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

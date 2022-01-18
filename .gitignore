@@ -10,7 +10,7 @@ evaluation/eval_output
 *.egg-info/
 docker/codes/
 .polyaxon
-build/
+./build/
 output/
 .ipynb_checkpoints/
 .DS_Store

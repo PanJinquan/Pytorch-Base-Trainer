@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>basetrainer.pruning package &mdash; pytorch-base-trainer V0.6.0 文档</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/translations.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pytorch-base-trainer
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">basetrainer.pruning package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-basetrainer.pruning.nni_pruning">basetrainer.pruning.nni_pruning module</a></li>
+<li><a class="reference internal" href="#basetrainer-pruning-slim-pruning-module">basetrainer.pruning.slim_pruning module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.pruning.torch_pruning">basetrainer.pruning.torch_pruning module</a></li>
+<li><a class="reference internal" href="#module-basetrainer.pruning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pytorch-base-trainer</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>basetrainer.pruning package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/basetrainer.pruning.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="basetrainer-pruning-package">
+<h1>basetrainer.pruning package<a class="headerlink" href="#basetrainer-pruning-package" title="永久链接至标题">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-basetrainer.pruning.nni_pruning">
+<span id="basetrainer-pruning-nni-pruning-module"></span><h2>basetrainer.pruning.nni_pruning module<a class="headerlink" href="#module-basetrainer.pruning.nni_pruning" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-12-09 19:16:19</p>
+<dl class="py class">
+<dt id="basetrainer.pruning.nni_pruning.SimpleModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.nni_pruning.</span></code><code class="sig-name descname"><span class="pre">SimpleModel</span></code><a class="headerlink" href="#basetrainer.pruning.nni_pruning.SimpleModel" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="basetrainer.pruning.nni_pruning.SimpleModel.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.nni_pruning.SimpleModel.forward" title="永久链接至目标">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="basetrainer.pruning.nni_pruning.SimpleModel.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#basetrainer.pruning.nni_pruning.SimpleModel.training" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.pruning.nni_pruning.model_pruning">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.nni_pruning.</span></code><code class="sig-name descname"><span class="pre">model_pruning</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">128,</span> <span class="pre">128]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prune_mod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'L1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speedup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_prune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pruning_output'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependency_aware</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.nni_pruning.model_pruning" title="永久链接至目标">¶</a></dt>
+<dd><p>使用NNI进行模型剪枝和压缩
+<a class="reference external" href="https://github.com/microsoft/nni/blob/master/docs/en_US/Compression/compression_pipeline_example.ipynb">https://github.com/microsoft/nni/blob/master/docs/en_US/Compression/compression_pipeline_example.ipynb</a>
+use l1filter pruner to prune the model
+Note that if you use a compressor that need you to pass a optimizer,
+you need a new optimizer instead of you have used above, because NNI might modify the optimizer.
+And of course this modified optimizer can not be used in finetuning.
+Usage:</p>
+<blockquote>
+<div><p>model = build_model()
+model = model_pruning(model,input_size,sparsity=0.2)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
+for epoch in range(0, epochs):</p>
+<blockquote>
+<div><p>trainer(model, optimizer, criterion, epoch)
+evaluator(model)
+torch.save(model.state_dict(), “model_pruning.pth”)</p>
+</div></blockquote>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> – Pytorch模型</p></li>
+<li><p><strong>input_size</strong> – 模型输入的维度[batch-size,channel,H,W]</p></li>
+<li><p><strong>sparsity</strong> – 模型剪枝目标稀疏度,值越大,模型越稀疏，计算量越小；0.5表示剪除50%</p></li>
+<li><p><strong>reuse</strong> – 是否复现模型剪枝的结果
+False: 进行模型剪枝(pruning+ModelSpeedup),会生成mask文件(mask_naive_l1filter.pth)
+True : 复现模型剪枝的结果,需要提供mask_file文件</p></li>
+<li><p><strong>speedup</strong> – 是否加速模型</p></li>
+<li><p><strong>output_prune</strong> – 模型剪枝输出文件</p></li>
+<li><p><strong>mask_file</strong> – reuse=True需要提供模型剪枝的mask文件,默认保存在output_prune目录下(mask_naive_l1filter.pth)</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param dependency_aware 依赖感知模式 <a class="reference external" href="https://nni.readthedocs.io/zh/stable/Compression/DependencyAware.html">https://nni.readthedocs.io/zh/stable/Compression/DependencyAware.html</a>
+:param device:
+:param config: 模型剪枝配置,用于指定需要剪枝网络层；</p>
+<blockquote>
+<div><p>如果不指定op_names,默认对所以层进行剪枝
+config_list = [{‘sparsity’: sparsity,’op_types’: [‘Conv2d’],’op_names’: [‘conv1’]}]</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">返回</dt>
+<dd class="field-odd"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.pruning.nni_pruning.nni_model_pruning_test">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.nni_pruning.</span></code><code class="sig-name descname"><span class="pre">nni_model_pruning_test</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">416,</span> <span class="pre">416]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'output'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.nni_pruning.nni_model_pruning_test" title="永久链接至目标">¶</a></dt>
+<dd><p><a class="reference external" href="https://zhuanlan.zhihu.com/p/382638682">https://zhuanlan.zhihu.com/p/382638682</a>
+:param model:
+:param input_size:
+:param sparsity:
+:param output:
+:param device:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="basetrainer-pruning-slim-pruning-module">
+<h2>basetrainer.pruning.slim_pruning module<a class="headerlink" href="#basetrainer-pruning-slim-pruning-module" title="永久链接至标题">¶</a></h2>
+</div>
+<div class="section" id="module-basetrainer.pruning.torch_pruning">
+<span id="basetrainer-pruning-torch-pruning-module"></span><h2>basetrainer.pruning.torch_pruning module<a class="headerlink" href="#module-basetrainer.pruning.torch_pruning" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-12-09 19:16:19</p>
+<dl class="py class">
+<dt id="basetrainer.pruning.torch_pruning.SimpleModel">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.torch_pruning.</span></code><code class="sig-name descname"><span class="pre">SimpleModel</span></code><a class="headerlink" href="#basetrainer.pruning.torch_pruning.SimpleModel" title="永久链接至目标">¶</a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
+<dl class="py method">
+<dt id="basetrainer.pruning.torch_pruning.SimpleModel.forward">
+<code class="sig-name descname"><span class="pre">forward</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.torch_pruning.SimpleModel.forward" title="永久链接至目标">¶</a></dt>
+<dd><p>Defines the computation performed at every call.</p>
+<p>Should be overridden by all subclasses.</p>
+<div class="admonition note">
+<p class="admonition-title">注解</p>
+<p>Although the recipe for forward pass needs to be defined within
+this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
+instead of this since the former takes care of running the
+registered hooks while the latter silently ignores them.</p>
+</div>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="basetrainer.pruning.torch_pruning.SimpleModel.training">
+<code class="sig-name descname"><span class="pre">training</span></code><em class="property"><span class="pre">:</span> <span class="pre">bool</span></em><a class="headerlink" href="#basetrainer.pruning.torch_pruning.SimpleModel.training" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.pruning.torch_pruning.apply_compression_results_v1">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.torch_pruning.</span></code><code class="sig-name descname"><span class="pre">apply_compression_results_v1</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">prune:</span> <span class="pre">&lt;module</span> <span class="pre">'torch.nn.utils.prune'</span> <span class="pre">from</span> <span class="pre">'/home/dm/anaconda3/envs/pytorch-py36/lib/python3.6/site-packages/torch/nn/utils/prune.py'&gt;</span></em>, <em class="sig-param"><span class="pre">model:</span> <span class="pre">torch.nn.modules.module.Module</span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.torch_pruning.apply_compression_results_v1" title="永久链接至目标">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.pruning.torch_pruning.apply_compression_results_v2">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.torch_pruning.</span></code><code class="sig-name descname"><span class="pre">apply_compression_results_v2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.torch_pruning.apply_compression_results_v2" title="永久链接至目标">¶</a></dt>
+<dd><p>Apply the masks from <code class="docutils literal notranslate"><span class="pre">`masks_file`</span></code> to the model
+Note: this API is for inference, because it simply multiplies weights with
+corresponding masks when this API is called.
+model : torch.nn.ModuleThe model to be compressed</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="basetrainer.pruning.torch_pruning.model_pruning">
+<code class="sig-prename descclassname"><span class="pre">basetrainer.pruning.torch_pruning.</span></code><code class="sig-name descname"><span class="pre">model_pruning</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">torch.nn.modules.module.Module</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[1,</span> <span class="pre">3,</span> <span class="pre">128,</span> <span class="pre">128]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prune_mod</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'L1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">speedup</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_prune</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'pruning_output'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dependency_aware</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cpu'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#basetrainer.pruning.torch_pruning.model_pruning" title="永久链接至目标">¶</a></dt>
+<dd><p>使用torch.nn.utils.prune进行模型剪枝和压缩
+<a class="reference external" href="https://pytorch.org/tutorials/intermediate/pruning_tutorial.html?highlight=prune">https://pytorch.org/tutorials/intermediate/pruning_tutorial.html?highlight=prune</a>
+:param model:  Pytorch模型
+:param input_size: 模型输入的维度[batch-size,channel,H,W]
+:param sparsity: 模型剪枝目标稀疏度,值越大,模型越稀疏，计算量越小；0.5表示剪除50%
+:param reuse: 是否复现模型剪枝的结果</p>
+<blockquote>
+<div><p>False: 进行模型剪枝(pruning+ModelSpeedup),会生成mask文件(mask_naive_l1filter.pth)
+True : 复现模型剪枝的结果,需要提供mask_file文件</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">参数</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>speedup</strong> – 是否加速模型</p></li>
+<li><p><strong>output_prune</strong> – 模型剪枝输出文件</p></li>
+<li><p><strong>mask_file</strong> – reuse=True需要提供模型剪枝的mask文件,默认保存在output_prune目录下(mask_naive_l1filter.pth)</p></li>
+</ul>
+</dd>
+</dl>
+<p>:param dependency_aware 依赖感知模式 <a class="reference external" href="https://nni.readthedocs.io/zh/stable/Compression/DependencyAware.html">https://nni.readthedocs.io/zh/stable/Compression/DependencyAware.html</a>
+:param device:
+:return:</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-basetrainer.pruning">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-basetrainer.pruning" title="永久链接至标题">¶</a></h2>
+<p>&#64;Author : panjq
+&#64;E-mail : <a class="reference external" href="mailto:pan_jinquan&#37;&#52;&#48;163&#46;com">pan_jinquan<span>&#64;</span>163<span>&#46;</span>com</a>
+&#64;Date   : 2021-12-13 15:13:08</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; 版权所有 2022, panjinquan.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
