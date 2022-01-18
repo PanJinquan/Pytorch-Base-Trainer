@@ -1,8 +1,27 @@
-# Pytorch-Base-Trainer
+# Pytorch-Base-Trainer(PBT)
+
+## 1.Introduction
+
+Pytorch-Base-Trainer(PBT)是一个基于Pytorch开发的简单的基础训练库，支持以下特征：
+
+- [x] 支持多卡训练训练(DP模式)和分布式多卡(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
+- [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
+- [x] 支持最优模型保存[ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)
+- [x] 支持自定义回调函数[Callback](basetrainer/callbacks/callbacks.py)
+- [x] 支持模型剪枝(L1/L2-Pruner,FPGM-Pruner Slim-Pruner)[nni_pruning](basetrainer/pruning/nni_pruning.py)
+
+目前，基于PBT完成了通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(PBTSegmentation)以及,通用姿态检测库(PBTPose)
+
+|**通用库**              |**类型**          |**说明**                                         |
+|:-----------------------|:-----------------|:------------------------------------------------|
+|PBTClassification       |通用分类库        | 集成常用分类模型，支持多种数据格式,样本重采样   |
+|PBTDetection            |通用检测库        | 集成常用检测类模型，如RFB,SSD和YOLOX            |
+|PBTSegmentation         |通用语义分割库    |-                   |
+|PBTPose                 |姿态检测库        |-                   |
 
 <img src="docs/source/basetrainer.png" width="700" >
 
-## 1.安装
+## 2.Install
 
 - 源码安装
 
@@ -18,7 +37,7 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 pip install basetrainer
 ```
 
-## 2.使用方法
+## 3.使用方法
 
 `basetrainer`使用方法可以参考[example.py](./example.py)
 
@@ -90,15 +109,15 @@ if __name__ == "__main__":
 
 ```
 
-## 3.回调函数
+## 4.回调函数
 
 回调函数需要继承`Callback`, 使用方法可以参考[log_history.py](basetrainer/callbacks/log_history.py)
 
-## 4.Example
+## 5.Example
 
 - `basetrainer`使用方法可以参考[example.py](./example.py)
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
-，其他backbone可以自定义添加
+  ，其他backbone可以自定义添加
 - 训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过[config.yaml](configs/config.yaml)配置文件，当存在同名参数时，以配置文件为默认值
 
 |**参数**     |**类型**      |**参考值** |**说明**            |
@@ -131,6 +150,6 @@ if __name__ == "__main__":
 |progress     |bool          |True       |是否显示进度条|
 |distributed  |bool          |False      |是否使用分布式训练|
 
-## 5.其他说明
+## 6.其他说明
 
 @pan_jinquan@163.com
