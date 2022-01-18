@@ -116,7 +116,6 @@ class ClassificationTrainer(trainer.EngineTrainer):
             sparsity = 0.2
             self.logger.info("use_prune:{},sparsity:{}".format(cfg.use_prune, sparsity))
             model = nni_pruning.model_pruning(model,
-                                              # model = slim_pruning.model_pruning(model,
                                               input_size=[1, 3, cfg.input_size[1], cfg.input_size[0]],
                                               sparsity=sparsity,
                                               reuse=False,
@@ -195,6 +194,7 @@ def get_parser():
     parser.add_argument("--test_data", help="test data", default="./data/dataset/val", type=str)
     parser.add_argument("--work_dir", help="work_dir", default="output", type=str)
     parser.add_argument("--log_freq", help="log_freq", default=10, type=int)
+    parser.add_argument('--use_prune', action='store_true', help='use prune', default=False)
     parser.add_argument('--progress', action='store_true', help='display progress bar', default=True)
     parser.add_argument('--distributed', action='store_true', help='use distributed training', default=False)
     parser.add_argument('--polyaxon', action='store_true', help='polyaxon', default=False)

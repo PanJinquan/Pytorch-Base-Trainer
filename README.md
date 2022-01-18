@@ -2,8 +2,7 @@
 
 ## 1.Introduction
 
-考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 
-这是一个基于Pytorch开发的基础训练库，支持以下特征：
+考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 这是一个基于Pytorch开发的基础训练库，支持以下特征：
 
 - [x] 支持多卡训练训练(DP模式)和分布式多卡(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
 - [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
@@ -12,10 +11,9 @@
 - [x] 支持NNI模型剪枝(**L1/L2-Pruner,FPGM-Pruner Slim-Pruner**)[nni_pruning](basetrainer/pruning/nni_pruning.py)
 - [x] 非常轻便,安装简单
 
-诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库； 
-但碍于这些开源库安装麻烦,依赖库多,版本差异大等问题；鄙人还是开发了一套属于自己的，
-比较lowbi的基础训练库**Pytorch-Base-Trainer(PBT)**, 基于PBT可以快速搭建自己的训练工程；
-目前，基于PBT完成了**通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(PBTSegmentation)以及,通用姿态检测库(PBTPose)**
+诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库； 但碍于这些开源库安装麻烦,依赖库多,版本差异大等问题；鄙人还是开发了一套属于自己的， 比较lowbi的基础训练库**
+Pytorch-Base-Trainer(PBT)**, 基于PBT可以快速搭建自己的训练工程； 目前，基于PBT完成了**通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(
+PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 
 |**通用库**              |**类型**          |**说明**                                           |
 |:-----------------------|:-----------------|:--------------------------------------------------|
@@ -41,7 +39,9 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 ```bash
 pip install basetrainer
 ```
+
 - 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)
+
 ```bash
 # Linux or macOS
 python3 -m pip install --upgrade nni
@@ -137,9 +137,8 @@ if __name__ == "__main__":
 |train_data   |str, list     |-          |训练数据文件，可支持多个文件|
 |test_data    |str, list     |-          |测试数据文件，可支持多个文件|
 |class_name   |str,list,dict |-          |需要训练的类别|
-|data_type    |str           |VOC        |数据类型，{text,folder}|
 |work_dir     |str           |work_space |训练输出工作空间|
-|net_type     |str           |RFB        |backbone类型,{resnet,resnest,mobilenet_v2,...}|
+|net_type     |str           |resnet18   |backbone类型,{resnet,resnest,mobilenet_v2,...}|
 |width_mult   |int           |1.0        |宽度因子|
 |flag         |str           |-          |实验标志|
 |input_size   |list          |[128,128]  |模型输入大小[W,H]|
@@ -159,6 +158,7 @@ if __name__ == "__main__":
 |pretrained   |bool          |True       |是否使用pretrained|
 |finetune     |str           |model.pth  |finetune的模型|
 |check        |bool          |True       |是否检测数据，可去除空数据|
+|use_prune    |bool          |True       |是否进行模型剪枝|
 |progress     |bool          |True       |是否显示进度条|
 |distributed  |bool          |False      |是否使用分布式训练|
 
