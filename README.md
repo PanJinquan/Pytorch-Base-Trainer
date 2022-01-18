@@ -8,7 +8,7 @@ Pytorch-Base-Trainer(PBT)是一个基于Pytorch开发的简单的基础训练库
 - [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
 - [x] 支持最优模型保存[ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)
 - [x] 支持自定义回调函数[Callback](basetrainer/callbacks/callbacks.py)
-- [x] 支持模型剪枝(L1/L2-Pruner,FPGM-Pruner Slim-Pruner)[nni_pruning](basetrainer/pruning/nni_pruning.py)
+- [x] 支持模型剪枝(**L1/L2-Pruner,FPGM-Pruner Slim-Pruner**)[nni_pruning](basetrainer/pruning/nni_pruning.py)
 
 目前，基于PBT完成了**通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 
@@ -17,7 +17,7 @@ Pytorch-Base-Trainer(PBT)是一个基于Pytorch开发的简单的基础训练库
 |**PBTClassification**   |通用分类库        | 集成常用的分类模型，支持多种数据格式,样本重采样   |
 |**PBTDetection**        |通用检测库        | 集成常用的检测类模型，如RFB,SSD和YOLOX            |
 |**PBTSegmentation**     |通用语义分割库    | 集成常用的语义分割模型，如DeepLab,UNet等          |
-|**PBTPose**             |姿态检测库        | 集成常用的人体姿态估计模型,如UDP,Simple-base-line |
+|**PBTPose**             |通用姿态检测库    | 集成常用的人体姿态估计模型,如UDP,Simple-base-line |
 
 <img src="docs/source/basetrainer.png" width="700" >
 
@@ -26,8 +26,8 @@ Pytorch-Base-Trainer(PBT)是一个基于Pytorch开发的简单的基础训练库
 - 源码安装
 
 ```bash
-git clone https://github.com/PanJinquan/pytorch-base-trainer
-cd pytorch-base-trainer
+git clone https://github.com/PanJinquan/Pytorch-Base-Trainer
+cd Pytorch-Base-Trainer
 bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 ```
 
