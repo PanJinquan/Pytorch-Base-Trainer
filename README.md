@@ -2,7 +2,7 @@
 
 ## 1.Introduction
 
-考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**；
+考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 
 这是一个基于Pytorch开发的基础训练库，支持以下特征：
 
 - [x] 支持多卡训练训练(DP模式)和分布式多卡(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
@@ -10,10 +10,12 @@
 - [x] 支持最优模型保存[ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)
 - [x] 支持自定义回调函数[Callback](basetrainer/callbacks/callbacks.py)
 - [x] 支持模型剪枝(**L1/L2-Pruner,FPGM-Pruner Slim-Pruner**)[nni_pruning](basetrainer/pruning/nni_pruning.py)
+- [x] 非常轻便,安装简单
 
-诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库；
-但碍于这些开源库安装麻烦,依赖库多,版本差异大等问题；鄙人还是开发了一套属于自己的，比较lowbi的基础训练库**Pytorch-Base-Trainer(PBT)**,
-基于PBT可以快速搭建自己的训练工程；目前，基于PBT完成了**通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(PBTSegmentation)以及,通用姿态检测库(PBTPose)**
+诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库； 
+但碍于这些开源库安装麻烦,依赖库多,版本差异大等问题；鄙人还是开发了一套属于自己的，
+比较lowbi的基础训练库**Pytorch-Base-Trainer(PBT)**, 基于PBT可以快速搭建自己的训练工程；
+目前，基于PBT完成了**通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库(PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 
 |**通用库**              |**类型**          |**说明**                                           |
 |:-----------------------|:-----------------|:--------------------------------------------------|
