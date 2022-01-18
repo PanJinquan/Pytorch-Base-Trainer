@@ -170,10 +170,10 @@ if __name__ == "__main__":
 tensorboard --logdir=path/to/log/
 ```
 
-|<img src="docs/assets/lr-epoch.png" width=350 height=256 />   | <img src="docs/assets/step.png" width=350 height=256/>    |
+|<img src="docs/assets/lr-epoch.png" width=340 height=245 />   | <img src="docs/assets/step.png" width=340 height=245/>    |
 |:------------------------------------------------------------ |:-----------------------------------------|
-|<img src="docs/assets/train-acc.png" width=350 height=256/>   |<img src="docs/assets/test-acc.png" width=350 height=256/>     |
-|<img src="docs/assets/train-loss.png" width=350 height=256/>  |<img src="docs/assets/test-loss.png" width=350 height=256/>    |
+|<img src="docs/assets/train-acc.png" width=340 height=245/>   |<img src="docs/assets/test-acc.png" width=340 height=245/>     |
+|<img src="docs/assets/train-loss.png" width=340 height=245/>  |<img src="docs/assets/test-loss.png" width=340 height=245/>    |
 
 ## 7.其他说明
 
