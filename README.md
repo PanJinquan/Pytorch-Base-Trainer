@@ -170,13 +170,12 @@ if __name__ == "__main__":
 tensorboard --logdir=path/to/log/
 ```
 
-|**参数**     |**可视化**                               |
-|:----------- |:----------------------------------------|
-|train_data   |<img src="docs/assets/lr-epoch.png"/>    |
-|train_data   |<img src="docs/assets/train-loss.png"/>  |
-|train_data   |<img src="docs/assets/train-acc.png"/>   |
-|train_data   |<img src="docs/assets/test-loss.png"/>   |
-|train_data   |<img src="docs/assets/test-acc.png"/>    |
+| ****                                 | ****                             |
+|:--------------------------------------- |:----------------------------------------|
+|<img src="docs/assets/lr-epoch.png"/>                                              |
+|<img src="docs/assets/train-loss.png"/>  |<img src="docs/assets/train-acc.png"/>   |
+|<img src="docs/assets/test-loss.png"/>   |<img src="docs/assets/test-acc.png"/>    |
+
 
 
 ## 7.其他说明
