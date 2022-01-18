@@ -162,6 +162,23 @@ if __name__ == "__main__":
 |progress     |bool          |True       |是否显示进度条|
 |distributed  |bool          |False      |是否使用分布式训练|
 
-## 6.其他说明
+## 6.可视化
+
+目前训练过程可视化工具是使用Tensorboard，使用方法：
+
+```bash
+tensorboard --logdir=path/to/log/
+```
+
+|**参数**     |**可视化**                               |
+|:----------- |:----------------------------------------|
+|train_data   |<img src="docs/assets/lr-epoch.png"/>    |
+|train_data   |<img src="docs/assets/train-loss.png"/>  |
+|train_data   |<img src="docs/assets/train-acc.png"/>   |
+|train_data   |<img src="docs/assets/test-loss.png"/>   |
+|train_data   |<img src="docs/assets/test-acc.png"/>    |
+
+
+## 7.其他说明
 
 @pan_jinquan@163.com
