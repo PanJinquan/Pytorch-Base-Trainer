@@ -111,6 +111,16 @@ class ClassificationTrainer(trainer.EngineTrainer):
             self.logger.info("finetune:{}".format(cfg.finetune))
             state_dict = torch_tools.load_state_dict(cfg.finetune)
             model.load_state_dict(state_dict)
+        if cfg.use_prune:
+            from basetrainer.pruning import nni_pruning
+            sparsity = 0.2
+            self.logger.info("use_prune:{},sparsity:{}".format(cfg.use_prune, sparsity))
+            model = nni_pruning.model_pruning(model,
+                                              # model = slim_pruning.model_pruning(model,
+                                              input_size=[1, 3, cfg.input_size[1], cfg.input_size[0]],
+                                              sparsity=sparsity,
+                                              reuse=False,
+                                              output_prune=os.path.join(cfg.work_dir, "prune"))
         model = self.build_model_parallel(model, cfg.gpu_id, distributed=cfg.distributed)
         return model
 

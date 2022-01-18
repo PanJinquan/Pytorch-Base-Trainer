@@ -9,7 +9,7 @@
 - [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
 - [x] 支持最优模型保存[ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)
 - [x] 支持自定义回调函数[Callback](basetrainer/callbacks/callbacks.py)
-- [x] 支持模型剪枝(**L1/L2-Pruner,FPGM-Pruner Slim-Pruner**)[nni_pruning](basetrainer/pruning/nni_pruning.py)
+- [x] 支持NNI模型剪枝(**L1/L2-Pruner,FPGM-Pruner Slim-Pruner**)[nni_pruning](basetrainer/pruning/nni_pruning.py)
 - [x] 非常轻便,安装简单
 
 诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库； 
@@ -40,6 +40,13 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 
 ```bash
 pip install basetrainer
+```
+- 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)
+```bash
+# Linux or macOS
+python3 -m pip install --upgrade nni
+# Windows
+python -m pip install --upgrade nni
 ```
 
 ## 3.使用方法
