@@ -1,6 +1,6 @@
 # Pytorch-Base-Trainer
 
-<img src="basetrainer.png" width="700" >
+<img src="docs/source/basetrainer.png" width="700" >
 
 ## 1.安装
 
