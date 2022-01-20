@@ -2,9 +2,10 @@
 
 ## 1.Introduction
 
-考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 这是一个基于Pytorch开发的基础训练库，支持以下特征：
+考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**；
+这是一个基于Pytorch开发的基础训练库，支持以下特征：
 
-- [x] 支持多卡训练训练(DP模式)和分布式多卡(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
+- [x] 支持多卡训练训练(DP模式)和分布式多卡训练(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
 - [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
 - [x] 支持最优模型保存[ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)
 - [x] 支持自定义回调函数[Callback](basetrainer/callbacks/callbacks.py)
