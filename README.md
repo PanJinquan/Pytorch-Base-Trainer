@@ -22,10 +22,14 @@ PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 |**PBTSegmentation**     |通用语义分割库    | 集成常用的语义分割模型，如DeepLab,UNet等          |
 |**PBTPose**             |通用姿态检测库    | 集成常用的人体姿态估计模型,如UDP,Simple-base-line |
 
+基于PBT框架训练的模型,已经形成了一套Android端上部署流程,支持CPU和GPU
+
 |[人体姿态估计2DPose](https://panjinquan.blog.csdn.net/article/details/115765863)     |[人脸+人体检测](https://panjinquan.blog.csdn.net/article/details/120688804)  |[人像抠图](https://panjinquan.blog.csdn.net/article/details/121680939)                                        |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 | <img src="docs/assets/2dpose.gif" width="306" height="580">           |<img src="docs/assets/face_person.jpg" width="306" height="580">       |<img src="docs/assets/hight-matting.gif" width="306" height="580">       |
 |CPU/GPU:70/50ms                                                         |CPU/GPU:30/20ms                                                           |CPU/GPU:150/30ms                                                           |
+
+> PS：受商业保护,目前,仅开源Pytorch-Base-Trainer(PBT),基于PBT的分类,检测和分割以及姿态估计训练库,暂不开源。
 
 ## 2.Install
 
