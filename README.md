@@ -22,6 +22,12 @@ PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 |**PBTSegmentation**     |通用语义分割库    | 集成常用的语义分割模型，如DeepLab,UNet等          |
 |**PBTPose**             |通用姿态检测库    | 集成常用的人体姿态估计模型,如UDP,Simple-base-line |
 
+|人体姿态估计(2DPose)                                                   |人脸+人体检测                                           |人像抠图                                         |
+|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
+|![Android Demo](docs/assets/demo.gif)                                  |<img src="docs/assets/face_person.jpg" width="306" height="680">       |![Android Demo](docs/assets/hight-matting.gif)        |
+|[Android Demo](https://panjinquan.blog.csdn.net/article/details/115765863) | [Android Demo](https://panjinquan.blog.csdn.net/article/details/115765863)| [Android Demo](https://panjinquan.blog.csdn.net/article/details/121680939)|
+|CPU/GPU:70/50ms                                                         |CPU/GPU:30/20ms                                                           |CPU/GPU:30ms                                                           |
+
 ## 2.Install
 
 - 源码安装
