@@ -178,11 +178,7 @@ if __name__ == "__main__":
 
 ```
 
-## 5.回调函数
-
-回调函数需要继承`Callback`, 使用方法可以参考[log_history.py](basetrainer/callbacks/log_history.py)
-
-## 6.Example
+## 5.Example
 
 - `basetrainer`使用方法可以参考[example.py](./example.py)
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
@@ -214,7 +210,7 @@ if __name__ == "__main__":
 | progress     | bool        | True        | 是否显示进度条                                      |
 | distributed  | bool        | False       | 是否使用分布式训练                                    |
 
-## 7.可视化
+## 6.可视化
 
 目前训练过程可视化工具是使用Tensorboard，使用方法：
 
@@ -227,7 +223,7 @@ tensorboard --logdir=path/to/log/
 |<img src="docs/assets/train-acc.png" width=340 height=245/>   |<img src="docs/assets/test-acc.png" width=340 height=245/>     |
 |<img src="docs/assets/train-loss.png" width=340 height=245/>  |<img src="docs/assets/test-loss.png" width=340 height=245/>    |
 
-## 8.其他
+## 7.其他
 
 | 作者      | PKing     |
 |:--------|:----------|
