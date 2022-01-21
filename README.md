@@ -22,8 +22,6 @@ PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 |**PBTSegmentation**     |通用语义分割库    | 集成常用的语义分割模型，如DeepLab,UNet等          |
 |**PBTPose**             |通用姿态检测库    | 集成常用的人体姿态估计模型,如UDP,Simple-base-line |
 
-<img src="docs/source/basetrainer.png" width="800" >
-
 ## 2.Install
 
 - 源码安装
@@ -49,7 +47,55 @@ python3 -m pip install --upgrade nni
 python -m pip install --upgrade nni
 ```
 
-## 3.使用方法
+## 3.训练框架
+
+PBT基础训练库定义了一个基类([Base](basetrainer/engine/base.py)),所有训练引擎(Engine)以及回调函数(Callback)都会继承基类。
+
+<img src="docs/source/basetrainer.png" width="800" >
+
+#### (1)训练引擎(Engine)
+
+`Engine`类实现了训练/测试的迭代器(如on_batch_begin,on_batch_end),其迭代过程参考如下,用户可以根据自己的需要自定义迭代过程：
+
+```python
+self.on_train_begin()
+for epoch in range(num_epochs):
+    self.set_model()
+    # 开始训练
+    self.on_epoch_begin()
+    self.on_batch_begin()
+    self.run_step()
+    self.on_train_summary()
+    self.on_batch_end()
+    # 开始测试
+    self.on_test_begin()
+    self.run_step()
+    self.on_test_summary()
+    self.on_test_end()
+    self.on_epoch_end()
+    self.on_train_end()
+```
+
+`EngineTrainer`类继承`Engine`类,用户需要继承该类,并实现如下方法:
+
+- 定义训练/测试数据(build_train_loader,build_test_loader)
+- 定义模型(build_model)
+- 定义优化器(build_optimizer)
+- 定义损失函数(build_criterion)
+- 定义回调函数(build_callbacks)
+
+#### (2)回调函数(Callback)
+
+每个回调函数都需要继承(Callback),用户在回调函数中,可实现对迭代器输入/输出的处理,例如:
+
+| 回调函数                                                        | 说明                                               |
+|:----------------------------------------------------------------|:---------------------------------------------------|
+| [LogHistory](basetrainer/callbacks/log_history.py)              | Log历史记录回调函数,可使用Tensorboard可视化        |
+| [ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)    | 保存模型回调函数                |
+| [LossesRecorder](basetrainer/callbacks/losses_recorder.py)      | 单个Loss历史记录回调函数                 |
+| [MultiLossesRecorder](basetrainer/callbacks/multi_losses_recorder.py)  | 多个Loss历史记录回调函数                 |
+
+## 4.使用方法
 
 `basetrainer`使用方法可以参考[example.py](./example.py)
 
@@ -121,11 +167,11 @@ if __name__ == "__main__":
 
 ```
 
-## 4.回调函数
+## 5.回调函数
 
 回调函数需要继承`Callback`, 使用方法可以参考[log_history.py](basetrainer/callbacks/log_history.py)
 
-## 5.Example
+## 6.Example
 
 - `basetrainer`使用方法可以参考[example.py](./example.py)
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
@@ -157,7 +203,7 @@ if __name__ == "__main__":
 | progress     | bool        | True        | 是否显示进度条                                      |
 | distributed  | bool        | False       | 是否使用分布式训练                                    |
 
-## 6.可视化
+## 7.可视化
 
 目前训练过程可视化工具是使用Tensorboard，使用方法：
 
@@ -170,8 +216,7 @@ tensorboard --logdir=path/to/log/
 |<img src="docs/assets/train-acc.png" width=340 height=245/>   |<img src="docs/assets/test-acc.png" width=340 height=245/>     |
 |<img src="docs/assets/train-loss.png" width=340 height=245/>  |<img src="docs/assets/test-loss.png" width=340 height=245/>    |
 
-
-## 7.其他
+## 8.其他
 
 | 作者      | PKing     |
 |:--------|:----------|

@@ -16,7 +16,7 @@ from basetrainer.engine import trainer
 from basetrainer.engine.launch import launch
 from basetrainer.criterion.criterion import get_criterion
 from basetrainer.metric import accuracy_recorder
-from basetrainer.callbacks import log_history, model_checkpoint, losses_recorder
+from basetrainer.callbacks import log_history, model_checkpoint, losses_recorder, multi_losses_recorder
 from basetrainer.scheduler import build_scheduler
 from basetrainer.optimizer.build_optimizer import get_optimizer
 from basetrainer.utils import log, file_utils, setup_config, torch_tools
