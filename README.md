@@ -2,8 +2,7 @@
 
 ## 1.Introduction
 
-考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**；
-这是一个基于Pytorch开发的基础训练库，支持以下特征：
+考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 这是一个基于Pytorch开发的基础训练库，支持以下特征：
 
 - [x] 支持多卡训练训练(DP模式)和分布式多卡训练(DDP模式)，参考[build_model_parallel](basetrainer/utils/torch_data.py)
 - [x] 支持argparse命令行指定参数，也支持[config.yaml](configs/config.yaml)配置文件
@@ -133,35 +132,30 @@ if __name__ == "__main__":
   ，其他backbone可以自定义添加
 - 训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过[config.yaml](configs/config.yaml)配置文件，当存在同名参数时，以配置文件为默认值
 
-|**参数**     |**类型**      |**参考值** |**说明**            |
-|:----------- |:-------------|:----------|:-------------------|
-|train_data   |str, list     |-          |训练数据文件，可支持多个文件|
-|test_data    |str, list     |-          |测试数据文件，可支持多个文件|
-|class_name   |str,list,dict |-          |需要训练的类别|
-|work_dir     |str           |work_space |训练输出工作空间|
-|net_type     |str           |resnet18   |backbone类型,{resnet,resnest,mobilenet_v2,...}|
-|width_mult   |int           |1.0        |宽度因子|
-|flag         |str           |-          |实验标志|
-|input_size   |list          |[128,128]  |模型输入大小[W,H]|
-|batch_size   |int           |32         |batch size|
-|lr           |float         |0.1        |初始学习率大小|
-|optim_type   |str           |SGD        |优化器，{SGD,Adam}|
-|scheduler    |str           |multi-step |学习率调整策略，{multi-step,cosine}|
-|milestones   |list          |[30,80,100]|降低学习率的节点，仅仅scheduler=multi-step有效|
-|momentum     |float         |0.9        |SGD动量因子|
-|num_epochs   |int           |120        |循环训练的次数|
-|num_warn_up  |int           |3          |warn_up的次数|
-|num_workers  |int           |12         |DataLoader开启线程数|
-|weight_decay |float         |5e-4       |权重衰减系数|
-|gpu_id       |list          |[ 0 ]      |指定训练的GPU卡号，可指定多个|
-|start_save   |int           |null       |从epochs开始保存模型，null表示仅保存最后10个|
-|log_freq     |in            |20         |显示LOG信息的频率|
-|pretrained   |bool          |True       |是否使用pretrained|
-|finetune     |str           |model.pth  |finetune的模型|
-|check        |bool          |True       |是否检测数据，可去除空数据|
-|use_prune    |bool          |True       |是否进行模型剪枝|
-|progress     |bool          |True       |是否显示进度条|
-|distributed  |bool          |False      |是否使用分布式训练|
+| **参数**      | **类型**      | **参考值**   | **说明**                                       |
+|:-------------|:------------|:------------|:---------------------------------------------|
+| train_data   | str, list   | -           | 训练数据文件，可支持多个文件                               |
+| test_data    | str, list   | -           | 测试数据文件，可支持多个文件                               |
+| work_dir     | str         | work_space  | 训练输出工作空间                                     |
+| net_type     | str         | resnet18    | backbone类型,{resnet,resnest,mobilenet_v2,...} |
+| input_size   | list        | [128,128]   | 模型输入大小[W,H]                                  |
+| batch_size   | int         | 32          | batch size                                   |
+| lr           | float       | 0.1         | 初始学习率大小                                      |
+| optim_type   | str         | SGD         | 优化器，{SGD,Adam}                               |
+| loss_type    | str         | CELoss      | 损失函数                                         |
+| scheduler    | str         | multi-step  | 学习率调整策略，{multi-step,cosine}                  |
+| milestones   | list        | [30,80,100] | 降低学习率的节点，仅仅scheduler=multi-step有效            |
+| momentum     | float       | 0.9         | SGD动量因子                                      |
+| num_epochs   | int         | 120         | 循环训练的次数                                      |
+| num_warn_up  | int         | 3           | warn_up的次数                                   |
+| num_workers  | int         | 12          | DataLoader开启线程数                              |
+| weight_decay | float       | 5e-4        | 权重衰减系数                                       |
+| gpu_id       | list        | [ 0 ]       | 指定训练的GPU卡号，可指定多个                             |
+| log_freq     | in          | 20          | 显示LOG信息的频率                                   |
+| finetune     | str         | model.pth   | finetune的模型                                  |
+| use_prune    | bool        | True        | 是否进行模型剪枝                                     |
+| progress     | bool        | True        | 是否显示进度条                                      |
+| distributed  | bool        | False       | 是否使用分布式训练                                    |
 
 ## 6.可视化
 
@@ -176,6 +170,9 @@ tensorboard --logdir=path/to/log/
 |<img src="docs/assets/train-acc.png" width=340 height=245/>   |<img src="docs/assets/test-acc.png" width=340 height=245/>     |
 |<img src="docs/assets/train-loss.png" width=340 height=245/>  |<img src="docs/assets/test-loss.png" width=340 height=245/>    |
 
-## 7.其他说明
 
-@pan_jinquan@163.com
+## 7.其他
+
+| 作者      | PKing     |
+|:--------|:----------|
+| 联系方式    | pan_jinquan@163.com | 

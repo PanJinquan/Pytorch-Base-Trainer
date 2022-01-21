@@ -12,11 +12,12 @@ import torch.nn as nn
 
 
 def get_criterion(loss_type: str, num_classes=None, weight=None, device="cuda:0"):
-    if loss_type == "CrossEntropyLoss":
+    loss_type = loss_type.lower()
+    if loss_type == "CrossEntropyLoss".lower() or loss_type == "CELoss".lower():
         criterion = nn.CrossEntropyLoss(weight=weight)
-    elif loss_type == "L1Loss":
+    elif loss_type == "L1Loss".lower():
         criterion = nn.L1Loss(reduction='mean')
-    elif loss_type == "mse":
+    elif loss_type == "mse".lower():
         # loss = nn.MSELoss(reduce=True, size_average=True)
         criterion = nn.MSELoss(reduction='mean')
     else:
