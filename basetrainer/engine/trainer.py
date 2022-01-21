@@ -71,6 +71,19 @@ class EngineTrainer(engine.Engine):
     def build_dataloader(cls, dataset: Dataset, batch_size: int, num_workers: int,
                          shuffle: bool = True, phase: str = "train", distributed=True,
                          **kwargs) -> DataLoader:
+        """
+        :param dataset: Dataset
+        :param batch_size:
+        :param num_workers:
+        :param shuffle:
+        :param persistent_workers: 该参数仅支持torch>=1.6
+               False: 数据加载器运行完一个Epoch后会关闭worker进程,在分布式训练，会出现每个epoch初始化多进程的问题
+               True: 会保持worker进程实例激活状态,容易出现“DataLoader worker (pid(s) 953) exited unexpectedly”的错误
+        :param phase: "train", "test", "val"
+        :param distributed: True: use DDP; False: use DP (是否使用分布式训练)
+        :param kwargs:
+        :return:
+        """
         return torch_data.build_dataloader(dataset,
                                            batch_size,
                                            num_workers,
@@ -81,4 +94,11 @@ class EngineTrainer(engine.Engine):
 
     @classmethod
     def build_model_parallel(cls, model: nn.Module, device_ids=None, distributed=True, **kwargs) -> nn.Module:
+        """
+        :param model:
+        :param device_ids:
+        :param distributed: True: use DDP; False: use DP (是否使用分布式训练)
+        :param kwargs:
+        :return:
+        """
         return torch_data.build_model_parallel(model, device_ids, distributed=distributed, **kwargs)

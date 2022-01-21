@@ -76,13 +76,24 @@ for epoch in range(num_epochs):
     self.on_train_end()
 ```
 
-`EngineTrainer`类继承`Engine`类,用户需要继承该类,并实现如下方法:
+`EngineTrainer`类继承`Engine`类,用户需要继承该类,并实现相关接口:
 
-- 定义训练/测试数据(build_train_loader,build_test_loader)
-- 定义模型(build_model)
-- 定义优化器(build_optimizer)
-- 定义损失函数(build_criterion)
-- 定义回调函数(build_callbacks)
+| 接口                        | 说明                                               |
+|:----------------------------|:---------------------------------------------------|
+| build_train_loader          | 定义训练数据                                       |
+| build_test_loader           | 定义测试数据                                       |
+| build_model                 | 定义模型                                           |
+| build_optimizer             | 定义优化器                |
+| build_criterion             | 定义损失函数              |
+| build_callbacks             | 定义回调函数              |
+
+另外，`EngineTrainer`类还是实现了两个重要的类方法(build_dataloader和build_model_parallel),用于构建分布式训练
+
+| 类方法                      | 说明                                                                 |
+|:----------------------------|:---------------------------------------------------------------------|
+| build_dataloader            | 用于构建加载方式,参数distributed设置是否使用分布式加载数据   |
+| build_model_parallel        | 用于构建模型,参数distributed设置是否使用分布式训练模型        |
+
 
 #### (2)回调函数(Callback)
 
@@ -91,9 +102,9 @@ for epoch in range(num_epochs):
 | 回调函数                                                        | 说明                                               |
 |:----------------------------------------------------------------|:---------------------------------------------------|
 | [LogHistory](basetrainer/callbacks/log_history.py)              | Log历史记录回调函数,可使用Tensorboard可视化        |
-| [ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)    | 保存模型回调函数                |
-| [LossesRecorder](basetrainer/callbacks/losses_recorder.py)      | 单个Loss历史记录回调函数                 |
-| [MultiLossesRecorder](basetrainer/callbacks/multi_losses_recorder.py)  | 多个Loss历史记录回调函数                 |
+| [ModelCheckpoint](basetrainer/callbacks/model_checkpoint.py)    | 保存模型回调函数,可选择最优模型保存                |
+| [LossesRecorder](basetrainer/callbacks/losses_recorder.py)      | 单个Loss历史记录回调函数,可计算每个epoch的平均值   |
+| [MultiLossesRecorder](basetrainer/callbacks/multi_losses_recorder.py)  | 用于多任务Loss的历史记录回调函数            |
 
 ## 4.使用方法
 
