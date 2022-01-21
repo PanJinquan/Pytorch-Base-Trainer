@@ -94,7 +94,6 @@ for epoch in range(num_epochs):
 | build_dataloader            | 用于构建加载方式,参数distributed设置是否使用分布式加载数据   |
 | build_model_parallel        | 用于构建模型,参数distributed设置是否使用分布式训练模型        |
 
-
 #### (2)回调函数(Callback)
 
 每个回调函数都需要继承(Callback),用户在回调函数中,可实现对迭代器输入/输出的处理,例如:
@@ -108,7 +107,7 @@ for epoch in range(num_epochs):
 
 ## 4.使用方法
 
-`basetrainer`使用方法可以参考[example.py](./example.py)
+`basetrainer`使用方法可以参考[example.py](./example.py),构建自己的训练器，可通过如下步骤实现：
 
 - step1: 新建一个类`ClassificationTrainer`，继承`trainer.EngineTrainer`
 - step2: 实现接口
