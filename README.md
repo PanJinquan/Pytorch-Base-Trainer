@@ -24,7 +24,7 @@ PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 
 |人体姿态估计(2DPose)                                                   |人脸+人体检测                                           |人像抠图                                         |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
-| <img src="docs/assets/docs/assets/demo.gif" width="306" height="680">                                |<img src="docs/assets/face_person.jpg" width="306" height="680">       |<img src="docs/assets/hight-matting.gif" width="306" height="680">       |
+| <img src="docs/assets/2dpose.gif" width="306" height="680">           |<img src="docs/assets/face_person.jpg" width="306" height="680">       |<img src="docs/assets/hight-matting.gif" width="306" height="680">       |
 |[Android Demo](https://panjinquan.blog.csdn.net/article/details/115765863) | [Android Demo](https://panjinquan.blog.csdn.net/article/details/115765863)| [Android Demo](https://panjinquan.blog.csdn.net/article/details/121680939)|
 |CPU/GPU:70/50ms                                                         |CPU/GPU:30/20ms                                                           |CPU/GPU:30ms                                                           |
 
