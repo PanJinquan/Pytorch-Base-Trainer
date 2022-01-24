@@ -114,7 +114,7 @@ for epoch in range(num_epochs):
 | [LossesRecorder](basetrainer/callbacks/losses_recorder.py)      | 单个Loss历史记录回调函数,可计算每个epoch的平均值   |
 | [MultiLossesRecorder](basetrainer/callbacks/multi_losses_recorder.py)  | 用于多任务Loss的历史记录回调函数            |
 | [AccuracyRecorder](basetrainer/metric/accuracy_recorder.py)     | 用于计算分类Accuracy回调函数            |
-| [get_scheduler](basetrainer/scheduler/build_scheduler.py)       | 各种学习率调整策略的回调函数            |
+| [get_scheduler](basetrainer/scheduler/build_scheduler.py)       | 各种学习率调整策略(MultiStepLR,CosineAnnealingLR,ExponentialLR)的回调函数            |
 
 ## 4.使用方法
 
