@@ -1,5 +1,7 @@
 # Pytorch-Base-Trainer(PBT)
 
+开源不易,麻烦给个【Star】
+
 ## 1.Introduction
 
 考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴**Keras**开发了一套基础训练库： **Pytorch-Base-Trainer(PBT)**； 这是一个基于Pytorch开发的基础训练库，支持以下特征：
@@ -191,6 +193,11 @@ if __name__ == "__main__":
 ## 5.Example
 
 - `basetrainer`使用方法可以参考[example.py](./example.py)
+  
+```bash
+python example.py
+```
+
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等
   ，其他backbone可以自定义添加
 - 训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过[config.yaml](configs/config.yaml)配置文件，当存在同名参数时，以配置文件为默认值
