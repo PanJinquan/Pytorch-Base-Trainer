@@ -211,3 +211,4 @@ if __name__ == "__main__":
            machine_rank=0,
            distributed=cfg.distributed,
            args=(cfg,))
+
