@@ -1,7 +1,5 @@
 # -*-coding: utf-8 -*-
 """
-    @Project: IntelligentManufacture
-    @File   : image_processing.py
     @Author : panjq
     @E-mail : pan_jinquan@163.com
     @Date   : 2019-02-14 15:34:50

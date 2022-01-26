@@ -1,7 +1,5 @@
 # -*-coding: utf-8 -*-
 """
-    @Project: python-learning-notes
-    @File   : plot_utils.py
     @Author : panjq
     @E-mail : pan_jinquan@163.com
     @Date   : 2019-07-13 16:30:10

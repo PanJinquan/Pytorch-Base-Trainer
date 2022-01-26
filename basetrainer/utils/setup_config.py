@@ -1,7 +1,4 @@
 # -*- coding:utf-8 -*-
-"""
-提供工具函数的模块
-"""
 import os
 import argparse
 import numbers
