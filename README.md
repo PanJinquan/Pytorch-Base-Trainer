@@ -198,7 +198,11 @@ if __name__ == "__main__":
 - `basetrainer`使用方法可以参考[example.py](./example.py)
 
 ```bash
-python example.py
+# 单进程多卡训练
+python example.py --gpu_id 0 1 # 使用命令行参数
+python example.py --config_file configs/config.yaml # 使用yaml配置文件
+# 多进程多卡训练(分布式训练)
+python example.py --config_file configs/config.yaml --distributed # 使用yaml配置文件
 ```
 
 - 目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见[backbone](basetrainer/models/build_models.py)等

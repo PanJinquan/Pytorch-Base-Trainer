@@ -172,8 +172,8 @@ def main(cfg):
 
 def get_parser():
     parser = argparse.ArgumentParser(description="Training Pipeline")
-    parser.add_argument("-c", "--config_file", help="configs file", default="configs/config.yaml", type=str)
-    # parser.add_argument("-c", "--config_file", help="configs file", default=None, type=str)
+    # parser.add_argument("-c", "--config_file", help="configs file", default="configs/config.yaml", type=str)
+    parser.add_argument("-c", "--config_file", help="configs file", default=None, type=str)
     parser.add_argument("--train_data", help="train data", default="./data/dataset/train", type=str)
     parser.add_argument("--test_data", help="test data", default="./data/dataset/val", type=str)
     parser.add_argument("--work_dir", help="work_dir", default="output", type=str)
@@ -197,7 +197,6 @@ def get_parser():
     parser.add_argument('--use_prune', action='store_true', help='use prune', default=False)
     parser.add_argument('--progress', action='store_true', help='display progress bar', default=True)
     parser.add_argument('--distributed', action='store_true', help='use distributed training', default=False)
-    parser.add_argument('--polyaxon', action='store_true', help='polyaxon', default=False)
     return parser
 
 
