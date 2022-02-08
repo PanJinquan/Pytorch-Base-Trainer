@@ -1,8 +1,9 @@
 # Pytorch-Base-Trainer(PBT)
 
 - 开源不易,麻烦给个【Star】
-- 博客地址：https://panjinquan.blog.csdn.net/article/details/122662902 
+- Github: https://github.com/PanJinquan/Pytorch-Base-Trainer
 - pip安装包： https://pypi.org/project/basetrainer/
+- 博客地址：https://panjinquan.blog.csdn.net/article/details/122662902
 
 ## 1.Introduction
 
@@ -46,6 +47,7 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 ```
 
 - pip安装: https://pypi.org/project/basetrainer/
+
 ```bash
 pip install basetrainer
 ```
