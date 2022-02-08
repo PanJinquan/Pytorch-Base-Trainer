@@ -15,6 +15,14 @@ from typing import Dict, List, Callable
 
 
 def get_criterion(loss_type: str, num_classes=None, class_weight=None, device="cuda:0"):
+    """
+    :param loss_type: loss_type={loss_name: loss_weigth}
+                      FocalLoss,CrossEntropyLoss,LabelSmooth
+    :param num_classes:
+    :param class_weight: 类别loss权重， a manual rescaling weight given to each class.
+                         If given, has to be a Tensor of size `Class`
+    :return:
+    """
     loss_type = loss_type.lower()
     if loss_type == "CrossEntropyLoss".lower() or loss_type == "CELoss".lower():
         criterion = nn.CrossEntropyLoss(weight=class_weight)
