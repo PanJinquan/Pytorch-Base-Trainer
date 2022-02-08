@@ -2,6 +2,7 @@
 
 - 开源不易,麻烦给个【Star】
 - 博客地址：https://panjinquan.blog.csdn.net/article/details/122662902 
+- pip安装包： https://pypi.org/project/basetrainer/
 
 ## 1.Introduction
 
@@ -44,8 +45,7 @@ cd Pytorch-Base-Trainer
 bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 ```
 
-- pip安装
-
+- pip安装: https://pypi.org/project/basetrainer/
 ```bash
 pip install basetrainer
 ```
