@@ -21,7 +21,7 @@ class CosineAnnealingLR(Callback):
                  num_steps,
                  num_cycles=3,
                  lr_init=0.1,
-                 decay=0.5,
+                 decay=0.9,
                  num_warn_up=0,
                  ):
         """
@@ -36,7 +36,7 @@ class CosineAnnealingLR(Callback):
         :param num_steps: 一个epoch的迭代次数，len(self.train_dataloader)
         :param num_cycles: 周期次数
         :param lr_init: is init lr.
-        :param decay: 衰减率
+        :param decay: 振幅衰减率,当1.0时,每次周期循环不衰减
         :param num_warn_up:
         """
         super(CosineAnnealingLR, self).__init__()
