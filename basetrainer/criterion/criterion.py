@@ -10,7 +10,6 @@
 import numpy as np
 import torch
 import torch.nn as nn
-from ..utils import log
 from typing import Dict, List, Callable
 
 
@@ -51,7 +50,7 @@ def build_criterion(loss_type: str or List[str] or Dict[str, float],
                          If given, has to be a Tensor of size `Class`
     :return:
     """
-    logger = log.get_logger()
+    # logger = log.get_logger()
     if isinstance(class_weight, np.ndarray):
         class_weight = torch.from_numpy(class_weight.astype(np.float32)).to(device)
     if isinstance(loss_type, str):
@@ -66,8 +65,7 @@ def build_criterion(loss_type: str or List[str] or Dict[str, float],
         criterions[loss] = criterion
         weights[loss] = loss_weight
     criterions = ComposeLoss(criterions=criterions, weights=weights)
-    logger.info("use criterions:{}".format(weights))
-    # print("criterions:{}".format(weights))
+    # logger.info("use criterions:{}".format(weights))
     return criterions
 
 
@@ -95,3 +93,17 @@ class ComposeLoss(object):
             else:
                 losses[name] = loss * self.weights[name] if self.weights else loss
         return losses
+
+
+if __name__ == "__main__":
+    from basetrainer.utils import torch_tools
+
+    torch_tools.set_env_random_seed()
+    batch_size = 16
+    num_classes = 10
+    input = torch.ones(batch_size, num_classes, 10, 10).cuda()
+    target = torch.ones(batch_size, 10, 10).long().cuda()
+    loss_type = {"CELoss": 0.5, "CELoss": 0.5}
+    losses = build_criterion(loss_type, num_classes=num_classes, device="cuda:0")
+    loss = losses(input, target)
+    print(loss)
