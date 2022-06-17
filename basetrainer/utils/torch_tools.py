@@ -177,6 +177,23 @@ def freeze_net_layers(net):
             param.requires_grad = False
 
 
+def rename_module(state_dict, name_map={}):
+    """
+    重新映射模块名称
+    :param state_dict: model state_dict
+    :param name_map: 需要重新命名的模型， name_map = {"base_net": "backbone"},即将base_net重新命名为backbone
+    :return:
+    """
+    # 初始化一个空 dict
+    new_state_dict = OrderedDict()
+    # 修改 key，没有module字段则需要不del，如果有，则需要修改为 module.features
+    for k, v in state_dict.items():
+        for key, value in name_map.items():
+            if key in k: k = k.replace(key, value)
+        new_state_dict[k] = v
+    return new_state_dict
+
+
 def load_state_dict(model_path):
     """
     Usage:
