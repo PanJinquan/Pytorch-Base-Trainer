@@ -25,7 +25,7 @@ def build_dataloader(dataset: Dataset,
     :param dataset: Dataset
     :param batch_size: DP模式中，每张卡将分配(batch_size/GPU)数进行训练；而DDP模式中，每张卡都有batch_size的数据
     :param num_workers:
-    :param shuffle:
+    :param shuffle: 是否打乱顺序
     :param persistent_workers: 该参数仅支持torch>=1.6
            False: 数据加载器运行完一个Epoch后会关闭worker进程,在分布式训练，会出现每个epoch初始化多进程的问题
            True: 会保持worker进程实例激活状态,容易出现“DataLoader worker (pid(s) 953) exited unexpectedly”的错误
