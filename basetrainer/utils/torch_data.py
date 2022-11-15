@@ -23,7 +23,7 @@ def build_dataloader(dataset: Dataset,
                      **kwargs) -> DataLoader:
     """
     :param dataset: Dataset
-    :param batch_size:
+    :param batch_size: DP模式中，每张卡将分配(batch_size/GPU)数进行训练；而DDP模式中，每张卡都有batch_size的数据
     :param num_workers:
     :param shuffle:
     :param persistent_workers: 该参数仅支持torch>=1.6

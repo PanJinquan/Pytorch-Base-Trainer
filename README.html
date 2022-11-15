@@ -1,0 +1,462 @@
+<h1 id="pytorch-base-trainerpbt">Pytorch-Base-Trainer(PBT)</h1>
+<ul>
+<li>开源不易,麻烦给个【Star】</li>
+<li>Github: https://github.com/PanJinquan/Pytorch-Base-Trainer</li>
+<li>pip安装包： https://pypi.org/project/basetrainer/</li>
+<li>博客地址：https://panjinquan.blog.csdn.net/article/details/122662902</li>
+</ul>
+<h2 id="introduction">1.Introduction</h2>
+<p>考虑到深度学习训练过程都有一套约定成俗的流程，鄙人借鉴<strong>Keras</strong>开发了一套基础训练库： <strong>Pytorch-Base-Trainer(PBT)</strong>； 这是一个基于Pytorch开发的基础训练库，支持以下特征：</p>
+<ul>
+<li>[x] 支持多卡训练训练(DP模式)和分布式多卡训练(DDP模式)，参考<a href="basetrainer/utils/torch_data.py">build_model_parallel</a></li>
+<li>[x] 支持argparse命令行指定参数，也支持<a href="configs/config.yaml">config.yaml</a>配置文件</li>
+<li>[x] 支持最优模型保存<a href="basetrainer/callbacks/model_checkpoint.py">ModelCheckpoint</a></li>
+<li>[x] 支持自定义回调函数<a href="basetrainer/callbacks/callbacks.py">Callback</a></li>
+<li>[x] 支持NNI模型剪枝(<strong>L1/L2-Pruner,FPGM-Pruner Slim-Pruner</strong>)<a href="basetrainer/pruning/nni_pruning.py">nni_pruning</a></li>
+<li>[x] 非常轻便,安装简单</li>
+</ul>
+<p>诚然，诸多大公司已经开源基础库，如MMClassification,MMDetection等库； 但碍于这些开源库安装麻烦,依赖库多,版本差异大等问题；鄙人开发了一套比较基础的训练Pipeline： <strong>Pytorch-Base-Trainer(PBT)</strong>, 基于PBT可以快速搭建自己的训练工程； 目前，基于PBT完成了<strong>通用分类库(PBTClassification),通用检测库(PBTDetection),通用语义分割库( PBTSegmentation)以及,通用姿态检测库(PBTPose)</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>通用库</strong></th>
+<th align="left"><strong>类型</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>PBTClassification</strong></td>
+<td align="left">通用分类库</td>
+<td align="left">集成常用的分类模型，支持多种数据格式,样本重采样</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>PBTDetection</strong></td>
+<td align="left">通用检测库</td>
+<td align="left">集成常用的检测类模型，如RFB,SSD和YOLOX</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>PBTSegmentation</strong></td>
+<td align="left">通用语义分割库</td>
+<td align="left">集成常用的语义分割模型，如DeepLab,UNet等</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>PBTPose</strong></td>
+<td align="left">通用姿态检测库</td>
+<td align="left">集成常用的人体姿态估计模型,如UDP,Simple-base-line</td>
+</tr>
+</tbody>
+</table>
+<p>基于PBT框架训练的模型,已经形成了一套完整的Android端上部署流程,支持CPU和GPU</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><a href="https://panjinquan.blog.csdn.net/article/details/115765863">人体姿态估计2DPose</a></th>
+<th align="center"><a href="https://panjinquan.blog.csdn.net/article/details/120688804">人脸+人体检测</a></th>
+<th align="center"><a href="https://panjinquan.blog.csdn.net/article/details/121680939">人像抠图</a></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img src="docs/assets/2dpose.gif" width="306" height="580"></td>
+<td align="center"><img src="docs/assets/face_person.jpg" width="306" height="580"></td>
+<td align="center"><img src="docs/assets/hight-matting.gif" width="306" height="580"></td>
+</tr>
+<tr class="even">
+<td align="center">CPU/GPU:70/50ms</td>
+<td align="center">CPU/GPU:30/20ms</td>
+<td align="center">CPU/GPU:150/30ms</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>PS：受商业保护,目前,仅开源Pytorch-Base-Trainer(PBT),基于PBT的分类,检测和分割以及姿态估计训练库,暂不开源。</p>
+</blockquote>
+<h2 id="install">2.Install</h2>
+<ul>
+<li>源码安装</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/PanJinquan/Pytorch-Base-Trainer
+<span class="bu">cd</span> Pytorch-Base-Trainer
+<span class="fu">bash</span> setup.sh <span class="co">#pip install dist/basetrainer-*.*.*.tar.gz</span></code></pre></div>
+<ul>
+<li>pip安装: https://pypi.org/project/basetrainer/</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">pip</span> install basetrainer</code></pre></div>
+<ul>
+<li>使用<a href="https://github.com/microsoft/nni">NNI</a> 模型剪枝工具，需要安装<a href="https://github.com/microsoft/nni">NNI</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Linux or macOS</span>
+<span class="ex">python3</span> -m pip install --upgrade nni
+<span class="co"># Windows</span>
+<span class="ex">python</span> -m pip install --upgrade nni</code></pre></div>
+<h2 id="训练框架">3.训练框架</h2>
+<p>PBT基础训练库定义了一个基类(<a href="basetrainer/engine/base.py">Base</a>),所有训练引擎(Engine)以及回调函数(Callback)都会继承基类。</p>
+<p><img src="docs/source/basetrainer.png" width="800" ></p>
+<h4 id="训练引擎engine">(1)训练引擎(Engine)</h4>
+<p><code>Engine</code>类实现了训练/测试的迭代方法(如on_batch_begin,on_batch_end),其迭代过程参考如下, 用户可以根据自己的需要自定义迭代过程：</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="va">self</span>.on_train_begin()
+<span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):
+    <span class="va">self</span>.set_model()  <span class="co"># 设置模型</span>
+    <span class="co"># 开始训练</span>
+    <span class="va">self</span>.on_epoch_begin()  <span class="co"># 开始每个epoch调用</span>
+    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.train_dataset:
+        <span class="va">self</span>.on_batch_begin()  <span class="co"># 每次迭代开始时回调</span>
+        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span>
+        <span class="va">self</span>.on_train_summary()  <span class="co"># 每次迭代，训练结束时回调</span>
+        <span class="va">self</span>.on_batch_end()  <span class="co"># 每次迭代结束时回调</span>
+    <span class="co"># 开始测试</span>
+    <span class="va">self</span>.on_test_begin()
+    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.test_dataset:
+        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span>
+        <span class="va">self</span>.on_test_summary()  <span class="co"># 每次迭代，测试结束时回调</span>
+    <span class="va">self</span>.on_test_end()  <span class="co"># 结束测试</span>
+    <span class="co"># 结束当前epoch</span>
+    <span class="va">self</span>.on_epoch_end()
+<span class="va">self</span>.on_train_end()</code></pre></div>
+<p><code>EngineTrainer</code>类继承<code>Engine</code>类,用户需要继承该类,并实现相关接口:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">接口</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">build_train_loader</td>
+<td align="left">定义训练数据</td>
+</tr>
+<tr class="even">
+<td align="left">build_test_loader</td>
+<td align="left">定义测试数据</td>
+</tr>
+<tr class="odd">
+<td align="left">build_model</td>
+<td align="left">定义模型</td>
+</tr>
+<tr class="even">
+<td align="left">build_optimizer</td>
+<td align="left">定义优化器</td>
+</tr>
+<tr class="odd">
+<td align="left">build_criterion</td>
+<td align="left">定义损失函数</td>
+</tr>
+<tr class="even">
+<td align="left">build_callbacks</td>
+<td align="left">定义回调函数</td>
+</tr>
+</tbody>
+</table>
+<p>另外，<code>EngineTrainer</code>类还是实现了两个重要的类方法(build_dataloader和build_model_parallel),用于构建分布式训练</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">类方法</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">build_dataloader</td>
+<td align="left">用于构建加载方式,参数distributed设置是否使用分布式加载数据</td>
+</tr>
+<tr class="even">
+<td align="left">build_model_parallel</td>
+<td align="left">用于构建模型,参数distributed设置是否使用分布式训练模型</td>
+</tr>
+</tbody>
+</table>
+<h4 id="回调函数callback">(2)回调函数(Callback)</h4>
+<p>每个回调函数都需要继承(Callback),用户在回调函数中,可实现对迭代方法输入/输出的处理,例如:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">回调函数</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><a href="basetrainer/callbacks/log_history.py">LogHistory</a></td>
+<td align="left">Log历史记录回调函数,可使用Tensorboard可视化</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="basetrainer/callbacks/model_checkpoint.py">ModelCheckpoint</a></td>
+<td align="left">保存模型回调函数,可选择最优模型保存</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="basetrainer/callbacks/losses_recorder.py">LossesRecorder</a></td>
+<td align="left">单个Loss历史记录回调函数,可计算每个epoch的平均值</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="basetrainer/callbacks/multi_losses_recorder.py">MultiLossesRecorder</a></td>
+<td align="left">用于多任务Loss的历史记录回调函数</td>
+</tr>
+<tr class="odd">
+<td align="left"><a href="basetrainer/metric/accuracy_recorder.py">AccuracyRecorder</a></td>
+<td align="left">用于计算分类Accuracy回调函数</td>
+</tr>
+<tr class="even">
+<td align="left"><a href="basetrainer/scheduler/build_scheduler.py">get_scheduler</a></td>
+<td align="left">各种学习率调整策略(MultiStepLR,CosineAnnealingLR,ExponentialLR)的回调函数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用方法">4.使用方法</h2>
+<p><code>basetrainer</code>使用方法可以参考<a href="./example.py">example.py</a>,构建自己的训练器,可通过如下步骤实现：</p>
+<ul>
+<li>step1: 新建一个类<code>ClassificationTrainer</code>，继承<code>trainer.EngineTrainer</code></li>
+<li>step2: 实现接口</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
+<span class="kw">def</span> build_train_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义训练数据&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_train_loader not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_test_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义测试数据&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_test_loader not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_model(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定于训练模型&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_model not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_optimizer(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义优化器&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_optimizer not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_criterion(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义损失函数&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_criterion not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_callbacks(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义回调函数&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_callbacks not implemented!&quot;</span>)</code></pre></div>
+<ul>
+<li>step3: 在初始化中调用<code>build</code></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
+<span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg):
+    <span class="bu">super</span>(ClassificationTrainer, <span class="va">self</span>).<span class="fu">__init__</span>(cfg)
+    ...
+    <span class="va">self</span>.build(cfg)
+    ...</code></pre></div>
+<ul>
+<li>step4: 实例化<code>ClassificationTrainer</code>,并使用<code>launch</code>启动分布式训练</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> main(cfg):
+    t <span class="op">=</span> ClassificationTrainer(cfg)
+    <span class="cf">return</span> t.run()
+
+
+<span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:
+    parser <span class="op">=</span> get_parser()
+    args <span class="op">=</span> parser.parse_args()
+    cfg <span class="op">=</span> setup_config.parser_config(args)
+    launch(main,
+           num_gpus_per_machine<span class="op">=</span><span class="bu">len</span>(cfg.gpu_id),
+           dist_url<span class="op">=</span><span class="st">&quot;tcp://127.0.0.1:28661&quot;</span>,
+           num_machines<span class="op">=</span><span class="dv">1</span>,
+           machine_rank<span class="op">=</span><span class="dv">0</span>,
+           distributed<span class="op">=</span>cfg.distributed,
+           args<span class="op">=</span>(cfg,))</code></pre></div>
+<h2 id="example">5.Example</h2>
+<ul>
+<li><code>basetrainer</code>使用方法可以参考<a href="./example.py">example.py</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># 单进程多卡训练</span>
+<span class="ex">python</span> example.py --gpu_id 0 1 <span class="co"># 使用命令行参数</span>
+<span class="ex">python</span> example.py --config_file configs/config.yaml <span class="co"># 使用yaml配置文件</span>
+<span class="co"># 多进程多卡训练(分布式训练)</span>
+<span class="ex">python</span> example.py --config_file configs/config.yaml --distributed <span class="co"># 使用yaml配置文件</span></code></pre></div>
+<ul>
+<li>目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见<a href="basetrainer/models/build_models.py">backbone</a>等 ，其他backbone可以自定义添加</li>
+<li>训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过<a href="configs/config.yaml">config.yaml</a>配置文件，当存在同名参数时，以配置文件为默认值</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>类型</strong></th>
+<th align="left"><strong>参考值</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">train_data</td>
+<td align="left">str, list</td>
+<td align="left">-</td>
+<td align="left">训练数据文件，可支持多个文件</td>
+</tr>
+<tr class="even">
+<td align="left">test_data</td>
+<td align="left">str, list</td>
+<td align="left">-</td>
+<td align="left">测试数据文件，可支持多个文件</td>
+</tr>
+<tr class="odd">
+<td align="left">work_dir</td>
+<td align="left">str</td>
+<td align="left">work_space</td>
+<td align="left">训练输出工作空间</td>
+</tr>
+<tr class="even">
+<td align="left">net_type</td>
+<td align="left">str</td>
+<td align="left">resnet18</td>
+<td align="left">backbone类型,{resnet,resnest,mobilenet_v2,...}</td>
+</tr>
+<tr class="odd">
+<td align="left">input_size</td>
+<td align="left">list</td>
+<td align="left">[128,128]</td>
+<td align="left">模型输入大小[W,H]</td>
+</tr>
+<tr class="even">
+<td align="left">batch_size</td>
+<td align="left">int</td>
+<td align="left">32</td>
+<td align="left">batch size</td>
+</tr>
+<tr class="odd">
+<td align="left">lr</td>
+<td align="left">float</td>
+<td align="left">0.1</td>
+<td align="left">初始学习率大小</td>
+</tr>
+<tr class="even">
+<td align="left">optim_type</td>
+<td align="left">str</td>
+<td align="left">SGD</td>
+<td align="left">优化器，{SGD,Adam}</td>
+</tr>
+<tr class="odd">
+<td align="left">loss_type</td>
+<td align="left">str</td>
+<td align="left">CELoss</td>
+<td align="left">损失函数</td>
+</tr>
+<tr class="even">
+<td align="left">scheduler</td>
+<td align="left">str</td>
+<td align="left">multi-step</td>
+<td align="left">学习率调整策略，{multi-step,cosine}</td>
+</tr>
+<tr class="odd">
+<td align="left">milestones</td>
+<td align="left">list</td>
+<td align="left">[30,80,100]</td>
+<td align="left">降低学习率的节点，仅仅scheduler=multi-step有效</td>
+</tr>
+<tr class="even">
+<td align="left">momentum</td>
+<td align="left">float</td>
+<td align="left">0.9</td>
+<td align="left">SGD动量因子</td>
+</tr>
+<tr class="odd">
+<td align="left">num_epochs</td>
+<td align="left">int</td>
+<td align="left">120</td>
+<td align="left">循环训练的次数</td>
+</tr>
+<tr class="even">
+<td align="left">num_warn_up</td>
+<td align="left">int</td>
+<td align="left">3</td>
+<td align="left">warn_up的次数</td>
+</tr>
+<tr class="odd">
+<td align="left">num_workers</td>
+<td align="left">int</td>
+<td align="left">12</td>
+<td align="left">DataLoader开启线程数</td>
+</tr>
+<tr class="even">
+<td align="left">weight_decay</td>
+<td align="left">float</td>
+<td align="left">5e-4</td>
+<td align="left">权重衰减系数</td>
+</tr>
+<tr class="odd">
+<td align="left">gpu_id</td>
+<td align="left">list</td>
+<td align="left">[ 0 ]</td>
+<td align="left">指定训练的GPU卡号，可指定多个</td>
+</tr>
+<tr class="even">
+<td align="left">log_freq</td>
+<td align="left">in</td>
+<td align="left">20</td>
+<td align="left">显示LOG信息的频率</td>
+</tr>
+<tr class="odd">
+<td align="left">finetune</td>
+<td align="left">str</td>
+<td align="left">model.pth</td>
+<td align="left">finetune的模型</td>
+</tr>
+<tr class="even">
+<td align="left">use_prune</td>
+<td align="left">bool</td>
+<td align="left">True</td>
+<td align="left">是否进行模型剪枝</td>
+</tr>
+<tr class="odd">
+<td align="left">progress</td>
+<td align="left">bool</td>
+<td align="left">True</td>
+<td align="left">是否显示进度条</td>
+</tr>
+<tr class="even">
+<td align="left">distributed</td>
+<td align="left">bool</td>
+<td align="left">False</td>
+<td align="left">是否使用分布式训练</td>
+</tr>
+</tbody>
+</table>
+<h2 id="可视化">6.可视化</h2>
+<p>目前训练过程可视化工具是使用Tensorboard，使用方法：</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">tensorboard</span> --logdir=path/to/log/</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><img src="docs/assets/lr-epoch.png" width=340 height=245 /></th>
+<th align="left"><img src="docs/assets/step.png" width=340 height=245/></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="docs/assets/train-acc.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/test-acc.png" width=340 height=245/></td>
+</tr>
+<tr class="even">
+<td align="left"><img src="docs/assets/train-loss.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/test-loss.png" width=340 height=245/></td>
+</tr>
+</tbody>
+</table>
+<h2 id="其他">7.其他</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="left">作者</th>
+<th align="left">PKing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">联系方式</td>
+<td align="left">pan_jinquan@163.com</td>
+</tr>
+</tbody>
+</table>
