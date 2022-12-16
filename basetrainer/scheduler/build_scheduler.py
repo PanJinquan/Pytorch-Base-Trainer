@@ -7,6 +7,7 @@
 from .MultiStepLR import MultiStepLR
 from .CosineAnnealingLR import CosineAnnealingLR
 from .ExponentialLR import ExponentialLR
+from .LambdaLR import LambdaLR
 
 
 def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs):
@@ -33,6 +34,14 @@ def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs
                                      lr_init=lr_init,
                                      num_warn_up=kwargs["num_warn_up"]
                                      )
+    elif scheduler.lower() == "LambdaLR".lower():
+        # 指数衰减学习率
+        lr_scheduler = LambdaLR(optimizer,
+                                num_epochs,
+                                num_steps=num_steps,
+                                lr_init=lr_init,
+                                num_warn_up=kwargs["num_warn_up"]
+                                )
     else:
         raise Exception("Error: scheduler type: {}".format(scheduler))
     return lr_scheduler

@@ -237,6 +237,15 @@ python example.py --config_file configs/config.yaml --distributed # 使用yaml�
 | progress     | bool        | True        | 是否显示进度条                                      |
 | distributed  | bool        | False       | 是否使用分布式训练                                    |
 
+- 学习率调整策略
+
+| **scheduler** | **说明**              | **lr-epoch曲线图**   |
+|:--------------|:----------------------|:--------------------------------------------------------------------|
+| multi_step    | 阶梯学习率调整策略      | <img src="docs/assets/scheduler-multi-step.png" width=256 height=256 /> | 
+| cosine        | 余弦退火学习率调整策略   | <img src="docs/assets/scheduler-cosineLR.png" width=256 height=256 /> | 
+| ExpLR         | 指数衰减学习率调整策略   | <img src="docs/assets/scheduler-ExpLR.png" width=256 height=256 /> | 
+| LambdaLR      | Lambda学习率调整策略    | <img src="docs/assets/scheduler-LambdaLR.png" width=256 height=256 /> | 
+
 ## 6.可视化
 
 目前训练过程可视化工具是使用Tensorboard，使用方法：
