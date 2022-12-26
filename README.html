@@ -424,6 +424,40 @@
 </tr>
 </tbody>
 </table>
+<ul>
+<li>学习率调整策略</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><strong>scheduler</strong></th>
+<th align="left"><strong>说明</strong></th>
+<th align="left"><strong>lr-epoch曲线图</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">multi_step</td>
+<td align="left">阶梯学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-multi-step.png" width=256 height=256 /></td>
+</tr>
+<tr class="even">
+<td align="left">cosine</td>
+<td align="left">余弦退火学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-cosineLR.png" width=256 height=256 /></td>
+</tr>
+<tr class="odd">
+<td align="left">ExpLR</td>
+<td align="left">指数衰减学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-ExpLR.png" width=256 height=256 /></td>
+</tr>
+<tr class="even">
+<td align="left">LambdaLR</td>
+<td align="left">Lambda学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-LambdaLR.png" width=256 height=256 /></td>
+</tr>
+</tbody>
+</table>
 <h2 id="可视化">6.可视化</h2>
 <p>目前训练过程可视化工具是使用Tensorboard，使用方法：</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">tensorboard</span> --logdir=path/to/log/</code></pre></div>
