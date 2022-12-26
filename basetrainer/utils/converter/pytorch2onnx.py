@@ -11,11 +11,11 @@ import torch.onnx
 import onnx
 
 
-def convert2onnx(model, shape, onnx_file="", dynamic=False, simplify=True,
+def convert2onnx(model, input_shape, onnx_file="", dynamic=False, simplify=True,
                  use_prune=False, sparsity=0.2, device="cuda:0"):
     """
     :param model: Pytorch 模型
-    :param shape: 输入维度(B, C, H, W)
+    :param input_shape: 输入维度(B, C, H, W)
     :param onnx_file: 输出ONNX模型文件
     :param dynamic:
     :param simplify: 是否对ONNX进行simplify
@@ -30,7 +30,7 @@ def convert2onnx(model, shape, onnx_file="", dynamic=False, simplify=True,
         output = "./output"
         onnx_file = os.path.join(output, "model.onnx")
     if not os.path.exists(output): os.makedirs(output)
-    B, C, H, W = shape
+    B, C, H, W = input_shape
     if use_prune:
         from basetrainer.pruning import nni_pruning
         model = nni_pruning.model_pruning(model,
