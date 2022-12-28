@@ -3,7 +3,7 @@
     @Author : PKing
     @E-mail : 390737991@qq.com
     @Date   : 2022-12-26 15:37:56
-    @Brief  :
+    @Brief  : https://blog.csdn.net/JianguoChow/article/details/124637324
 """
 
 import os
@@ -44,7 +44,13 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
                                           device="cuda")
     model = model.to(device)
     model.eval()
-    inputs = torch.randn(1, 3, H, W).to(device)
+    if dynamic:
+        inputs = torch.randn(B, C, H, W).to(device)
+        # 声明动态维度，这里我们把input的第0维度赋名为batch_size
+        dynamic_axes = {input_names[0]: {0: 'batch_size'}, output_names[0]: {0: 'batch_size'}}
+    else:
+        inputs = torch.randn(1, C, H, W).to(device)
+        dynamic_axes = None
     do_constant_folding = True
     torch.onnx.export(model, inputs,
                       onnx_file,
@@ -52,7 +58,8 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
                       export_params=True,
                       do_constant_folding=do_constant_folding,
                       input_names=input_names,
-                      output_names=output_names)
+                      output_names=output_names,
+                      dynamic_axes=dynamic_axes)
 
     onnx_model = onnx.load(onnx_file)
     onnx.checker.check_model(onnx_model)
