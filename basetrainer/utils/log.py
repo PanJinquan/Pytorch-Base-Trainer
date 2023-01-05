@@ -181,72 +181,7 @@ def get_logger(name="LOG", level="debug"):
     return logger
 
 
-def RUN_TIME(deta_time):
-    '''
-    计算时间差，返回毫秒,deta_time.seconds获得秒数=1000ms，deta_time.microseconds获得微妙数=1/1000ms
-    :param deta_time: ms
-    :return:
-    '''
-    time_ = deta_time.seconds * 1000 + deta_time.microseconds / 1000.0
-    return time_
-
-
-def TIME():
-    '''
-    获得当前时间
-    :return:
-    '''
-    return datetime.datetime.now()
-
-
-def run_time_decorator(title=""):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            # torch.cuda.synchronize()
-            T0 = TIME()
-            result = func(*args, **kwargs)
-            # torch.cuda.synchronize()
-            T1 = TIME()
-            print("{}-- function : {}-- rum time : {}ms ".format(title, func.__name__, RUN_TIME(T1 - T0)))
-            # logger.debug("{}-- function : {}-- rum time : {}s ".format(title, func.__name__, RUN_TIME(T1 - T0)/1000.0))
-            return result
-
-        return wrapper
-
-    return decorator
-
-
-# @profile(precision=4)
-def memory_test():
-    """
-    1.先导入：
-    > from memory_profiler import profile
-    2.函数前加装饰器：
-    > @profile(precision=4,stream=open('memory_profiler.log','w+'))
-　　　参数含义：precision:精确到小数点后几位
-　　　stream:此模块分析结果保存到 'memory_profiler.log' 日志文件。如果没有此参数，分析结果会在控制台输出
-    :return:
-    """
-    c = 0
-    for item in range(10):
-        c += 1
-        # logger.error("c:{}".format(c))
-    # print(c)
-
-
 if __name__ == '__main__':
-    # logger = set_logger(name="LOG", level="warning", logfile="log.txt", format=False)
-    # T0 = TIME()
-    # do something
-    # T1 = TIME()
-    # print("rum time:{}ms".format(RUN_TIME(T1 - T0)))
-    # t_logger = set_logging(name=__name__, level="info", logfile=None)
-    # t_logger.debug('debug')
-    # t_logger.info('info')
-    # t_logger.warning('Warning exists')
-    # t_logger.error('Finish')
-    # memory_test()
-    # logger1 = set_logger(name="LOG", level="debug", logfile="log.txt", format=False)
     logger = set_logger(logfile=None, level="debug")
     logger1 = get_logger()
     logger1.info("---" * 20)

@@ -10,7 +10,7 @@ import torch.utils.data as torch_utils
 from torch.utils.data.dataset import Dataset
 from torch.utils.data.dataloader import DataLoader
 from ..engine import comm
-from .torch_tools import get_torch_version
+from .torch_tools import get_torch_version, torch_version_id
 
 
 def build_dataloader(dataset: Dataset,
@@ -49,7 +49,7 @@ def build_dataloader(dataset: Dataset,
         persistent_workers = False
     try:
         # Fix a Bug: torch<=1.6 have no argument 'persistent_workers'
-        if get_torch_version() >= 1.7:
+        if get_torch_version() >= torch_version_id("1.7"):
             kwargs["persistent_workers"] = persistent_workers
             # fix a bug: persistent_workers option needs num_workers > 0
             if persistent_workers and num_workers == 0:

@@ -18,10 +18,15 @@ def get_torch_version():
     try:
         v = torch.__version__
         print("torch.version:{}".format(v))
-        vid = v.split(".")
-        vid = float("{}.{}".format(vid[0], vid[1]))
+        vid = torch_version_id(v)
     except Exception as e:
         vid = None
+    return vid
+
+
+def torch_version_id(v: str):
+    vid = v.split(".")
+    vid = float("{}.{:0=2d}".format(vid[0], int(vid[1])))
     return vid
 
 
