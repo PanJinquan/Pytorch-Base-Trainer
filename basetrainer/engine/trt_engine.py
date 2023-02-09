@@ -58,7 +58,7 @@ class TRTEngine(object):
         self.output_names = [self.engine.get_binding_name(binding_idx) for binding_idx in self.output_binding_idxs]
         print("\tNumber of Outputs: {}".format(len(self.output_binding_idxs)))
         print("\tOutput names     : {}".format(self.output_names))
-        print("\tOutput Bindings for Profile {}: {}".format(self.context.active_optimization_profile,
+        print("\tOutput Bindings for Profile {}: {}\n".format(self.context.active_optimization_profile,
                                                             self.output_binding_idxs), flush=True)
 
     @staticmethod
