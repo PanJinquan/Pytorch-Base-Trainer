@@ -59,7 +59,7 @@ class TRTEngine(object):
         print("\tNumber of Outputs: {}".format(len(self.output_binding_idxs)))
         print("\tOutput names     : {}".format(self.output_names))
         print("\tOutput Bindings for Profile {}: {}".format(self.context.active_optimization_profile,
-                                                            self.output_binding_idxs))
+                                                            self.output_binding_idxs), flush=True)
 
     @staticmethod
     def build_engine_onnx(model_file: str, input_shape, fp16=True):
