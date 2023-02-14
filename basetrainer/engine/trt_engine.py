@@ -59,7 +59,7 @@ class TRTEngine(object):
         print("\tNumber of Outputs: {}".format(len(self.output_binding_idxs)))
         print("\tOutput names     : {}".format(self.output_names))
         print("\tOutput Bindings for Profile {}: {}\n".format(self.context.active_optimization_profile,
-                                                            self.output_binding_idxs), flush=True)
+                                                              self.output_binding_idxs), flush=True)
 
     @staticmethod
     def build_engine_onnx(model_file: str, input_shape, fp16=True):
@@ -123,6 +123,8 @@ class TRTEngine(object):
         # Copy outputs back to host to view results 将输出由gpu拷贝到cpu。
         for h_output, d_output in zip(host_outputs, device_outputs):
             cuda.memcpy_dtoh(h_output, d_output)
+        # 释放显存
+        for b in bindings: b.free()
         device_context.pop()
         return host_outputs
 
