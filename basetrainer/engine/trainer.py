@@ -38,8 +38,8 @@ class EngineTrainer(engine.Engine):
             self.num_steps = len(self.train_loader)
             self.num_samples = len(self.train_loader.sampler)
         self.model = self.build_model(cfg, **kwargs)
-        self.optimizer = self.build_optimizer(cfg, **kwargs)
         self.criterion = self.build_criterion(cfg, **kwargs)
+        self.optimizer = self.build_optimizer(cfg, **kwargs)
         self.callbacks = self.build_callbacks(cfg, **kwargs)
         self.callbacks = [c for c in self.callbacks if c]
 

@@ -13,7 +13,7 @@ import torch.nn as nn
 from typing import Dict, List, Callable
 
 
-def get_criterion(loss_type: str, num_classes=None, class_weight=None, device="cuda:0"):
+def get_criterion(loss_type: str, num_classes=None, class_weight=None, device="cuda:0", **kwargs):
     """
     :param loss_type: loss_type={loss_name: loss_weigth}
                       FocalLoss,CrossEntropyLoss,LabelSmooth
@@ -39,7 +39,8 @@ def get_criterion(loss_type: str, num_classes=None, class_weight=None, device="c
 def build_criterion(loss_type: str or List[str] or Dict[str, float],
                     num_classes=None,
                     class_weight=None,
-                    device="cuda:0"):
+                    device="cuda:0",
+                    **kwargs):
     """
     使用nn.BCELoss需要在该层前面加上Sigmoid函数
     使用nn.CrossEntropyLoss会自动加上Softmax层,所以最后一层不需要加上Softmax()

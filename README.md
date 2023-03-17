@@ -29,7 +29,7 @@ PBTSegmentation)以及,通用姿态检测库(PBTPose)**
 
 基于PBT框架训练的模型,已经形成了一套完整的Android端上部署流程,支持CPU和GPU
 
-|[人体姿态估计2DPose](https://panjinquan.blog.csdn.net/article/details/115765863)     |[人脸+人体检测](https://panjinquan.blog.csdn.net/article/details/120688804)  |[人像抠图](https://panjinquan.blog.csdn.net/article/details/121680939)                                        |
+|[人体姿态估计2DPose](https://blog.csdn.net/guyuealian/article/details/115765863)     |[人脸+人体检测](https://blog.csdn.net/guyuealian/article/details/120688804)  |[人像抠图](https://blog.csdn.net/guyuealian/article/details/121680939)                                        |
 |:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 | <img src="docs/assets/2dpose.gif" width="306" height="580">           |<img src="docs/assets/face_person.jpg" width="306" height="580">       |<img src="docs/assets/hight-matting.gif" width="306" height="580">       |
 |CPU/GPU:70/50ms                                                         |CPU/GPU:30/20ms                                                           |CPU/GPU:150/30ms                                                           |
@@ -49,7 +49,10 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 - pip安装: https://pypi.org/project/basetrainer/
 
 ```bash
-pip install basetrainer
+# 安装方法1:(有延时，可能不是最新版本)
+pip install basetrainer 
+# 安装方法2:(从pypi源下载最新版本)
+pip install --upgrade basetrainer -i https://pypi.org/simple
 ```
 
 - 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)

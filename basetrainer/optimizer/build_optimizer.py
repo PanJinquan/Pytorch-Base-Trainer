@@ -9,9 +9,11 @@ import torch.nn as nn
 import torch.optim as optim
 
 
-def get_optimizer(model: nn.Module, optim_type="SGD", lr=0.01, split_params=False, **kwargs):
+def get_optimizer(model: nn.Module, parameters=[], optim_type="SGD", lr=0.01, split_params=False, **kwargs):
     """
+    最终的训练参数是： model.parameters() + parameters
     :param model: nn.Module 模型
+    :param parameters: 模型训练参数
     :param optim_type: 优化器, SGD,Adam和AdamW
     :param lr: 学习率
     :param split_params: True: 分离可训练参数，BN层和卷积的bias不加入正则化
@@ -21,7 +23,10 @@ def get_optimizer(model: nn.Module, optim_type="SGD", lr=0.01, split_params=Fals
     if split_params:
         params = regularize_parameters(model, weight_decay=kwargs["weight_decay"])
     else:
-        params = [{'params': model.parameters(), 'weight_decay': kwargs["weight_decay"]}]
+        params = [{
+            'params': list(model.parameters()) + parameters if parameters else list(model.parameters()),
+            'weight_decay': kwargs["weight_decay"]
+        }]
 
     if optim_type.lower() == "SGD".lower():
         optimizer = optim.SGD(params, lr=lr, momentum=kwargs["momentum"])
