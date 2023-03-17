@@ -22,8 +22,10 @@ class EngineTrainer(engine.Engine):
         self.train_loader = None  # 训练数据loader
         self.test_loader = None  # 测试数据loader
         self.num_epochs = cfg.num_epochs  # 数据循环迭代次数
+        self.train_num = 0  # 训练集的样本数目num_samples=num_steps*batch_size
+        self.test_num = 0  # 测试集的样本数目num_samples=num_steps*batch_size
+        self.num_samples = 0  # self.train_nums
         self.num_steps = 0  # 每个epoch的迭代次数
-        self.num_samples = 0  # 训练的样本数目num_samples=num_steps*batch_size
         self.criterion = None  # 损失函数
         self.progress = cfg.progress  # 是否显示进度条
         self.is_main_process = comm.is_main_process()  # 分布式训练中，是否是主进程
@@ -37,6 +39,9 @@ class EngineTrainer(engine.Engine):
         if self.train_loader:
             self.num_steps = len(self.train_loader)
             self.num_samples = len(self.train_loader.sampler)
+            self.train_num = len(self.train_loader.sampler)
+        if self.test_loader:
+            self.test_num = len(self.test_loader.sampler)
         self.model = self.build_model(cfg, **kwargs)
         self.criterion = self.build_criterion(cfg, **kwargs)
         self.optimizer = self.build_optimizer(cfg, **kwargs)
