@@ -62,7 +62,7 @@ def build_criterion(loss_type: str or List[str] or Dict[str, float],
     criterions = {}
     weights = {}
     for loss, loss_weight in loss_type.items():
-        criterion = get_criterion(loss, num_classes, class_weight, device=device)
+        criterion = get_criterion(loss, num_classes, class_weight, device=device, **kwargs)
         criterions[loss] = criterion
         weights[loss] = loss_weight
     criterions = ComposeLoss(criterions=criterions, weights=weights)
@@ -70,7 +70,7 @@ def build_criterion(loss_type: str or List[str] or Dict[str, float],
     return criterions
 
 
-class ComposeLoss(object):
+class ComposeLoss(nn.Module):
     def __init__(self, criterions: Dict[str, Callable], weights: Dict[str, float] = None):
         """
         联合LOSS函数
@@ -79,11 +79,18 @@ class ComposeLoss(object):
         :param  weights: Dict[str, float] Loss的权重
                          ==> {"Loss1": 1.0,"Loss2":1.0}
         """
+        super(ComposeLoss, self).__init__()
         if isinstance(weights, dict):
             assert criterions.keys() == weights.keys(), \
                 Exception("Key Error:criterions:{},weights:{}".format(criterions.keys(), weights.keys()))
         self.weights = weights
         self.criterions = criterions
+
+    def parameters(self, recurse: bool = True):
+        param = []
+        for loss in self.criterions.values():
+            param += loss.parameters()
+        return param
 
     def __call__(self, logits, labels):
         losses = {}
