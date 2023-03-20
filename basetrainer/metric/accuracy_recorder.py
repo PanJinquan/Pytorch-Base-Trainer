@@ -33,6 +33,7 @@ class AccuracyRecorder(callbacks.Callback):
         self.pred_labels = np.ones(0)
         self.logger = log.get_logger()
         self.epoch = 0
+        self.test_max_acc = 0
 
     def on_epoch_begin(self, epoch, logs: dict = {}):
         self.train_top1.reset()
@@ -49,16 +50,21 @@ class AccuracyRecorder(callbacks.Callback):
                                                                  self.pred_labels,
                                                                  target_names=self.target_names)
         self.logger.info("\nAcc:{:.4f}\n{}".format(acc, report))
-        if self.confusion_matrix:
-            confuse_file = os.path.join(self.confusion_matrix, "confusion_matrix_{:0=3d}.csv".format(self.epoch))
+        if self.confusion_matrix and acc >= self.test_max_acc:
+            self.test_max_acc = acc
+            file_utils.remove_prefix_files(self.confusion_matrix, "confusion_matrix_*")
+            confuse_file = os.path.join(self.confusion_matrix,
+                                        "confusion_matrix_{:0=3d}_{:.4f}.csv".format(self.epoch, acc))
             conf_matrix = classification_report.get_confusion_matrix(self.true_labels,
                                                                      self.pred_labels,
                                                                      self.target_names,
                                                                      filename=confuse_file)
+            self.logger.info("save confuse file in:{} ".format(confuse_file))
 
     @staticmethod
     def summary(phase, average_meter: AverageMeter, indicator, inputs, outputs, logs: dict = {}):
-        targets, labels = inputs[0], inputs[1].cpu()
+        targets, labels = inputs['image'], inputs["label"].cpu()
+        if isinstance(outputs, tuple): outputs = outputs[0]
         outputs = torch.nn.functional.softmax(outputs, dim=1).cpu()
         pred_score, pred_index = torch.max(outputs, dim=1)
         acc, = accuracy(outputs.data, labels, topk=(1,))
