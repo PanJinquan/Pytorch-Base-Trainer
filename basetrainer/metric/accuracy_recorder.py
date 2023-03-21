@@ -63,7 +63,10 @@ class AccuracyRecorder(callbacks.Callback):
 
     @staticmethod
     def summary(phase, average_meter: AverageMeter, indicator, inputs, outputs, logs: dict = {}):
-        targets, labels = inputs['image'], inputs["label"].cpu()
+        if isinstance(inputs, dict):
+            targets, labels = inputs['image'], inputs["label"].cpu()
+        else:
+            targets, labels = inputs[0], inputs[1].cpu()
         if isinstance(outputs, tuple): outputs = outputs[0]
         outputs = torch.nn.functional.softmax(outputs, dim=1).cpu()
         pred_score, pred_index = torch.max(outputs, dim=1)
