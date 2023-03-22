@@ -342,22 +342,30 @@ def summary_model(model, batch_size=1, input_size=[112, 112], plot=False, device
     ====================================================
     :param model:
     :param batch_size:
-    :param input_size:
+    :param input_size: (W,H) or (B, C, H, W)
     :param plot: plot model
     :param device:
     :return:
     """
     from torchsummary import summary
     from torchstat import stat
-    inputs = torch.randn(size=(batch_size, 3, input_size[1], input_size[0]))
+    if len(input_size) == 2:
+        shape = (batch_size, 3, input_size[1], input_size[0])
+    elif len(input_size) == 4:
+        shape = tuple(input_size)
+    else:
+        raise Exception("input_size error:{}".format(input_size))
+    B, C, H, W = shape
+    # inputs = torch.randn(size=(B, 3, input_size[1], input_size[0]))
+    inputs = torch.randn(size=shape)
     inputs = inputs.to(device)
     model = model.to(device)
     model.eval()
     output = model(inputs)
     # 统计模型参数
-    summary(model, input_size=(3, input_size[1], input_size[0]), batch_size=batch_size, device=device)
+    summary(model, input_size=(C, H, W), batch_size=B, device=device)
     # 统计模型参数和计算FLOPs
-    stat(model, (3, input_size[1], input_size[0]))
+    stat(model, (C, H, W))
     # summary可能报错，可使用该方法
     # summary_v2(model, inputs, item_length=26, verbose=True)
     # from thop import profile
@@ -383,13 +391,20 @@ def nni_summary_model(model, batch_size=1, input_size=[112, 112], plot=False, de
     第二种是 full 模式，它还会收集其他操作的信息。 用户可以轻松地使用我们收集的 results 进行进一步的分析。
     :param model:
     :param batch_size:
-    :param input_size:
+    :param input_size: (W,H) or (B, C, H, W)
     :param plot:
     :param device:
     :return:
     """
     from nni.compression.pytorch.utils.counter import count_flops_params
-    inputs = torch.randn(size=(batch_size, 3, input_size[1], input_size[0]))
+    if len(input_size) == 2:
+        shape = (batch_size, 3, input_size[1], input_size[0])
+    elif len(input_size) == 4:
+        shape = tuple(input_size)
+    else:
+        raise Exception("input_size error:{}".format(input_size))
+    B, C, H, W = shape
+    inputs = torch.randn(size=shape)
     inputs = inputs.to(device)
     model = model.to(device)
     model.eval()
@@ -423,22 +438,29 @@ def torchinfo_summary(model, batch_size=1, input_size=[112, 112], plot=False, de
     ====================================================
     :param model:
     :param batch_size:
-    :param input_size:
+    :param input_size: (W,H) or (B, C, H, W)
     :param plot: plot model
     :param device:
     :return:
     """
     from torchinfo import summary
     from torchstat import stat
-    inputs = torch.randn(size=(batch_size, 3, input_size[1], input_size[0]))
+    if len(input_size) == 2:
+        shape = (batch_size, 3, input_size[1], input_size[0])
+    elif len(input_size) == 4:
+        shape = tuple(input_size)
+    else:
+        raise Exception("input_size error:{}".format(input_size))
+    B, C, H, W = shape
+    inputs = torch.randn(size=shape)
     inputs = inputs.to(device)
     model = model.to(device)
     model.eval()
     output = model(inputs)
     # 统计模型参数
-    summary(model, input_size=(batch_size, 3, input_size[1], input_size[0]), device=device)
+    summary(model, input_size=shape, device=device)
     # 统计模型参数和计算FLOPs
-    stat(model, (3, input_size[1], input_size[0]))
+    stat(model, (C, H, W))
     # summary可能报错，可使用该方法
     # summary_v2(model, inputs, item_length=26, verbose=True)
     # from thop import profile
