@@ -10,14 +10,14 @@ net_type: "mobilenet_v2" # resnet_model,mobilenet_v2,ir_resnet26,custom_resnet18
 input_size: [ 128,128 ]
 rgb_mean: [ 0.5, 0.5, 0.5 ]  # for normalize inputs to [-1, 1],Sequence of means for each channel.
 rgb_std: [ 0.5, 0.5, 0.5 ]   # for normalize,Sequence of standard deviations for each channel.
-batch_size: 32
+batch_size: 8
 lr: 0.01
 optim_type: "SGD"             # SGD,Adam
 loss_type: "CrossEntropyLoss"  # FocalLoss,CrossEntropyLoss,LabelSmoothing
 momentum: 0.9              # SGD momentum
 num_epochs: 50
 num_warn_up: 3
-num_workers: 8
+num_workers: 2
 weight_decay: 0.0005 #5e-4
 scheduler: "multi-step" # cosine,multi-step
 milestones: [ 20,35 ]
