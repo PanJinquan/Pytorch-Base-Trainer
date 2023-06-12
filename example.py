@@ -178,9 +178,9 @@ def get_parser():
     parser.add_argument("--test_data", help="test data", default="./data/dataset/val", type=str)
     parser.add_argument("--work_dir", help="work_dir", default="output", type=str)
     parser.add_argument("--input_size", help="input size", nargs="+", default=[224, 224], type=int)
-    parser.add_argument("--batch_size", help="batch_size", default=32, type=int)
+    parser.add_argument("--batch_size", help="batch_size", default=8, type=int)
     parser.add_argument("--gpu_id", help="specify your GPU ids", nargs="+", default=[0], type=int)
-    parser.add_argument("--num_workers", help="num_workers", default=0, type=int)
+    parser.add_argument("--num_workers", help="num_workers", default=2, type=int)
     parser.add_argument("--num_epochs", help="total epoch number", default=50, type=int)
     parser.add_argument("--scheduler", help=" learning scheduler: multi-step,cosine", default="multi-step", type=str)
     parser.add_argument("--milestones", help="epoch stages to decay learning rate", nargs="+",
