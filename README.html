@@ -19,31 +19,31 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;"><strong>通用库</strong></th>
-<th style="text-align: left;"><strong>类型</strong></th>
-<th style="text-align: left;"><strong>说明</strong></th>
+<th align="left"><strong>通用库</strong></th>
+<th align="left"><strong>类型</strong></th>
+<th align="left"><strong>说明</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>PBTClassification</strong></td>
-<td style="text-align: left;">通用分类库</td>
-<td style="text-align: left;">集成常用的分类模型，支持多种数据格式,样本重采样</td>
+<td align="left"><strong>PBTClassification</strong></td>
+<td align="left">通用分类库</td>
+<td align="left">集成常用的分类模型，支持多种数据格式,样本重采样</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>PBTDetection</strong></td>
-<td style="text-align: left;">通用检测库</td>
-<td style="text-align: left;">集成常用的检测类模型，如RFB,SSD和YOLOX</td>
+<td align="left"><strong>PBTDetection</strong></td>
+<td align="left">通用检测库</td>
+<td align="left">集成常用的检测类模型，如RFB,SSD和YOLOX</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>PBTSegmentation</strong></td>
-<td style="text-align: left;">通用语义分割库</td>
-<td style="text-align: left;">集成常用的语义分割模型，如DeepLab,UNet等</td>
+<td align="left"><strong>PBTSegmentation</strong></td>
+<td align="left">通用语义分割库</td>
+<td align="left">集成常用的语义分割模型，如DeepLab,UNet等</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>PBTPose</strong></td>
-<td style="text-align: left;">通用姿态检测库</td>
-<td style="text-align: left;">集成常用的人体姿态估计模型,如UDP,Simple-base-line</td>
+<td align="left"><strong>PBTPose</strong></td>
+<td align="left">通用姿态检测库</td>
+<td align="left">集成常用的人体姿态估计模型,如UDP,Simple-base-line</td>
 </tr>
 </tbody>
 </table>
@@ -51,21 +51,21 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: center;"><a href="https://blog.csdn.net/guyuealian/article/details/115765863">人体姿态估计2DPose</a></th>
-<th style="text-align: center;"><a href="https://blog.csdn.net/guyuealian/article/details/120688804">人脸+人体检测</a></th>
-<th style="text-align: center;"><a href="https://blog.csdn.net/guyuealian/article/details/121680939">人像抠图</a></th>
+<th align="center"><a href="https://blog.csdn.net/guyuealian/article/details/115765863">人体姿态估计2DPose</a></th>
+<th align="center"><a href="https://blog.csdn.net/guyuealian/article/details/120688804">人脸+人体检测</a></th>
+<th align="center"><a href="https://blog.csdn.net/guyuealian/article/details/121680939">人像抠图</a></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: center;"><img src="docs/assets/2dpose.gif" width="306" height="580"></td>
-<td style="text-align: center;"><img src="docs/assets/face_person.jpg" width="306" height="580"></td>
-<td style="text-align: center;"><img src="docs/assets/hight-matting.gif" width="306" height="580"></td>
+<td align="center"><img src="docs/assets/2dpose.gif" width="306" height="580"></td>
+<td align="center"><img src="docs/assets/face_person.jpg" width="306" height="580"></td>
+<td align="center"><img src="docs/assets/hight-matting.gif" width="306" height="580"></td>
 </tr>
 <tr class="even">
-<td style="text-align: center;">CPU/GPU:70/50ms</td>
-<td style="text-align: center;">CPU/GPU:30/20ms</td>
-<td style="text-align: center;">CPU/GPU:150/30ms</td>
+<td align="center">CPU/GPU:70/50ms</td>
+<td align="center">CPU/GPU:30/20ms</td>
+<td align="center">CPU/GPU:150/30ms</td>
 </tr>
 </tbody>
 </table>
@@ -76,79 +76,79 @@
 <ul>
 <li>源码安装</li>
 </ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" title="1"><span class="fu">git</span> clone https://github.com/PanJinquan/Pytorch-Base-Trainer</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="bu">cd</span> Pytorch-Base-Trainer</a>
-<a class="sourceLine" id="cb1-3" title="3"><span class="fu">bash</span> setup.sh <span class="co">#pip install dist/basetrainer-*.*.*.tar.gz</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="fu">git</span> clone https://github.com/PanJinquan/Pytorch-Base-Trainer
+<span class="bu">cd</span> Pytorch-Base-Trainer
+<span class="fu">bash</span> setup.sh <span class="co">#pip install dist/basetrainer-*.*.*.tar.gz</span></code></pre></div>
 <ul>
 <li>pip安装: https://pypi.org/project/basetrainer/</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># 安装方法1:(有延时，可能不是最新版本)</span></a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="ex">pip</span> install basetrainer </a>
-<a class="sourceLine" id="cb2-3" title="3"><span class="co"># 安装方法2:(从pypi源下载最新版本)</span></a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="ex">pip</span> install --upgrade basetrainer -i https://pypi.org/simple</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># 安装方法1:(有延时，可能不是最新版本)</span>
+<span class="ex">pip</span> install basetrainer 
+<span class="co"># 安装方法2:(从pypi源下载最新版本)</span>
+<span class="ex">pip</span> install --upgrade basetrainer -i https://pypi.org/simple</code></pre></div>
 <ul>
 <li>使用<a href="https://github.com/microsoft/nni">NNI</a> 模型剪枝工具，需要安装<a href="https://github.com/microsoft/nni">NNI</a></li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" title="1"><span class="co"># Linux or macOS</span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="ex">python3</span> -m pip install --upgrade nni</a>
-<a class="sourceLine" id="cb3-3" title="3"><span class="co"># Windows</span></a>
-<a class="sourceLine" id="cb3-4" title="4"><span class="ex">python</span> -m pip install --upgrade nni</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># Linux or macOS</span>
+<span class="ex">python3</span> -m pip install --upgrade nni
+<span class="co"># Windows</span>
+<span class="ex">python</span> -m pip install --upgrade nni</code></pre></div>
 <h2 id="训练框架">3.训练框架</h2>
 <p>PBT基础训练库定义了一个基类(<a href="basetrainer/engine/base.py">Base</a>),所有训练引擎(Engine)以及回调函数(Callback)都会继承基类。</p>
 <p><img src="docs/source/basetrainer.png" width="800" ></p>
 <h4 id="训练引擎engine">(1)训练引擎(Engine)</h4>
 <p><code>Engine</code>类实现了训练/测试的迭代方法(如on_batch_begin,on_batch_end),其迭代过程参考如下, 用户可以根据自己的需要自定义迭代过程：</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb4-1" title="1"><span class="va">self</span>.on_train_begin()</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):</a>
-<a class="sourceLine" id="cb4-3" title="3">    <span class="va">self</span>.set_model()  <span class="co"># 设置模型</span></a>
-<a class="sourceLine" id="cb4-4" title="4">    <span class="co"># 开始训练</span></a>
-<a class="sourceLine" id="cb4-5" title="5">    <span class="va">self</span>.on_epoch_begin()  <span class="co"># 开始每个epoch调用</span></a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.train_dataset:</a>
-<a class="sourceLine" id="cb4-7" title="7">        <span class="va">self</span>.on_batch_begin()  <span class="co"># 每次迭代开始时回调</span></a>
-<a class="sourceLine" id="cb4-8" title="8">        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span></a>
-<a class="sourceLine" id="cb4-9" title="9">        <span class="va">self</span>.on_train_summary()  <span class="co"># 每次迭代，训练结束时回调</span></a>
-<a class="sourceLine" id="cb4-10" title="10">        <span class="va">self</span>.on_batch_end()  <span class="co"># 每次迭代结束时回调</span></a>
-<a class="sourceLine" id="cb4-11" title="11">    <span class="co"># 开始测试</span></a>
-<a class="sourceLine" id="cb4-12" title="12">    <span class="va">self</span>.on_test_begin()</a>
-<a class="sourceLine" id="cb4-13" title="13">    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.test_dataset:</a>
-<a class="sourceLine" id="cb4-14" title="14">        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span></a>
-<a class="sourceLine" id="cb4-15" title="15">        <span class="va">self</span>.on_test_summary()  <span class="co"># 每次迭代，测试结束时回调</span></a>
-<a class="sourceLine" id="cb4-16" title="16">    <span class="va">self</span>.on_test_end()  <span class="co"># 结束测试</span></a>
-<a class="sourceLine" id="cb4-17" title="17">    <span class="co"># 结束当前epoch</span></a>
-<a class="sourceLine" id="cb4-18" title="18">    <span class="va">self</span>.on_epoch_end()</a>
-<a class="sourceLine" id="cb4-19" title="19"><span class="va">self</span>.on_train_end()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="va">self</span>.on_train_begin()
+<span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(num_epochs):
+    <span class="va">self</span>.set_model()  <span class="co"># 设置模型</span>
+    <span class="co"># 开始训练</span>
+    <span class="va">self</span>.on_epoch_begin()  <span class="co"># 开始每个epoch调用</span>
+    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.train_dataset:
+        <span class="va">self</span>.on_batch_begin()  <span class="co"># 每次迭代开始时回调</span>
+        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span>
+        <span class="va">self</span>.on_train_summary()  <span class="co"># 每次迭代，训练结束时回调</span>
+        <span class="va">self</span>.on_batch_end()  <span class="co"># 每次迭代结束时回调</span>
+    <span class="co"># 开始测试</span>
+    <span class="va">self</span>.on_test_begin()
+    <span class="cf">for</span> inputs <span class="kw">in</span> <span class="va">self</span>.test_dataset:
+        <span class="va">self</span>.run_step()  <span class="co"># 每次迭代返回outputs, losses</span>
+        <span class="va">self</span>.on_test_summary()  <span class="co"># 每次迭代，测试结束时回调</span>
+    <span class="va">self</span>.on_test_end()  <span class="co"># 结束测试</span>
+    <span class="co"># 结束当前epoch</span>
+    <span class="va">self</span>.on_epoch_end()
+<span class="va">self</span>.on_train_end()</code></pre></div>
 <p><code>EngineTrainer</code>类继承<code>Engine</code>类,用户需要继承该类,并实现相关接口:</p>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">接口</th>
-<th style="text-align: left;">说明</th>
+<th align="left">接口</th>
+<th align="left">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">build_train_loader</td>
-<td style="text-align: left;">定义训练数据</td>
+<td align="left">build_train_loader</td>
+<td align="left">定义训练数据</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">build_test_loader</td>
-<td style="text-align: left;">定义测试数据</td>
+<td align="left">build_test_loader</td>
+<td align="left">定义测试数据</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">build_model</td>
-<td style="text-align: left;">定义模型</td>
+<td align="left">build_model</td>
+<td align="left">定义模型</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">build_optimizer</td>
-<td style="text-align: left;">定义优化器</td>
+<td align="left">build_optimizer</td>
+<td align="left">定义优化器</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">build_criterion</td>
-<td style="text-align: left;">定义损失函数</td>
+<td align="left">build_criterion</td>
+<td align="left">定义损失函数</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">build_callbacks</td>
-<td style="text-align: left;">定义回调函数</td>
+<td align="left">build_callbacks</td>
+<td align="left">定义回调函数</td>
 </tr>
 </tbody>
 </table>
@@ -156,18 +156,18 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">类方法</th>
-<th style="text-align: left;">说明</th>
+<th align="left">类方法</th>
+<th align="left">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">build_dataloader</td>
-<td style="text-align: left;">用于构建加载方式,参数distributed设置是否使用分布式加载数据</td>
+<td align="left">build_dataloader</td>
+<td align="left">用于构建加载方式,参数distributed设置是否使用分布式加载数据</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">build_model_parallel</td>
-<td style="text-align: left;">用于构建模型,参数distributed设置是否使用分布式训练模型</td>
+<td align="left">build_model_parallel</td>
+<td align="left">用于构建模型,参数distributed设置是否使用分布式训练模型</td>
 </tr>
 </tbody>
 </table>
@@ -176,34 +176,34 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">回调函数</th>
-<th style="text-align: left;">说明</th>
+<th align="left">回调函数</th>
+<th align="left">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><a href="basetrainer/callbacks/log_history.py">LogHistory</a></td>
-<td style="text-align: left;">Log历史记录回调函数,可使用Tensorboard可视化</td>
+<td align="left"><a href="basetrainer/callbacks/log_history.py">LogHistory</a></td>
+<td align="left">Log历史记录回调函数,可使用Tensorboard可视化</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="basetrainer/callbacks/model_checkpoint.py">ModelCheckpoint</a></td>
-<td style="text-align: left;">保存模型回调函数,可选择最优模型保存</td>
+<td align="left"><a href="basetrainer/callbacks/model_checkpoint.py">ModelCheckpoint</a></td>
+<td align="left">保存模型回调函数,可选择最优模型保存</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="basetrainer/callbacks/losses_recorder.py">LossesRecorder</a></td>
-<td style="text-align: left;">单个Loss历史记录回调函数,可计算每个epoch的平均值</td>
+<td align="left"><a href="basetrainer/callbacks/losses_recorder.py">LossesRecorder</a></td>
+<td align="left">单个Loss历史记录回调函数,可计算每个epoch的平均值</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="basetrainer/callbacks/multi_losses_recorder.py">MultiLossesRecorder</a></td>
-<td style="text-align: left;">用于多任务Loss的历史记录回调函数</td>
+<td align="left"><a href="basetrainer/callbacks/multi_losses_recorder.py">MultiLossesRecorder</a></td>
+<td align="left">用于多任务Loss的历史记录回调函数</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><a href="basetrainer/metric/accuracy_recorder.py">AccuracyRecorder</a></td>
-<td style="text-align: left;">用于计算分类Accuracy回调函数</td>
+<td align="left"><a href="basetrainer/metric/accuracy_recorder.py">AccuracyRecorder</a></td>
+<td align="left">用于计算分类Accuracy回调函数</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><a href="basetrainer/scheduler/build_scheduler.py">get_scheduler</a></td>
-<td style="text-align: left;">各种学习率调整策略(MultiStepLR,CosineAnnealingLR,ExponentialLR)的回调函数</td>
+<td align="left"><a href="basetrainer/scheduler/build_scheduler.py">get_scheduler</a></td>
+<td align="left">各种学习率调整策略(MultiStepLR,CosineAnnealingLR,ExponentialLR)的回调函数</td>
 </tr>
 </tbody>
 </table>
@@ -213,72 +213,72 @@
 <li>step1: 新建一个类<code>ClassificationTrainer</code>，继承<code>trainer.EngineTrainer</code></li>
 <li>step2: 实现接口</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" title="1"></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">def</span> build_train_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-3" title="3">    <span class="co">&quot;&quot;&quot;定义训练数据&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-4" title="4">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_train_loader not implemented!&quot;</span>)</a>
-<a class="sourceLine" id="cb5-5" title="5">in_file, <span class="st">&#39;rst&#39;</span>, <span class="bu">format</span><span class="op">=</span><span class="st">&#39;md&#39;</span>, outputfile<span class="op">=</span><span class="st">&quot;README.rst&quot;</span>, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>)</a>
-<a class="sourceLine" id="cb5-6" title="6"></a>
-<a class="sourceLine" id="cb5-7" title="7"><span class="kw">def</span> build_test_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-8" title="8">    <span class="co">&quot;&quot;&quot;定义测试数据&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-9" title="9">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_test_loader not implemented!&quot;</span>)</a>
-<a class="sourceLine" id="cb5-10" title="10"></a>
-<a class="sourceLine" id="cb5-11" title="11"></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="kw">def</span> build_model(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-13" title="13">    <span class="co">&quot;&quot;&quot;定于训练模型&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-14" title="14">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_model not implemented!&quot;</span>)</a>
-<a class="sourceLine" id="cb5-15" title="15"></a>
-<a class="sourceLine" id="cb5-16" title="16"></a>
-<a class="sourceLine" id="cb5-17" title="17"><span class="kw">def</span> build_optimizer(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-18" title="18">    <span class="co">&quot;&quot;&quot;定义优化器&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-19" title="19">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_optimizer not implemented!&quot;</span>)</a>
-<a class="sourceLine" id="cb5-20" title="20"></a>
-<a class="sourceLine" id="cb5-21" title="21"></a>
-<a class="sourceLine" id="cb5-22" title="22"><span class="kw">def</span> build_criterion(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-23" title="23">    <span class="co">&quot;&quot;&quot;定义损失函数&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-24" title="24">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_criterion not implemented!&quot;</span>)</a>
-<a class="sourceLine" id="cb5-25" title="25"></a>
-<a class="sourceLine" id="cb5-26" title="26"></a>
-<a class="sourceLine" id="cb5-27" title="27"><span class="kw">def</span> build_callbacks(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):</a>
-<a class="sourceLine" id="cb5-28" title="28">    <span class="co">&quot;&quot;&quot;定义回调函数&quot;&quot;&quot;</span></a>
-<a class="sourceLine" id="cb5-29" title="29">    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_callbacks not implemented!&quot;</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
+<span class="kw">def</span> build_train_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义训练数据&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_train_loader not implemented!&quot;</span>)
+in_file, <span class="st">&#39;rst&#39;</span>, <span class="bu">format</span><span class="op">=</span><span class="st">&#39;md&#39;</span>, outputfile<span class="op">=</span><span class="st">&quot;README.rst&quot;</span>, encoding<span class="op">=</span><span class="st">&#39;utf-8&#39;</span>)
+
+<span class="kw">def</span> build_test_loader(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义测试数据&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_test_loader not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_model(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定于训练模型&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_model not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_optimizer(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义优化器&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_optimizer not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_criterion(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义损失函数&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_criterion not implemented!&quot;</span>)
+
+
+<span class="kw">def</span> build_callbacks(<span class="va">self</span>, cfg, <span class="op">**</span>kwargs):
+    <span class="co">&quot;&quot;&quot;定义回调函数&quot;&quot;&quot;</span>
+    <span class="cf">raise</span> <span class="pp">NotImplementedError</span>(<span class="st">&quot;build_callbacks not implemented!&quot;</span>)</code></pre></div>
 <ul>
 <li>step3: 在初始化中调用<code>build</code></li>
 </ul>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb6-1" title="1"></a>
-<a class="sourceLine" id="cb6-2" title="2"><span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg):</a>
-<a class="sourceLine" id="cb6-3" title="3">    <span class="bu">super</span>(ClassificationTrainer, <span class="va">self</span>).<span class="fu">__init__</span>(cfg)</a>
-<a class="sourceLine" id="cb6-4" title="4">    ...</a>
-<a class="sourceLine" id="cb6-5" title="5">    <span class="va">self</span>.build(cfg)</a>
-<a class="sourceLine" id="cb6-6" title="6">    ...</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">
+<span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, cfg):
+    <span class="bu">super</span>(ClassificationTrainer, <span class="va">self</span>).<span class="fu">__init__</span>(cfg)
+    ...
+    <span class="va">self</span>.build(cfg)
+    ...</code></pre></div>
 <ul>
 <li>step4: 实例化<code>ClassificationTrainer</code>,并使用<code>launch</code>启动分布式训练</li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">def</span> main(cfg):</a>
-<a class="sourceLine" id="cb7-2" title="2">    t <span class="op">=</span> ClassificationTrainer(cfg)</a>
-<a class="sourceLine" id="cb7-3" title="3">    <span class="cf">return</span> t.run()</a>
-<a class="sourceLine" id="cb7-4" title="4"></a>
-<a class="sourceLine" id="cb7-5" title="5"></a>
-<a class="sourceLine" id="cb7-6" title="6"><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</a>
-<a class="sourceLine" id="cb7-7" title="7">    parser <span class="op">=</span> get_parser()</a>
-<a class="sourceLine" id="cb7-8" title="8">    args <span class="op">=</span> parser.parse_args()</a>
-<a class="sourceLine" id="cb7-9" title="9">    cfg <span class="op">=</span> setup_config.parser_config(args)</a>
-<a class="sourceLine" id="cb7-10" title="10">    launch(main,</a>
-<a class="sourceLine" id="cb7-11" title="11">           num_gpus_per_machine<span class="op">=</span><span class="bu">len</span>(cfg.gpu_id),</a>
-<a class="sourceLine" id="cb7-12" title="12">           dist_url<span class="op">=</span><span class="st">&quot;tcp://127.0.0.1:28661&quot;</span>,</a>
-<a class="sourceLine" id="cb7-13" title="13">           num_machines<span class="op">=</span><span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb7-14" title="14">           machine_rank<span class="op">=</span><span class="dv">0</span>,</a>
-<a class="sourceLine" id="cb7-15" title="15">           distributed<span class="op">=</span>cfg.distributed,</a>
-<a class="sourceLine" id="cb7-16" title="16">           args<span class="op">=</span>(cfg,))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> main(cfg):
+    t <span class="op">=</span> ClassificationTrainer(cfg)
+    <span class="cf">return</span> t.run()
+
+
+<span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:
+    parser <span class="op">=</span> get_parser()
+    args <span class="op">=</span> parser.parse_args()
+    cfg <span class="op">=</span> setup_config.parser_config(args)
+    launch(main,
+           num_gpus_per_machine<span class="op">=</span><span class="bu">len</span>(cfg.gpu_id),
+           dist_url<span class="op">=</span><span class="st">&quot;tcp://127.0.0.1:28661&quot;</span>,
+           num_machines<span class="op">=</span><span class="dv">1</span>,
+           machine_rank<span class="op">=</span><span class="dv">0</span>,
+           distributed<span class="op">=</span>cfg.distributed,
+           args<span class="op">=</span>(cfg,))</code></pre></div>
 <h2 id="example">5.Example</h2>
 <ul>
 <li><code>basetrainer</code>使用方法可以参考<a href="./example.py">example.py</a></li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" title="1"><span class="co"># 单进程多卡训练</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="ex">python</span> example.py --gpu_id 0 1 <span class="co"># 使用命令行参数</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="ex">python</span> example.py --config_file configs/config.yaml <span class="co"># 使用yaml配置文件</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="co"># 多进程多卡训练(分布式训练)</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="ex">python</span> example.py --config_file configs/config.yaml --distributed <span class="co"># 使用yaml配置文件</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co"># 单进程多卡训练</span>
+<span class="ex">python</span> example.py --gpu_id 0 1 <span class="co"># 使用命令行参数</span>
+<span class="ex">python</span> example.py --config_file configs/config.yaml <span class="co"># 使用yaml配置文件</span>
+<span class="co"># 多进程多卡训练(分布式训练)</span>
+<span class="ex">python</span> example.py --config_file configs/config.yaml --distributed <span class="co"># 使用yaml配置文件</span></code></pre></div>
 <ul>
 <li>目标支持的backbone有：resnet[18,34,50,101], ,mobilenet_v2等，详见<a href="basetrainer/models/build_models.py">backbone</a>等 ，其他backbone可以自定义添加</li>
 <li>训练参数可以通过两种方法指定: (1) 通过argparse命令行指定 (2)通过<a href="configs/config.yaml">config.yaml</a>配置文件，当存在同名参数时，以配置文件为默认值</li>
@@ -286,144 +286,144 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;"><strong>参数</strong></th>
-<th style="text-align: left;"><strong>类型</strong></th>
-<th style="text-align: left;"><strong>参考值</strong></th>
-<th style="text-align: left;"><strong>说明</strong></th>
+<th align="left"><strong>参数</strong></th>
+<th align="left"><strong>类型</strong></th>
+<th align="left"><strong>参考值</strong></th>
+<th align="left"><strong>说明</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">train_data</td>
-<td style="text-align: left;">str, list</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">训练数据文件，可支持多个文件</td>
+<td align="left">train_data</td>
+<td align="left">str, list</td>
+<td align="left">-</td>
+<td align="left">训练数据文件，可支持多个文件</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">test_data</td>
-<td style="text-align: left;">str, list</td>
-<td style="text-align: left;">-</td>
-<td style="text-align: left;">测试数据文件，可支持多个文件</td>
+<td align="left">test_data</td>
+<td align="left">str, list</td>
+<td align="left">-</td>
+<td align="left">测试数据文件，可支持多个文件</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">work_dir</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">work_space</td>
-<td style="text-align: left;">训练输出工作空间</td>
+<td align="left">work_dir</td>
+<td align="left">str</td>
+<td align="left">work_space</td>
+<td align="left">训练输出工作空间</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">net_type</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">resnet18</td>
-<td style="text-align: left;">backbone类型,{resnet,resnest,mobilenet_v2,…}</td>
+<td align="left">net_type</td>
+<td align="left">str</td>
+<td align="left">resnet18</td>
+<td align="left">backbone类型,{resnet,resnest,mobilenet_v2,...}</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">input_size</td>
-<td style="text-align: left;">list</td>
-<td style="text-align: left;">[128,128]</td>
-<td style="text-align: left;">模型输入大小[W,H]</td>
+<td align="left">input_size</td>
+<td align="left">list</td>
+<td align="left">[128,128]</td>
+<td align="left">模型输入大小[W,H]</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">batch_size</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">32</td>
-<td style="text-align: left;">batch size</td>
+<td align="left">batch_size</td>
+<td align="left">int</td>
+<td align="left">32</td>
+<td align="left">batch size</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">lr</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">0.1</td>
-<td style="text-align: left;">初始学习率大小</td>
+<td align="left">lr</td>
+<td align="left">float</td>
+<td align="left">0.1</td>
+<td align="left">初始学习率大小</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">optim_type</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">SGD</td>
-<td style="text-align: left;">优化器，{SGD,Adam}</td>
+<td align="left">optim_type</td>
+<td align="left">str</td>
+<td align="left">SGD</td>
+<td align="left">优化器，{SGD,Adam}</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">loss_type</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">CELoss</td>
-<td style="text-align: left;">损失函数</td>
+<td align="left">loss_type</td>
+<td align="left">str</td>
+<td align="left">CELoss</td>
+<td align="left">损失函数</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">scheduler</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">multi-step</td>
-<td style="text-align: left;">学习率调整策略，{multi-step,cosine}</td>
+<td align="left">scheduler</td>
+<td align="left">str</td>
+<td align="left">multi-step</td>
+<td align="left">学习率调整策略，{multi-step,cosine}</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">milestones</td>
-<td style="text-align: left;">list</td>
-<td style="text-align: left;">[30,80,100]</td>
-<td style="text-align: left;">降低学习率的节点，仅仅scheduler=multi-step有效</td>
+<td align="left">milestones</td>
+<td align="left">list</td>
+<td align="left">[30,80,100]</td>
+<td align="left">降低学习率的节点，仅仅scheduler=multi-step有效</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">momentum</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">0.9</td>
-<td style="text-align: left;">SGD动量因子</td>
+<td align="left">momentum</td>
+<td align="left">float</td>
+<td align="left">0.9</td>
+<td align="left">SGD动量因子</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">num_epochs</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">120</td>
-<td style="text-align: left;">循环训练的次数</td>
+<td align="left">num_epochs</td>
+<td align="left">int</td>
+<td align="left">120</td>
+<td align="left">循环训练的次数</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">num_warn_up</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">3</td>
-<td style="text-align: left;">warn_up的次数</td>
+<td align="left">num_warn_up</td>
+<td align="left">int</td>
+<td align="left">3</td>
+<td align="left">warn_up的次数</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">num_workers</td>
-<td style="text-align: left;">int</td>
-<td style="text-align: left;">12</td>
-<td style="text-align: left;">DataLoader开启线程数</td>
+<td align="left">num_workers</td>
+<td align="left">int</td>
+<td align="left">12</td>
+<td align="left">DataLoader开启线程数</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">weight_decay</td>
-<td style="text-align: left;">float</td>
-<td style="text-align: left;">5e-4</td>
-<td style="text-align: left;">权重衰减系数</td>
+<td align="left">weight_decay</td>
+<td align="left">float</td>
+<td align="left">5e-4</td>
+<td align="left">权重衰减系数</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">gpu_id</td>
-<td style="text-align: left;">list</td>
-<td style="text-align: left;">[ 0 ]</td>
-<td style="text-align: left;">指定训练的GPU卡号，可指定多个</td>
+<td align="left">gpu_id</td>
+<td align="left">list</td>
+<td align="left">[ 0 ]</td>
+<td align="left">指定训练的GPU卡号，可指定多个</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">log_freq</td>
-<td style="text-align: left;">in</td>
-<td style="text-align: left;">20</td>
-<td style="text-align: left;">显示LOG信息的频率</td>
+<td align="left">log_freq</td>
+<td align="left">in</td>
+<td align="left">20</td>
+<td align="left">显示LOG信息的频率</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">finetune</td>
-<td style="text-align: left;">str</td>
-<td style="text-align: left;">model.pth</td>
-<td style="text-align: left;">finetune的模型</td>
+<td align="left">finetune</td>
+<td align="left">str</td>
+<td align="left">model.pth</td>
+<td align="left">finetune的模型</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">use_prune</td>
-<td style="text-align: left;">bool</td>
-<td style="text-align: left;">True</td>
-<td style="text-align: left;">是否进行模型剪枝</td>
+<td align="left">use_prune</td>
+<td align="left">bool</td>
+<td align="left">True</td>
+<td align="left">是否进行模型剪枝</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">progress</td>
-<td style="text-align: left;">bool</td>
-<td style="text-align: left;">True</td>
-<td style="text-align: left;">是否显示进度条</td>
+<td align="left">progress</td>
+<td align="left">bool</td>
+<td align="left">True</td>
+<td align="left">是否显示进度条</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">distributed</td>
-<td style="text-align: left;">bool</td>
-<td style="text-align: left;">False</td>
-<td style="text-align: left;">是否使用分布式训练</td>
+<td align="left">distributed</td>
+<td align="left">bool</td>
+<td align="left">False</td>
+<td align="left">是否使用分布式训练</td>
 </tr>
 </tbody>
 </table>
@@ -433,52 +433,52 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;"><strong>scheduler</strong></th>
-<th style="text-align: left;"><strong>说明</strong></th>
-<th style="text-align: left;"><strong>lr-epoch曲线图</strong></th>
+<th align="left"><strong>scheduler</strong></th>
+<th align="left"><strong>说明</strong></th>
+<th align="left"><strong>lr-epoch曲线图</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">multi_step</td>
-<td style="text-align: left;">阶梯学习率调整策略</td>
-<td style="text-align: left;"><img src="docs/assets/scheduler-multi-step.png" width=256 height=256 /></td>
+<td align="left">multi_step</td>
+<td align="left">阶梯学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-multi-step.png" width=256 height=256 /></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">cosine</td>
-<td style="text-align: left;">余弦退火学习率调整策略</td>
-<td style="text-align: left;"><img src="docs/assets/scheduler-cosineLR.png" width=256 height=256 /></td>
+<td align="left">cosine</td>
+<td align="left">余弦退火学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-cosineLR.png" width=256 height=256 /></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">ExpLR</td>
-<td style="text-align: left;">指数衰减学习率调整策略</td>
-<td style="text-align: left;"><img src="docs/assets/scheduler-ExpLR.png" width=256 height=256 /></td>
+<td align="left">ExpLR</td>
+<td align="left">指数衰减学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-ExpLR.png" width=256 height=256 /></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">LambdaLR</td>
-<td style="text-align: left;">Lambda学习率调整策略</td>
-<td style="text-align: left;"><img src="docs/assets/scheduler-LambdaLR.png" width=256 height=256 /></td>
+<td align="left">LambdaLR</td>
+<td align="left">Lambda学习率调整策略</td>
+<td align="left"><img src="docs/assets/scheduler-LambdaLR.png" width=256 height=256 /></td>
 </tr>
 </tbody>
 </table>
 <h2 id="可视化">6.可视化</h2>
 <p>目前训练过程可视化工具是使用Tensorboard，使用方法：</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" title="1"><span class="ex">tensorboard</span> --logdir=path/to/log/</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">tensorboard</span> --logdir=path/to/log/</code></pre></div>
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;"><img src="docs/assets/lr-epoch.png" width=340 height=245 /></th>
-<th style="text-align: left;"><img src="docs/assets/step.png" width=340 height=245/></th>
+<th align="left"><img src="docs/assets/lr-epoch.png" width=340 height=245 /></th>
+<th align="left"><img src="docs/assets/step.png" width=340 height=245/></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><img src="docs/assets/train-acc.png" width=340 height=245/></td>
-<td style="text-align: left;"><img src="docs/assets/test-acc.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/train-acc.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/test-acc.png" width=340 height=245/></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><img src="docs/assets/train-loss.png" width=340 height=245/></td>
-<td style="text-align: left;"><img src="docs/assets/test-loss.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/train-loss.png" width=340 height=245/></td>
+<td align="left"><img src="docs/assets/test-loss.png" width=340 height=245/></td>
 </tr>
 </tbody>
 </table>
@@ -486,14 +486,14 @@
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;">作者</th>
-<th style="text-align: left;">PKing</th>
+<th align="left">作者</th>
+<th align="left">PKing</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">联系方式</td>
-<td style="text-align: left;">pan_jinquan@163.com</td>
+<td align="left">联系方式</td>
+<td align="left">pan_jinquan@163.com</td>
 </tr>
 </tbody>
 </table>
