@@ -49,7 +49,7 @@ def readme2rst(in_file='README.md'):
     """
     # 修复中文乱码问题： <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     pypandoc.convert_file(in_file, 'html', format='md', outputfile="README.html", encoding='utf-8')
-    # pypandoc.convert_file(in_file, 'rst', format='md', outputfile="README.rst", encoding='utf-8')
+    pypandoc.convert_file(in_file, 'rst', format='md', outputfile="README.rst", encoding='utf-8')
 
 
 readme2rst()
