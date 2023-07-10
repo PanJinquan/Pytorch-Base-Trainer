@@ -22,7 +22,7 @@ TRT_LOGGER = trt.Logger(trt.Logger.ERROR)  # TRT_LOGGER = trt.Logger(trt.Logger.
 class TRTEngine(object):
     """TensorRT引擎"""
 
-    def __init__(self, model_file, input_shape):
+    def __init__(self, model_file: str, input_shape: tuple):
         """
         https://www.jianshu.com/p/36ff0e224112
         :param model_file: 模型文件，可以是*.trt或者*.onnx文件
@@ -62,6 +62,7 @@ class TRTEngine(object):
         print("\tOutput names     : {}".format(self.output_names))
         print("\tOutput Bindings for Profile {}: {}\n".format(self.context.active_optimization_profile,
                                                               self.output_binding_idxs), flush=True)
+        print("\tTRT model loaded successfully:{}".format(model_file.replace(".onnx", ".trt")))
 
     @staticmethod
     def build_engine_onnx(model_file: str, input_shape, fp16=True):
