@@ -3,7 +3,9 @@
     @Author : PKing
     @E-mail : 390737991@qq.com
     @Date   : 2022-12-23 14:45:13
-    @Brief  :
+    @Brief  :常见问题：
+    (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理
+    (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
 """
 import os
 import cv2
