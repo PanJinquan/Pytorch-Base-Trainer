@@ -6,7 +6,7 @@ import easydict
 import yaml
 import copy
 import json
-from . import file_utils
+from pybaseutils import file_utils
 
 
 def parser_work_space(work_dir, flags: list = [], time=True):

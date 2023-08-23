@@ -10,7 +10,8 @@ import pypandoc
 from setuptools import setup, find_packages
 
 root = os.path.dirname(__file__)
-long_description = pypandoc.convert_file(source_file='README.md', to='rst')
+# long_description = pypandoc.convert_file(source_file='README.md', to='rst')
+long_description =""
 setup(name='basetrainer',
       version=basetrainer.__version__,
       description='basetrainer',
@@ -52,4 +53,4 @@ def readme2rst(in_file='README.md'):
     pypandoc.convert_file(in_file, 'rst', format='md', outputfile="README.rst", encoding='utf-8')
 
 
-readme2rst()
+# readme2rst()

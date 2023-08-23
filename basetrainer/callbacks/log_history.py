@@ -7,7 +7,9 @@
 import os
 from ..callbacks.callbacks import Callback
 from ..utils import summary
-from ..utils import log, file_utils
+from ..utils import log
+from pybaseutils import file_utils
+
 
 
 class LogHistory(Callback):

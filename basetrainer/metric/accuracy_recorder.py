@@ -11,7 +11,9 @@ from sklearn.metrics import accuracy_score
 from .eval_tools.metrics import AverageMeter, accuracy
 from ..callbacks import callbacks
 from .eval_tools import classification_report
-from ..utils import log, file_utils
+from ..utils import log
+from pybaseutils import file_utils
+
 
 
 class AccuracyRecorder(callbacks.Callback):
