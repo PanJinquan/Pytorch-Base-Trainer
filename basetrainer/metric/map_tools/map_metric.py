@@ -33,10 +33,10 @@ class MapMetric(object):
                gt_info={"class_name1":
                                     {"file-name1":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
                                     {"file-name2":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}，
-                            "class_name2":
+                        "class_name2":
                                     {"file-name1":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
                                     {"file-name2":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
-                            }
+                         }
         :param dt_info: detection-results，format is the same with gt_info
         :param class_name: 需要测评的类别
         :param plot: 是否显示绘图结果
