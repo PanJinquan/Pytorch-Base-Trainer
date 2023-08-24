@@ -13,11 +13,12 @@ sys.path.append(os.getcwd())
 import numpy as np
 from tqdm import tqdm
 from basetrainer.metric.map_tools.evaluator import map_eval
-from pybaseutils import file_utils, json_utils, base64_utils
+from pybaseutils import file_utils, json_utils
 
 
 class MapMetric(object):
     """
+    使用方法见evaluate_example或者evaluate_for_json
     mAP参考资料：https://github.com/Cartucho/mAP
     """
 
