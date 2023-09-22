@@ -271,8 +271,8 @@ def load_pretrained_model(model, ckpt):
     model.load_state_dict(model_dict)
     print("=" * 60)
     if len(matched_layers) == 0:
-        raise Exception('The model checkpoint cannot be loaded,'
-                        'please check the key names manually')
+        print('Warning:The model checkpoint cannot be loaded,'
+              'please check the key names manually')
     else:
         print('Successfully loaded model checkpoint')
         # [print('{}'.format(layer)) for layer in matched_layers]
@@ -396,7 +396,7 @@ def nni_summary_model(model, batch_size=1, input_size=[112, 112], plot=False, de
     :param device:
     :return:
     """
-    from nni.compression.pytorch.utils.counter import count_flops_params
+    from nni.compression.utils.counter import count_flops_params
     if len(input_size) == 2:
         shape = (batch_size, 3, input_size[1], input_size[0])
     elif len(input_size) == 4:
