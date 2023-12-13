@@ -8,11 +8,17 @@ import onnx
 
 
 class ONNXEngine():
-    def __init__(self, onnx_path):
+    def __init__(self, onnx_path, use_gpu=False):
         """
         :param onnx_path:
+        :param use_gpu:
+        pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
         """
-        self.onnx_session = onnxruntime.InferenceSession(onnx_path)
+        if use_gpu:
+            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+        else:
+            providers = ['TensorrtExecutionProvider']
+        self.onnx_session = onnxruntime.InferenceSession(onnx_path, providers=providers)
         self.input_name = self.get_input_name(self.onnx_session)
         self.output_name = self.get_output_name(self.onnx_session)
         print("input_name:{}".format(self.input_name))
@@ -81,9 +87,8 @@ class ONNXEngine():
 if __name__ == "__main__":
     import numpy as np
 
-    model_file = "/home/dm/data3/release/infrastructure/DMClassification/work_space/test/mobilenet_v2_1.0_128_128_CrossEntropyLoss_SGD_20211210123127/model/best_model_052_99.4845.onnx"
-    # pmodel_file = "/home/dm/data3/release/infrastructure/DMClassification/classifier/models/models/slim_pruned.onnx"
-    prune_file = "/home/dm/data3/release/infrastructure/DMClassification/work_space/test/mobilenet_v2_1.0_128_128_CrossEntropyLoss_SGD_20211210141358/model/best_model_008_97.9381.onnx"
+    model_file = ""
+    prune_file = ""
     batch_size = 1
     num_classes = 4
     input_size = [128, 128]
