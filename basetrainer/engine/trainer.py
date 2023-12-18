@@ -4,12 +4,16 @@
     @E-mail : pan_jinquan@163.com
     @Date   : 2021-07-28 09:09:32
 """
+import torch
 import torch.nn as nn
 from torch.utils.data.dataset import Dataset
 from torch.utils.data.dataloader import DataLoader
 from ..utils import torch_data, torch_tools
 from ..engine import engine
 from ..engine import comm
+
+print("torch version:{}".format(torch.__version__))
+torch.multiprocessing.set_sharing_strategy('file_system')
 
 
 class EngineTrainer(engine.Engine):

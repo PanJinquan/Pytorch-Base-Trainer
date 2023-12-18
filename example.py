@@ -23,7 +23,7 @@ from basetrainer.utils import log, setup_config, torch_tools
 from basetrainer.models import build_models
 from pybaseutils import file_utils
 
-print(basetrainer.__version__)
+print("basetrainer version:{}".format(basetrainer.__version__))
 
 
 class ClassificationTrainer(trainer.EngineTrainer):
@@ -211,4 +211,3 @@ if __name__ == "__main__":
            machine_rank=0,
            distributed=cfg.distributed,
            args=(cfg,))
-
