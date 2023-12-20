@@ -21,7 +21,7 @@ class CosineAnnealingLR(Callback):
                  num_steps,
                  num_cycles=3,
                  lr_init=0.1,
-                 decay=0.2,
+                 decay=0.5,
                  num_warn_up=0,
                  ):
         """
@@ -48,7 +48,7 @@ class CosineAnnealingLR(Callback):
         self.lr_init = lr_init
         self.optimizer = optimizer
         t_max = epochs * 1.0 / (2 * self.num_cycles - 1)  # 一次学习率周期的迭代次数，即 T_max 个 epoch 之后重新设置学习率。
-        eta_min = 0.000001  # 最小学习率，即在一个周期中，学习率最小会下降到 eta_min，默认值为 0
+        eta_min = 0.00001  # 最小学习率，即在一个周期中，学习率最小会下降到 eta_min，默认值为 0
         self.scheduler = lr_scheduler.CosineAnnealingLR(optimizer, t_max, eta_min=eta_min, last_epoch=-1)
         self.warm_up = WarmUpLR(optimizer,
                                 num_steps=self.num_steps,

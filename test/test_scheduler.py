@@ -14,8 +14,9 @@ from basetrainer.utils import plot_utils
 
 
 def test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up):
-    scheduler = "ExpLR"  # cosine,multi-step
+    # scheduler = "ExpLR"  # cosine,multi-step
     # scheduler = "LambdaLR"  # cosine,multi-step
+    scheduler = "cosine"  # cosine,multi-step
     lr_scheduler = build_scheduler.get_scheduler(scheduler,
                                                  optimizer=optimizer,
                                                  lr_init=lr_init,
@@ -57,11 +58,12 @@ def test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, 
 
 
 if __name__ == "__main__":
-    num_epochs = 150
-    num_warn_up = 5
-    lr_init = 0.1
+    num_epochs = 200
+    num_warn_up = 3
+    lr_init = 0.01
     num_steps = 10
-    milestones = [50, 100, 120]
+    milestones = []
+    # milestones = [50, 100, 120]
     model = models.resnet18(pretrained=False)
     optimizer = optim.SGD(model.parameters(), lr=lr_init)
     test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up)
