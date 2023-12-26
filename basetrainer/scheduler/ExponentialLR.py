@@ -20,7 +20,7 @@ class ExponentialLR(Callback):
                  num_steps,
                  lr_init=0.01,
                  num_warn_up=0,
-                 decay=0.9):
+                 decay=0.90):
         """
         指数衰减学习率
         :param optimizer:
@@ -47,7 +47,7 @@ class ExponentialLR(Callback):
     def get_lr(self, epoch):
         # lr = self.optimizer.param_groups[0]["lr"]
         # lr = self.lr_init * self.gamma ** epoch
-        lr = self.lr_init * self.decay ** (70 * epoch / self.epochs)
+        lr = self.lr_init * self.decay ** (50 * epoch / self.epochs)
         return lr
 
     def set_lr(self, lr):
