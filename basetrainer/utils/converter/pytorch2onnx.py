@@ -12,7 +12,7 @@ import onnx
 
 
 def convert2onnx(model, input_shape, input_names=['input'], output_names=['output'],
-                 onnx_file="", dynamic=False, simplify=True, opset_version=9,
+                 onnx_file="", dynamic=False, simplify=True, opset_version=11,
                  use_prune=False, sparsity=0.2, device="cuda:0"):
     """
     :param model: Pytorch 模型
@@ -22,7 +22,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     :param onnx_file: 输出ONNX模型文件
     :param dynamic:
     :param simplify: 是否对ONNX进行simplify
-    :param opset_version: ONNX版本
+    :param opset_version: ONNX版本，9，11,建议使用11，版本9可能有异常
     :param use_prune: 是否对模型进行剪枝
     :param sparsity: 对模型进行剪枝的稀疏度
     :param device: 运行设备
