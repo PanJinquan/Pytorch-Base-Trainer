@@ -235,17 +235,12 @@ class SimpleModel(nn.Module):
 
 if __name__ == "__main__":
     from torchvision.models.resnet import resnet50, resnet18
-    from torchvision.models.squeezenet import SqueezeNet
-    from torchvision.models.mobilenet import MobileNetV2
-    from segment.models import build_model
-    from libs.performance import performance
 
     device = "cuda:0"
     batch_size = 2
     width_mult = 1.0
     num_classes = 20
     input_size = [1, 3, 224, 224]
-    net_type = 'modnet_v2'
     model = resnet18(pretrained=True)
     # model = SimpleModel()
     # model = MobileNetV2()
@@ -255,11 +250,8 @@ if __name__ == "__main__":
     model = model.to((device))
     inputs = inputs.to((device))
     out = model(inputs)
-    performance.model_performance(model, inputs)
     prune_model = copy.deepcopy(model)
     prune_model = model_pruning(prune_model, input_size=input_size, sparsity=0.9, dependency_aware=True, device=device)
-    performance.model_performance(model, inputs)
-    performance.model_performance(prune_model, inputs)
 
 
 

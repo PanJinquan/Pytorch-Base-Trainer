@@ -58,10 +58,7 @@ pip install --upgrade basetrainer -i https://pypi.org/simple
 - 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)
 
 ```bash
-# Linux or macOS
-python3 -m pip install --upgrade nni
-# Windows
-python -m pip install --upgrade nni
+pip install nni==2.0 # 更高版本会出现接口不兼容的问题
 ```
 
 ## 3.训练框架
@@ -139,7 +136,9 @@ self.on_train_end()
 def build_train_loader(self, cfg, **kwargs):
     """定义训练数据"""
     raise NotImplementedError("build_train_loader not implemented!")
-in_file, 'rst', format='md', outputfile="README.rst", encoding='utf-8')
+
+
+in_file, 'rst', format = 'md', outputfile = "README.rst", encoding = 'utf-8')
 
 def build_test_loader(self, cfg, **kwargs):
     """定义测试数据"""

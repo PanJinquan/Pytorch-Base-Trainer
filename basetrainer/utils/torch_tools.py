@@ -396,7 +396,9 @@ def nni_summary_model(model, batch_size=1, input_size=[112, 112], plot=False, de
     :param device:
     :return:
     """
-    from nni.compression.utils.counter import count_flops_params
+    # pip install nni==2.0
+    # from nni.compression.utils.counter import count_flops_params
+    from nni.compression.pytorch.utils.counter import count_flops_params
     if len(input_size) == 2:
         shape = (batch_size, 3, input_size[1], input_size[0])
     elif len(input_size) == 4:
