@@ -13,7 +13,6 @@ from ..utils import log
 from pybaseutils import file_utils
 
 
-
 class ModelCheckpoint(Callback):
     def __init__(self,
                  model: torch.nn.Module,
@@ -21,6 +20,7 @@ class ModelCheckpoint(Callback):
                  moder_dir: str,
                  epochs: int,
                  start_save: int = -1,
+                 best_save: int = -1,
                  indicator: str = "",
                  inverse: bool = False,
                  logger=None,
@@ -32,6 +32,7 @@ class ModelCheckpoint(Callback):
         :param moder_dir:保存训练模型的目录
         :param epochs: 训练的epochs数
         :param start_save: epoch >= start_save开始保存，如果为-1，则保存最后10个epoch模型
+        :param best_save: 最优模型开始保存
         :param indicator:需要关注的指标，以便保存最优模型，需要根据Metrics定义的指标对应，
                          如分类模型中indicator="acc"；如果关注losss,则indicator="loss"
                          如果不需要关注，则设置为空
@@ -45,6 +46,7 @@ class ModelCheckpoint(Callback):
         self.moder_dir = moder_dir
         self.epochs = epochs
         self.start_save = start_save if start_save else -1
+        self.best_save = best_save if best_save else -1
         file_utils.create_dir(self.moder_dir)
         self.logger = log.get_logger() if logger is None else logger
         self.main_process = True
@@ -112,6 +114,7 @@ class ModelCheckpoint(Callback):
 
     def save_best_model(self, model_root, value, epoch, inverse=False):
         """保存关注的指标(indicator)最优的模型"""
+        if epoch < self.best_save: return
         model = self.model
         optimizer = self.optimizer
         if value > self.indicator_val and inverse:
