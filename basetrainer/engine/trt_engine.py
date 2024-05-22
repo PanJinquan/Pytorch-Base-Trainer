@@ -6,11 +6,13 @@
     @Brief  :常见问题：
     (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理
     (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
+    (3) 多次`import pycuda.autoinit` 可能出现异常:Error Code 1: Cask (Cask convolution execution)
 """
 import os
 import cv2
 import numpy as np
 import pycuda.driver as cuda
+import pycuda.autoinit
 import tensorrt as trt
 import traceback
 from typing import Tuple, List
@@ -23,18 +25,20 @@ TRT_LOGGER = trt.Logger(trt.Logger.ERROR)  # TRT_LOGGER = trt.Logger(trt.Logger.
 class TRTEngine(object):
     """TensorRT引擎"""
 
-    def __init__(self, model_file: str, input_shape: tuple, quant=1):
+    def __init__(self, model_file: str, input_shape: tuple, quant=1, calibrator=None):
         """
         https://www.jianshu.com/p/36ff0e224112
         :param model_file: 模型文件，可以是*.trt或者*.onnx文件
         :param input_shape:输入维度(B, C, H, W)
-        :param quant: 0:不进行量化，1:进行半精度量化，2:进行INT8量化
+        :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
+        :param calibrator: 校准模块，INT8量化时需要
         """
         print("tensorrt:{}".format(trt.__version__))  # 8.4.1.5
         assert len(input_shape) == 4
         B, C, H, W = input_shape
         self.input_size = (W, H)
         self.batch_size = B
+        self.calibrator = calibrator
         self.input_shape = input_shape
         # Load a serialized engine into memory
         self.engine = self.load_model(model_file=model_file, input_shape=self.input_shape, quant=quant)
@@ -62,11 +66,11 @@ class TRTEngine(object):
         print("\tNumber of Outputs: {}".format(len(self.output_binding_idxs)))
         print("\tOutput names     : {}".format(self.output_names))
         print("\tOutput Bindings for Profile {}: {}\n".format(self.context.active_optimization_profile,
-                                                              self.output_binding_idxs), flush=True)
-        print("\tTRT model loaded successfully:{}".format(model_file.replace(".onnx", ".trt")))
+                                                              self.output_binding_idxs))
+        print("TRT model loaded successfully:{}".format(model_file.replace(".onnx", ".trt")))
+        print('-----------' * 5, flush=True)
 
-    @staticmethod
-    def load_model(model_file: str, input_shape, quant=1):
+    def load_model(self, model_file: str, input_shape, quant=1):
         """
         :param model_file: ONNX或TRT模型文件
         :param input_shape: 模型输入维度
@@ -89,7 +93,8 @@ class TRTEngine(object):
         if model_file.endswith(".onnx") and os.path.exists(model_file):
             trt_file = model_file.replace(".onnx", ".trt")
             print('Try to build TRT Engine from ONNX file:{}'.format(model_file))
-            engine = onnx2trt(model_file, trt_file=trt_file, input_shape=input_shape, quant=quant)
+            engine = onnx2trt(model_file, trt_file=trt_file, input_shape=input_shape,
+                              quant=quant, calibrator=self.calibrator)
             print("Completed parsing of ONNX file")
             print('Load TRT Engine successfully: {}'.format(trt_file))
         print('-----------' * 5, flush=True)
@@ -192,12 +197,13 @@ class TRTEngine(object):
         return host_outputs, device_outputs
 
 
-def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_size=8, quant=1):
+def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_size=8, quant=1, calibrator=None):
     """
     :param onnx_file: ONNX模型文件
     :param trt_file: 输出TRT模型文件，默认为onnx_file同目录
     :param input_shape: 模型输入维度
     :param quant: 0:不进行量化，1:进行半精度量化，2:进行INT8量化
+    :param calibrator: 校准模块，INT8量化时需要
     :return:
     """
 
@@ -214,9 +220,12 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
         config = builder.create_builder_config()
         config.max_workspace_size = GiB(4)
         if quant == 1:
+            # assert (builder.platform_has_fast_fp16 == True), 'not support fp16'
             config.set_flag(trt.BuilderFlag.FP16)
         elif quant == 2:
+            # assert (builder.platform_has_fast_int8 == True), 'not support int8'
             config.set_flag(trt.BuilderFlag.INT8)
+            config.int8_calibrator = calibrator
         print('Loading ONNX file from path {}...'.format(onnx_file))
         with open(onnx_file, 'rb') as model:
             print('Beginning ONNX file parsing')
@@ -225,9 +234,14 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
         print('Building an engine from file {}; this may take a while...'.format(onnx_file))
         profile = builder.create_optimization_profile()  # 动态输入时候需要 分别为最小输入、常规输入、最大输入
         # 有几个输入就要写几个profile.set_shape 名字和转onnx的时候要对应
-        # tensorrt6以后的版本是支持动态输入的，需要给每个动态输入绑定一个profile，用于指定最小值，常规值和最大值，如果超出这个范围会报异常。
-        profile.set_shape("input", (1, C, H, W), (batch_size, C, H, W), (batch_size, C, H, W))
+        # tensorrt6以后的版本是支持动态输入的，需要给每个动态输入绑定一个profile，
+        # 用于指定最小值常规值和最大值，如果超出这个范围会报异常。
+        # min=(1, C, H, W), opt=(batch_size, C, H, W),max=(batch_size, C, H, W)
+        inputs = [network.get_input(i) for i in range(network.num_inputs)]
+        for inp in inputs:
+            profile.set_shape(inp.name, (1, C, H, W), (batch_size, C, H, W), (batch_size, C, H, W))
         config.add_optimization_profile(profile)
+        config.set_calibration_profile(profile)
         engine = builder.build_engine(network, config)
     print("Completed creating Engine")
     # 保存engine文件
@@ -237,12 +251,43 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
     return engine
 
 
+def test_performance(image_dir="./test.png", itera=10000):
+    from pybaseutils import file_utils, time_utils
+    input_size = (518, 518)
+    # model_file = "./yolov5s_640_640.trt"
+    model_file = "./yolov5s_640_640_fp16.trt"
+    # model_file = "./yolov5s_640_640_int8.trt"
+    input_shape = (1, 3, input_size[1], input_size[0])  # (B,C,H,W)
+    engine = TRTEngine(model_file, input_shape=input_shape, quant=2, calibrator=None)
+    image_list = file_utils.get_files_lists(file_dir=image_dir)
+    image_list = image_list * itera
+    for i in range(itera):
+        image = cv2.imread(image_list[i])
+        image = cv2.resize(image, (input_size[1], input_size[0]))
+        image = image.transpose((2, 0, 1)).astype(np.float32) / 255.0
+        inp_tensor = np.array([image], dtype=np.float32)
+        with time_utils.Performance() as p:
+            out_tensor = engine(inp_tensor)[0]
+        print("inp_tensor:{}".format(inp_tensor.shape))
+        print("out_tensor:{}".format(out_tensor.shape))
+
+
+def test_example():
+    from basetrainer.engine.trt_calibrator import ImageDataset, Calibrator, build_transform
+    input_size = (640, 640)
+    image_dir = '/home/PKing/nasdata/tmp/tmp/face_person/VOC/VOC2012/JPEGImages'
+    dataset = ImageDataset(image_dir=image_dir, transform=build_transform, input_size=input_size)
+    calibrator = Calibrator(dataset, cache_file="./calibration.cache")
+
+    model_file = "./yolov5s_640_640.onnx"
+    input_shape = (1, 3, input_size[1], input_size[0])
+    engine = TRTEngine(model_file, input_shape=input_shape, quant=2, calibrator=calibrator)
+    inp_tensor = np.ones(shape=input_shape, dtype=np.float32)
+    out_tensor = engine(inp_tensor)[0]
+    print("inp_tensor:{}".format(inp_tensor.shape))
+    print("out_tensor:{}".format(out_tensor.shape))
+
+
 if __name__ == "__main__":
-    trt_file = ""
-    input_shape = (16, 3, 160, 160)  # (B,C,H,W)
-    trt = TRTEngine(trt_file, input_shape=input_shape)
-    image = np.ones(shape=input_shape)
-    input_tensor = np.asarray(image, dtype=np.float32)
-    outputs, = trt(input_tensor)
-    print("input_tensor:{}".format(input_tensor.shape))
-    print("output      :{}={}".format(outputs.shape, outputs))
+    test_performance()
+    # test_example()
