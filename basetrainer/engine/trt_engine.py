@@ -12,6 +12,7 @@ import cv2
 import numpy as np
 import pycuda.driver as cuda
 import tensorrt as trt
+import traceback
 from typing import Tuple, List
 
 cuda.init()
@@ -22,11 +23,12 @@ TRT_LOGGER = trt.Logger(trt.Logger.ERROR)  # TRT_LOGGER = trt.Logger(trt.Logger.
 class TRTEngine(object):
     """TensorRT引擎"""
 
-    def __init__(self, model_file: str, input_shape: tuple):
+    def __init__(self, model_file: str, input_shape: tuple, quant=1):
         """
         https://www.jianshu.com/p/36ff0e224112
         :param model_file: 模型文件，可以是*.trt或者*.onnx文件
         :param input_shape:输入维度(B, C, H, W)
+        :param quant: 0:不进行量化，1:进行半精度量化，2:进行INT8量化
         """
         print("tensorrt:{}".format(trt.__version__))  # 8.4.1.5
         assert len(input_shape) == 4
@@ -35,8 +37,7 @@ class TRTEngine(object):
         self.batch_size = B
         self.input_shape = input_shape
         # Load a serialized engine into memory
-        # self.engine = self.load_engine(model_file)  # 加载序列化的cuda引擎
-        self.engine = self.build_engine_onnx(model_file=model_file, input_shape=self.input_shape)
+        self.engine = self.load_model(model_file=model_file, input_shape=self.input_shape, quant=quant)
         # Create context, this can be re-used  创建 执行环境
         self.context = self.engine.create_execution_context()
         # Profile 0 (first profile) is used by default  context可以设置多个profile， 这里选择第一个，也是默认的profile，其中规定了输入尺寸的变化区间
@@ -65,29 +66,40 @@ class TRTEngine(object):
         print("\tTRT model loaded successfully:{}".format(model_file.replace(".onnx", ".trt")))
 
     @staticmethod
-    def build_engine_onnx(model_file: str, input_shape, fp16=True):
+    def load_model(model_file: str, input_shape, quant=1):
         """
-        :param model_file: onnx file or trt file
-        :param batch_size:
-        :param fp16_mode:
-        :param max_workspace:
+        :param model_file: ONNX或TRT模型文件
+        :param input_shape: 模型输入维度
+        :param quant: 0:不进行量化，1:进行半精度量化，2:进行INT8量化
         :return:
         """
-        if model_file.endswith("trt") and os.path.exists(model_file):
-            trt_file = model_file
-            print('Reload engine file: {}'.format(trt_file))
-            engine = TRTEngine.load_engine(trt_file)
-            return engine
-        elif model_file.endswith("onnx"):
-            onnx_file = model_file
-            trt_file = model_file[:-len("onnx")] + "trt"
-        else:
-            raise Exception("model_file:{}".format(model_file))
-        print("Completed parsing of ONNX file")
-        print("convert ONNX file to TRT Engine")
-        print("load ONNX  file:{}".format(onnx_file))
-        engine = onnx2trt(onnx_file, trt_file=trt_file, input_shape=input_shape, fp16=fp16)
+        print('-----------' * 5)
+        engine = None
+        if model_file.endswith(".trt"):
+            try:
+                print('Load TRT model file         : {}'.format(model_file))
+                engine = TRTEngine.load_engine(model_file)
+                assert engine is not None, Exception('Load TRT model failed       : {}'.format(model_file))
+                print('Load TRT Engine successfully: {}'.format(model_file))
+            except Exception as e:
+                traceback.print_exc()
+                print('Load TRT model failed       : {}'.format(model_file), flush=True)
+                model_file = model_file.replace(".trt", ".onnx")
+        # TODO 如果TRT模型加载失败，则尝试从ONNX文件编译模型
+        if model_file.endswith(".onnx") and os.path.exists(model_file):
+            trt_file = model_file.replace(".onnx", ".trt")
+            print('Try to build TRT Engine from ONNX file:{}'.format(model_file))
+            engine = onnx2trt(model_file, trt_file=trt_file, input_shape=input_shape, quant=quant)
+            print("Completed parsing of ONNX file")
+            print('Load TRT Engine successfully: {}'.format(trt_file))
+        print('-----------' * 5, flush=True)
         return engine
+
+    @staticmethod
+    def load_engine(filename: str):
+        # Load serialized engine file into memory 加载序列化的cuda引擎并进行反序列化
+        with open(filename, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
+            return runtime.deserialize_cuda_engine(f.read())
 
     def __call__(self, input_tensor):
         return self.inference(input_tensor)
@@ -130,12 +142,6 @@ class TRTEngine(object):
         for b in bindings: b.free()
         device_context.pop()
         return host_outputs
-
-    @staticmethod
-    def load_engine(filename: str):
-        # Load serialized engine file into memory 加载序列化的cuda引擎并进行反序列化
-        with open(filename, "rb") as f, trt.Runtime(TRT_LOGGER) as runtime:
-            return runtime.deserialize_cuda_engine(f.read())
 
     @staticmethod
     def get_binding_idxs(engine: trt.ICudaEngine, profile_index: int):
@@ -186,12 +192,12 @@ class TRTEngine(object):
         return host_outputs, device_outputs
 
 
-def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_size=8, fp16=True):
+def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_size=8, quant=1):
     """
     :param onnx_file: ONNX模型文件
     :param trt_file: 输出TRT模型文件，默认为onnx_file同目录
     :param input_shape: 模型输入维度
-    :param fp16: 是否进行半精度量化
+    :param quant: 0:不进行量化，1:进行半精度量化，2:进行INT8量化
     :return:
     """
 
@@ -207,8 +213,10 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
         builder.max_batch_size = max_batch_size  # trt推理时最大支持的batchsize
         config = builder.create_builder_config()
         config.max_workspace_size = GiB(4)
-        if fp16: config.set_flag(trt.BuilderFlag.FP16)
-        # if int8:config.set_flag(trt.BuilderFlag.INT8)
+        if quant == 1:
+            config.set_flag(trt.BuilderFlag.FP16)
+        elif quant == 2:
+            config.set_flag(trt.BuilderFlag.INT8)
         print('Loading ONNX file from path {}...'.format(onnx_file))
         with open(onnx_file, 'rb') as model:
             print('Beginning ONNX file parsing')
@@ -218,7 +226,7 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
         profile = builder.create_optimization_profile()  # 动态输入时候需要 分别为最小输入、常规输入、最大输入
         # 有几个输入就要写几个profile.set_shape 名字和转onnx的时候要对应
         # tensorrt6以后的版本是支持动态输入的，需要给每个动态输入绑定一个profile，用于指定最小值，常规值和最大值，如果超出这个范围会报异常。
-        profile.set_shape("input", (1, C, H, W), (batch_size, C, H, W), (batch_size * 2, C, H, W))
+        profile.set_shape("input", (1, C, H, W), (batch_size, C, H, W), (batch_size, C, H, W))
         config.add_optimization_profile(profile)
         engine = builder.build_engine(network, config)
     print("Completed creating Engine")
@@ -230,8 +238,7 @@ def onnx2trt(onnx_file, trt_file=None, input_shape=(1, 3, 160, 160), max_batch_s
 
 
 if __name__ == "__main__":
-    trt_file = "/home/dm/nasdata/release/handwriting/daip-calligraphy-hard/calligraphy-hard-recognizer/app/infercore/resource/resnet18_160_160_c3594_7.onnx"
-    # trt_file = "/home/dm/nasdata/release/handwriting/daip-calligraphy-hard/calligraphy-hard-recognizer/app/infercore/resource/resnet18_160_160_c3594_7.trt"
+    trt_file = ""
     input_shape = (16, 3, 160, 160)  # (B,C,H,W)
     trt = TRTEngine(trt_file, input_shape=input_shape)
     image = np.ones(shape=input_shape)

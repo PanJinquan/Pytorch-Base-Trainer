@@ -474,3 +474,20 @@ def torchinfo_summary(model, batch_size=1, input_size=[112, 112], plot=False, de
     # print("output.shape:{}".format(output.shape))
     if plot:
         plot_model(model, output)
+
+
+def print_model_shape(inp, out):
+    """
+    打印模型输入输出维度
+    :param inp:
+    :param out:
+    :return:
+    """
+    if isinstance(inp, torch.Tensor): inp = [inp]
+    if isinstance(out, torch.Tensor): out = [out]
+    print("===" * 10)
+    for i in range(len(inp)):
+        print("input{}  {}".format(i, inp[i].shape))
+    for i in range(len(out)):
+        print("output{} {}".format(i, out[i].shape))
+    print("===" * 10)
