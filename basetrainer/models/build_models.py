@@ -98,3 +98,12 @@ def mobilenet_v2(num_classes=None, width_mult=1.0, pretrained=False):
         model = torch.nn.Sequential(model_dict)
         # state_dict2 = model.state_dict()
     return model
+
+
+if __name__ == "__main__":
+    from basetrainer.utils import torch_tools
+    net_type = "resnet18"
+    net_type = "mobilenet_v2"
+    input_size = [320, 320]
+    model = get_models(net_type=net_type, input_size=input_size, num_classes=10, pretrained=False)
+    torch_tools.nni_summary_model(model, batch_size=1, input_size=input_size, plot=False)

@@ -56,6 +56,22 @@ def easy2dict(config: easydict.EasyDict):
     return cfg
 
 
+def dict2easy(config: dict):
+    """
+    :param config: Dict参数
+    """
+    return easydict.EasyDict(config)
+
+
+class Dict2Obj:
+    '''
+    dict转类对象
+    '''
+
+    def __init__(self, args):
+        self.__dict__.update(args)
+
+
 def parser_config_file(config: easydict.EasyDict, config_file: str, cfg_updata: bool = True):
     """
     解析并合并配置参数
@@ -107,15 +123,6 @@ def update_dict(cfg1: dict, cfg2: dict):
         if isinstance(v1, dict):
             cfg[k1] = update_dict(cfg1[k1], cfg2[k1]) if k1 in cfg2 else v1
     return cfg
-
-
-class Dict2Obj:
-    '''
-    dict转类对象
-    '''
-
-    def __init__(self, args):
-        self.__dict__.update(args)
 
 
 def load_config(config_file='config.yaml'):
