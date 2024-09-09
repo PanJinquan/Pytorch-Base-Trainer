@@ -6,3 +6,5 @@ twine upload dist/*  --verbose
 #Enter your username: PKing
 #Enter your password:
 
+ehco pip install --upgrade  basetrainer  -i https://pypi.org/simple
+
