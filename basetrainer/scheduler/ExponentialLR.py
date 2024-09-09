@@ -32,9 +32,10 @@ class ExponentialLR(Callback):
         :param gamma (float): 学习率衰减率learning rate decay.Default: 0.9
         """
         self.optimizer = optimizer
-        self.epochs = epochs
+        self.num_warn_up = num_warn_up
+        self.epochs = epochs - self.num_warn_up
         self.num_steps = num_steps
-        self.max_step = epochs * self.num_steps
+        self.max_step = self.epochs * self.num_steps
         self.lr_init = lr_init
         self.epoch = 0
         self.decay = decay
@@ -45,6 +46,7 @@ class ExponentialLR(Callback):
         super(ExponentialLR, self).__init__()
 
     def get_lr(self, epoch):
+        epoch = epoch - self.num_warn_up
         # lr = self.optimizer.param_groups[0]["lr"]
         # lr = self.lr_init * self.gamma ** epoch
         lr = self.lr_init * self.decay ** (50 * epoch / self.epochs)

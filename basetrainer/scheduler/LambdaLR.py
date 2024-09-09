@@ -34,6 +34,7 @@ class LambdaLR(Callback):
         :param num_warn_up:
         """
         super(LambdaLR, self).__init__()
+        self.num_warn_up = num_warn_up
         self.num_steps = num_steps
         self.epochs = epochs
         self.epoch = 0
@@ -41,9 +42,9 @@ class LambdaLR(Callback):
         self.optimizer = optimizer
         # Scheduler
         if linear_lr:
-            lf = lambda x: (1 - x / (epochs - 1)) * (1.0 - lrf) + lrf  # linear
+            lf = lambda x: (1 - x / (self.epochs - 1)) * (1.0 - lrf) + lrf  # linear
         else:
-            lf = self.one_cycle(1, lrf, epochs)  # cosine 1->hyp['lrf']
+            lf = self.one_cycle(1, lrf, self.epochs)  # cosine 1->hyp['lrf']
         self.scheduler = lr_scheduler.LambdaLR(optimizer, lr_lambda=lf)
         # self.scheduler.last_epoch = 0  # do not move
         self.warm_up = WarmUpLR(optimizer,
@@ -56,18 +57,12 @@ class LambdaLR(Callback):
         # lambda function for sinusoidal ramp from y1 to y2 https://arxiv.org/pdf/1812.01187.pdf
         return lambda x: ((1 - math.cos(x * math.pi / steps)) / 2) * (y2 - y1) + y1
 
-    def get_lr(self, epoch):
-        # lr = self.optimizer.param_groups[0]["lr"]
-        # lr = self.lr_init * self.gamma ** epoch
-        lr = self.lr_init * self.decay ** (70 * epoch / self.epochs)
-        return lr
-
     def set_lr(self, lr):
         for param_group in self.optimizer.param_groups:
             param_group["lr"] = lr
 
     def on_epoch_begin(self, epoch, logs: dict = {}):
-        self.epoch = epoch
+        self.epoch = epoch - self.num_warn_up
         # self.set_lr(self.get_lr(epoch))
         self.scheduler.step()
 
