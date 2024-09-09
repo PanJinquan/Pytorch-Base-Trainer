@@ -58,8 +58,8 @@ def get_roc_curve(y_true, y_score, invert=False, plot_roc=True):
     '''
     一般情况下，大于阈值时，y_test为1，小于等于阈值时y_test为0, y_test与y_score一一对应,且是正比关系
     当用距离作为y_score的分数时，此时y_test与y_score是反比关系（大于阈值时，y_test为0，小于等于阈值时y_test为1）
-    :param y_true  : 真实值
-    :param y_score : 预测分数
+    :param y_true  : 真实值 {0，1}
+    :param y_score : 预测分数(0.0~1.0)
     :param invert  : 是否对y_test进行反转，当y_test与y_score是正比关系时，invert=False,当y_test与y_score是反比关系时,invert=True
     :param plot_roc: 是否绘制roc曲线
     :return:fpr,

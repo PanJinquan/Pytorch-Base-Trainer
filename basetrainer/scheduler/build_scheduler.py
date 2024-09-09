@@ -24,7 +24,9 @@ def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs
                                          num_epochs,
                                          num_steps=num_steps,
                                          lr_init=lr_init,
-                                         num_warn_up=kwargs["num_warn_up"]
+                                         num_warn_up=kwargs["num_warn_up"],
+                                         num_cycles=kwargs.get("num_cycles", 1),
+                                         decay=kwargs.get("decay", 1.0),
                                          )
     elif scheduler.lower() == "ExpLR".lower() or scheduler.lower() == "exp".lower():
         # 指数衰减学习率
@@ -32,7 +34,8 @@ def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs
                                      num_epochs,
                                      num_steps=num_steps,
                                      lr_init=lr_init,
-                                     num_warn_up=kwargs["num_warn_up"]
+                                     num_warn_up=kwargs["num_warn_up"],
+                                     decay=kwargs.get("decay", 0.95),
                                      )
     elif scheduler.lower() == "LambdaLR".lower():
         # 指数衰减学习率

@@ -19,10 +19,10 @@ class CosineAnnealingLR(Callback):
                  optimizer,
                  epochs,
                  num_steps,
-                 num_cycles=3,
+                 num_cycles=1,
                  lr_init=0.1,
-                 decay=0.5,
-                 num_warn_up=0,
+                 decay=0.99,
+                 num_warn_up=10,
                  ):
         """
         余弦退火学习率调整策略
@@ -41,13 +41,14 @@ class CosineAnnealingLR(Callback):
         """
         super(CosineAnnealingLR, self).__init__()
         self.num_steps = num_steps
-        self.epochs = epochs
-        self.epoch = 0
         self.num_cycles = num_cycles
+        self.num_warn_up = num_warn_up
         self.decay = decay
         self.lr_init = lr_init
         self.optimizer = optimizer
-        t_max = epochs * 1.0 / (2 * self.num_cycles - 1)  # 一次学习率周期的迭代次数，即 T_max 个 epoch 之后重新设置学习率。
+        self.epoch = 0
+        self.epochs = epochs - self.num_warn_up
+        t_max = self.epochs * 1.0 / (2 * self.num_cycles - 1)  # 一次学习率周期的迭代次数，即 T_max 个 epoch 之后重新设置学习率。
         eta_min = 0.00001  # 最小学习率，即在一个周期中，学习率最小会下降到 eta_min，默认值为 0
         self.scheduler = lr_scheduler.CosineAnnealingLR(optimizer, t_max, eta_min=eta_min, last_epoch=-1)
         self.warm_up = WarmUpLR(optimizer,
@@ -56,6 +57,7 @@ class CosineAnnealingLR(Callback):
                                 num_warn_up=num_warn_up)
 
     def get_lr(self, epoch):
+        epoch = epoch - self.num_warn_up
         self.scheduler.step(epoch)
         lr = self.optimizer.param_groups[0]["lr"]
         lr = lr * self.decay ** ((self.num_cycles - 0.5) * epoch / self.epochs)

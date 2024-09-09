@@ -13,10 +13,10 @@ from basetrainer.scheduler.CosineAnnealingLR import CosineAnnealingLR
 from basetrainer.utils import plot_utils
 
 
-def test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up):
-    scheduler = "ExpLR"  # cosine,multi-step
+def test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up=10):
+    # scheduler = "ExpLR"  # cosine,multi-step
     # scheduler = "LambdaLR"  # cosine,multi-step
-    # scheduler = "cosine"  # cosine,multi-step
+    scheduler = "cosine"  # cosine,multi-step
     lr_scheduler = build_scheduler.get_scheduler(scheduler,
                                                  optimizer=optimizer,
                                                  lr_init=lr_init,
@@ -58,9 +58,9 @@ def test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, 
 
 
 if __name__ == "__main__":
-    num_epochs = 50
-    num_warn_up = 3
-    lr_init = 0.01
+    num_epochs = 100
+    num_warn_up = 10
+    lr_init = 0.1
     num_steps = 256
     milestones = []
     # milestones = [50, 100, 120]
