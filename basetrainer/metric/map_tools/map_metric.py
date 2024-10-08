@@ -111,6 +111,14 @@ class MapMetric(object):
 
     def evaluate_for_json(self, dt_file="dt_info.json", gt_file="gt_info.json"):
         """
+       dt_file or gt_file format is
+        {"class_name1":
+                    {"file-name1":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
+                    {"file-name2":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}，
+        "class_name2":
+                    {"file-name1":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
+                    {"file-name2":[[score,x1,y1,x2,y2],[score,x1,y1,x2,y2],[]...]}
+         }
         :param dt_file:
         :param gt_file:
         :return:
@@ -123,6 +131,10 @@ class MapMetric(object):
     def evaluate_for_txt(self, dt_file="", gt_file=""):
         """
         mAP参考资料：https://github.com/Cartucho/mAP
+        In these *.txt files, each line should be in the following format:
+        class_name1 xmin ymin xmax ymax
+        class_name2 xmin ymin xmax ymax
+        ...
         :param dt_file:
         :param gt_file:
         :return:
@@ -154,5 +166,5 @@ class MapMetric(object):
 
 if __name__ == "__main__":
     val = MapMetric()
-    # val.evaluate_for_json()
-    val.evaluate_for_txt()
+    val.evaluate_for_json()
+    # val.evaluate_for_txt()
