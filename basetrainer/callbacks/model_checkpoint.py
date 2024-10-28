@@ -24,6 +24,7 @@ class ModelCheckpoint(Callback):
                  indicator: str = "",
                  inverse: bool = False,
                  logger=None,
+                 **kwargs
                  ):
         """
         保存模型回调函数
@@ -31,7 +32,7 @@ class ModelCheckpoint(Callback):
         :param optimizer:优化器
         :param moder_dir:保存训练模型的目录
         :param epochs: 训练的epochs数
-        :param start_save: epoch >= start_save开始保存，如果为-1，则保存最后10个epoch模型
+        :param start_save: epoch >= start_save开始保存，如果为-1，则保存最后model_nums个epoch模型
         :param best_save: 最优模型开始保存
         :param indicator:需要关注的指标，以便保存最优模型，需要根据Metrics定义的指标对应，
                          如分类模型中indicator="acc"；如果关注losss,则indicator="loss"
@@ -53,6 +54,7 @@ class ModelCheckpoint(Callback):
         self.indicator = indicator
         self.indicator_val = 0
         self.inverse = inverse
+        self.model_nums = kwargs.get("model_nums", 10)
         if self.inverse:
             self.indicator_val = sys.maxsize  # 评价指标
 
@@ -106,7 +108,7 @@ class ModelCheckpoint(Callback):
         file_utils.remove_prefix_files(model_root, "latest_*")
         torch.save(model.module.state_dict(), model_file)
         # 保存最后epoch模型
-        start_save = start_save if start_save >= 0 else self.epochs - 10
+        start_save = start_save if start_save >= 0 else self.epochs - self.model_nums
         if epoch >= start_save:
             model_file = os.path.join(model_root, name)
             torch.save(model.module.state_dict(), model_file)

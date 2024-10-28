@@ -58,9 +58,9 @@ def test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, 
 
 
 if __name__ == "__main__":
-    num_epochs = 120
+    num_epochs = 60
     num_warn_up = 10
-    lr_init = 0.1
+    lr_init = 0.001
     num_steps = 1000
     milestones = []
     # milestones = [50, 100, 120]

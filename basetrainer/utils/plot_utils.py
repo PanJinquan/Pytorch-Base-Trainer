@@ -6,7 +6,10 @@
 """
 # 导入需要用到的库
 import numpy as np
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
+
 import PIL.Image as Image
 
 
