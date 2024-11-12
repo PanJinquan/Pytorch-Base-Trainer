@@ -133,7 +133,7 @@ class Engine(base.Base):
         num_steps = len(dataset)
         batch = 0
         self.model.eval()  # set to evaluates mode
-        with tqdm(total=num_steps, desc="Test Epoch #{}".format(self.epoch), disable=not self.progress) as t:
+        with tqdm(total=num_steps, desc="Test  Epoch #{}".format(self.epoch), disable=not self.progress) as t:
             for inputs in dataset:
                 with torch.no_grad():
                     inputs = self._device(inputs)
