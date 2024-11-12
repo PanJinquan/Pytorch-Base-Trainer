@@ -28,4 +28,5 @@ torchvision==0.8.2+cu110
 tqdm==4.55.1
 xmltodict==0.12.0
 memory_profiler
+loguru
 pybaseutils
