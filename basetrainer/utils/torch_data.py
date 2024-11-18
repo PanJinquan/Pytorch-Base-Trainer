@@ -4,13 +4,93 @@
     @E-mail : pan_jinquan@163.com
     @Date   : 2021-07-30 17:04:51
 """
-
+import numpy as np
+import torch
 import torch.nn as nn
 import torch.utils.data as torch_utils
 from torch.utils.data.dataset import Dataset
 from torch.utils.data.dataloader import DataLoader
 from ..engine import comm
 from .torch_tools import get_torch_version, torch_version_id
+
+
+class Collation(object):
+    """
+    Custom collate fn for dealing with batches of images that have a different
+    number of associated object annotations.
+    """
+
+    def __init__(self, stacks={}):
+        """
+        :param stacks: 需要堆叠一个batch-size的数据，通过Key指定
+                      如 stacks = {'image': True, 'target': True, 'points': False}
+        """
+        self.stacks = stacks
+
+    def __call__(self, batch):
+        if isinstance(batch[0], dict):
+            return self.collate_for_dict(batch)
+        elif isinstance(batch[0], tuple) or isinstance(batch[0], list):
+            return self.collate_for_list_tuple(batch)
+        else:
+            return batch
+
+    def collate_for_dict(self, batch):
+        """Dataset返回的Dict格式的数据"""
+        # 初始化outputs和lengths
+        data = batch[0]
+        outputs = {k: list() for k, v in data.items()}
+        assert isinstance(data, dict), "batch's item must be Dict"
+        if not self.stacks: self.stacks = {k: True for k, v in data.items()}
+        # print("count:{},stacks:{}".format(self.count, self.stacks))
+        # 将batch相同Key合并在同一个list中
+        for data in batch:
+            for k, v in data.items():
+                if isinstance(v, list) or isinstance(v, tuple):
+                    outputs[k].append(v)
+                elif isinstance(v, np.ndarray):
+                    outputs[k].append(torch.from_numpy(v))
+                elif isinstance(v, int):
+                    outputs[k].append(torch.tensor(v, dtype=torch.int64))
+                elif isinstance(v, float):
+                    outputs[k].append(torch.tensor(v, dtype=torch.float32))
+                else:
+                    outputs[k].append(v)
+        # 仅当维度相同时，才进行stack
+        for k, v in outputs.items():
+            try:
+                if self.stacks[k]: outputs[k] = torch.stack(outputs[k])
+            except:
+                self.stacks[k] = False
+        return outputs
+
+    def collate_for_list_tuple(self, batch):
+        """Dataset返回的List或Tuple格式的数据"""
+        # 初始化outputs和lengths
+        data = batch[0]
+        outputs = [[] for k, v in enumerate(data)]
+        assert isinstance(data, tuple) or isinstance(data, list), "batch's item must be List or tuple"
+        if not self.stacks: self.stacks = {k: True for k, v in enumerate(data)}
+        # 将batch总，相同Key合并在同一个list中
+        for data in batch:
+            for k, v in enumerate(data):
+                if isinstance(v, list) or isinstance(v, tuple):
+                    v = np.asarray(v)
+                if isinstance(v, np.ndarray):
+                    outputs[k].append(torch.from_numpy(v))
+                elif isinstance(v, int):
+                    outputs[k].append(torch.tensor(v, dtype=torch.int64))
+                elif isinstance(v, float):
+                    outputs[k].append(torch.tensor(v, dtype=torch.float32))
+                else:
+                    outputs[k].append(v)
+        # 仅当维度相同时，才进行stack
+        for k, v in enumerate(outputs):
+            try:
+                if self.stacks[k]:  outputs[k] = torch.stack(outputs[k])
+            except:
+                self.stacks[k] = False
+        return outputs
 
 
 def build_dataloader(dataset: Dataset,
