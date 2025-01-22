@@ -42,7 +42,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
                                           sparsity=sparsity,
                                           reuse=True,
                                           output_prune=os.path.join(output, "prune"),
-                                          device="cuda")
+                                          device=device)
     model = model.to(device)
     model.eval()
     if dynamic:

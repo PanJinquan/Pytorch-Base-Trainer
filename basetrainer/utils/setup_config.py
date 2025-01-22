@@ -125,7 +125,7 @@ def update_dict(cfg1: dict, cfg2: dict):
     return cfg
 
 
-def load_config(config_file='config.yaml'):
+def load_config(config_file='config.yaml', easy=False):
     """
     读取配置文件，并返回一个python dict 对象
     :param config_file: 配置文件路径
@@ -135,6 +135,7 @@ def load_config(config_file='config.yaml'):
         try:
             config = yaml.load(stream, Loader=yaml.FullLoader)
             # config = Dict2Obj(config)
+            if easy: config = dict2easy(config)
         except yaml.YAMLError as e:
             print(e)
             return None
