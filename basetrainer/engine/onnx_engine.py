@@ -10,26 +10,34 @@ import os, sys
 sys.path.append(os.getcwd())
 import onnxruntime
 import onnx
+from pybaseutils import time_utils
 
 
 class ONNXEngine():
-    def __init__(self, onnx_path, use_gpu=False):
+    def __init__(self, model_file, use_gpu=False):
         """
-        :param onnx_path:
+        :param model_file:
         :param use_gpu:
         pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
         """
+        available_providers = onnxruntime.get_available_providers()
+        sess_options = onnxruntime.SessionOptions()
         if use_gpu:
-            providers = ['CUDAExecutionProvider', 'CPUExecutionProvider']
+            self.providers = ['CUDAExecutionProvider']
         else:
-            providers = ['TensorrtExecutionProvider']
-        self.onnx_session = onnxruntime.InferenceSession(onnx_path, providers=providers)
-        self.input_name = self.get_input_name(self.onnx_session)
-        self.output_name = self.get_output_name(self.onnx_session)
-        print("input_name:{}".format(self.input_name))
-        print("output_name:{}".format(self.output_name))
+            self.providers = ['CPUExecutionProvider']
+        self.onnx_session = onnxruntime.InferenceSession(model_file, providers=self.providers,
+                                                         sess_options=sess_options)
+        self.device = onnxruntime.get_device()
+        self.inp_names = self.get_inp_names(self.onnx_session)
+        self.out_names = self.get_out_names(self.onnx_session)
+        print("available_providers:{},use device:{}".format(available_providers, self.device))
+        print("inp_names          :{}".format(self.inp_names))
+        print("out_names          :{}".format(self.out_names))
+        print("model_file          :{}".format(model_file))
+        print('-----------' * 5, flush=True)
 
-    def get_output_name(self, onnx_session):
+    def get_out_names(self, onnx_session):
         """
         output_name = onnx_session.get_outputs()[0].name
         :param onnx_session:
@@ -40,7 +48,7 @@ class ONNXEngine():
             output_name.append(node.name)
         return output_name
 
-    def get_input_name(self, onnx_session):
+    def get_inp_names(self, onnx_session):
         """
         input_name = onnx_session.get_inputs()[0].name
         :param onnx_session:
@@ -84,20 +92,27 @@ class ONNXEngine():
         # 输入数据的类型必须与模型一致,以下三种写法都是可以的
         # scores, boxes = self.onnx_session.run(None, {self.input_name: image_tensor})
         # scores, boxes = self.onnx_session.run(self.output_name, input_feed={self.input_name: image_tensor})
-        input_feed = self.get_input_feed(self.input_name, image_tensor)
-        outputs = self.onnx_session.run(self.output_name, input_feed=input_feed)
+        input_feed = self.get_input_feed(self.inp_names, image_tensor)
+        outputs = self.onnx_session.run(self.out_names, input_feed=input_feed)
+        return outputs
+
+    def performance(self, inputs, iterate=10):
+        outputs = self.forward(inputs)
+        for i in range(iterate):
+            with time_utils.Performance() as p:
+                outputs = self.forward(inputs)
         return outputs
 
 
 if __name__ == "__main__":
     import numpy as np
 
-    model_file = ""
-    prune_file = ""
+    model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/libs/best.onnx"
     batch_size = 1
     num_classes = 4
-    input_size = [128, 128]
+    input_size = [320, 320]
     inputs = np.random.random(size=(batch_size, 3, input_size[1], input_size[0]))
     inputs = np.asarray(inputs, dtype=np.float32)
-    model = ONNXEngine(model_file)
+    model = ONNXEngine(model_file, use_gpu=False)
+    model.performance(inputs)
     print("----")

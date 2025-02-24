@@ -53,18 +53,18 @@ class TRTEngine(object):
                                                                                   self.context.active_optimization_profile)
         print("\tinput_shape                    : {}".format(self.input_shape))
         # 获得输入变量的变量名
-        self.input_names = [self.engine.get_binding_name(binding_idx) for binding_idx in self.input_binding_idxs]
+        self.inp_names = [self.engine.get_binding_name(binding_idx) for binding_idx in self.input_binding_idxs]
         print("Input Metadata")
         print("\tNumber of Inputs: {}".format(len(self.input_binding_idxs)))
-        print("\tInput names     : {}".format(self.input_names))
+        print("\tInput names     : {}".format(self.inp_names))
         print("\tInput Bindings for Profile {}: {}".format(self.context.active_optimization_profile,
                                                            self.input_binding_idxs))
-        print("\tInput names: {}".format(self.input_names))
+        print("\tInput names: {}".format(self.inp_names))
         # 获得输出变量的变量名
         print("Output Metadata")
-        self.output_names = [self.engine.get_binding_name(binding_idx) for binding_idx in self.output_binding_idxs]
+        self.out_names = [self.engine.get_binding_name(binding_idx) for binding_idx in self.output_binding_idxs]
         print("\tNumber of Outputs: {}".format(len(self.output_binding_idxs)))
-        print("\tOutput names     : {}".format(self.output_names))
+        print("\tOutput names     : {}".format(self.out_names))
         print("\tOutput Bindings for Profile {}: {}\n".format(self.context.active_optimization_profile,
                                                               self.output_binding_idxs))
         print("TRT model loaded successfully:{}".format(model_file.replace(".onnx", ".trt")))
