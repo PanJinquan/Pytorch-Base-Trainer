@@ -59,7 +59,7 @@ class ONNXEngine():
             input_name.append(node.name)
         return input_name
 
-    def get_input_feed(self, input_name, image_tensor):
+    def get_inp_feed(self, input_name, image_tensor):
         """
         input_feed={self.input_name: image_tensor}
         :param input_name:
@@ -81,20 +81,20 @@ class ONNXEngine():
         outputs = self.forward(image_tensor)
         return outputs
 
-    def forward(self, image_tensor):
+    def forward(self, inp_tensor):
         """
         image_tensor = image.transpose(2, 0, 1)
         image_tensor = image_tensor[np.newaxis, :]
         onnx_session.run([output_name], {input_name: x})
-        :param image_tensor:
+        :param inp_tensor:
         :return:
         """
         # 输入数据的类型必须与模型一致,以下三种写法都是可以的
         # scores, boxes = self.onnx_session.run(None, {self.input_name: image_tensor})
         # scores, boxes = self.onnx_session.run(self.output_name, input_feed={self.input_name: image_tensor})
-        input_feed = self.get_input_feed(self.inp_names, image_tensor)
-        outputs = self.onnx_session.run(self.out_names, input_feed=input_feed)
-        return outputs
+        inp_feed = self.get_inp_feed(self.inp_names, inp_tensor)
+        out_tensor = self.onnx_session.run(self.out_names, input_feed=inp_feed)
+        return out_tensor
 
     def performance(self, inputs, iterate=10):
         outputs = self.forward(inputs)
@@ -108,6 +108,7 @@ if __name__ == "__main__":
     import numpy as np
 
     model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/libs/best.onnx"
+    model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/output/model.pnnx.onnx"
     batch_size = 1
     num_classes = 4
     input_size = [320, 320]
