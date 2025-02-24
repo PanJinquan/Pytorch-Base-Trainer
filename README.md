@@ -58,7 +58,7 @@ pip install --upgrade basetrainer -i https://pypi.org/simple
 - 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)
 
 ```bash
-pip install nni==2.0 # 更高版本会出现接口不兼容的问题
+pip install nni==2.0 -i https://pypi.tuna.tsinghua.edu.cn/simple # 更高版本会出现接口不兼容的问题
 ```
 
 ## 3.训练框架

@@ -14,7 +14,7 @@ from .WarmUpLR import WarmUpLR
 from torch.optim import lr_scheduler
 
 
-class CosineAnnealingLR(Callback):
+class CosineLR(Callback):
     def __init__(self,
                  optimizer,
                  epochs,
@@ -39,7 +39,7 @@ class CosineAnnealingLR(Callback):
         :param decay: 振幅衰减率,当1.0时,每次周期循环不衰减
         :param num_warn_up:
         """
-        super(CosineAnnealingLR, self).__init__()
+        super(CosineLR, self).__init__()
         self.num_steps = num_steps
         self.num_cycles = num_cycles
         self.num_warn_up = num_warn_up
@@ -81,3 +81,66 @@ class CosineAnnealingLR(Callback):
         # total_step = self.num_steps * epoch + step
         # self.scheduler.step(epoch)
         self.warm_up.step(epoch, step)
+
+
+class CosineAnnealingLR(Callback):
+    def __init__(self,
+                 optimizer,
+                 epochs,
+                 num_steps,
+                 num_cycles=1,
+                 lr_init=0.1,
+                 decay=0.99,
+                 num_warn_up=10,
+                 ):
+        """
+        余弦退火学习率调整策略
+        optimizer (Optimizer): Wrapped optimizer.
+        t_max (int): Maximum number of iterations.
+        eta_min (float): Minimum learning rate. Default: 0.
+        last_epoch (int): The index of last epoch. Default: -1.
+        verbose (bool): If ``True``, prints a message to stdout for each update. Default: ``False``.
+        :param optimizer:
+        :param epochs:
+        :param num_steps: 一个epoch的迭代次数，len(self.train_dataloader)
+        :param num_cycles: 周期次数
+        :param lr_init: is init lr.
+        :param decay: 振幅衰减率,当1.0时,每次周期循环不衰减
+        :param num_warn_up:
+        """
+        super(CosineAnnealingLR, self).__init__()
+        self.num_steps = num_steps
+        self.num_cycles = num_cycles
+        self.num_warn_up = num_warn_up
+        self.decay = decay
+        self.lr_init = lr_init
+        self.optimizer = optimizer
+        self.epoch = 0
+        self.epochs = epochs
+        self.warmup = lr_scheduler.LinearLR(self.optimizer,
+                                            start_factor=0.1,
+                                            total_iters=self.num_warn_up  # warmup
+                                            )
+        self.cosine = lr_scheduler.CosineAnnealingLR(self.optimizer,
+                                                     T_max=self.epochs - self.num_warn_up,
+                                                     eta_min=1e-6,
+                                                     last_epoch=-1
+                                                     )
+        self.scheduler = lr_scheduler.ChainedScheduler([self.warmup, self.cosine])
+
+    def on_epoch_begin(self, epoch, logs: dict = {}):
+        self.epoch = epoch
+        # self.scheduler.step()
+        if self.epoch < self.num_warn_up:
+            self.scheduler._schedulers[0].step(self.epoch)
+        else:
+            self.scheduler._schedulers[1].step(self.epoch - self.num_warn_up)
+
+    def on_batch_end(self, batch, logs: dict = {}):
+        self.step(epoch=self.epoch, step=batch)
+
+    def step(self, epoch=0, step=0):
+        # step每次迭代都会调用，比较耗时，建议与step无关的操作放在on_epoch_begin中
+        # total_step = self.num_steps * epoch + step
+        # self.scheduler.step(epoch)
+        pass

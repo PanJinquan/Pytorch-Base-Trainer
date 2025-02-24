@@ -5,7 +5,7 @@
     @Date   : 2021-08-12 20:31:19
 """
 from .MultiStepLR import MultiStepLR
-from .CosineAnnealingLR import CosineAnnealingLR
+from .CosineAnnealingLR import CosineAnnealingLR, CosineLR
 from .ExponentialLR import ExponentialLR
 from .LambdaLR import LambdaLR
 
@@ -19,6 +19,16 @@ def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs
                                    milestones=kwargs["milestones"],
                                    num_warn_up=kwargs["num_warn_up"])
     elif scheduler.lower() == "cosine".lower():
+        # 余弦退火学习率调整策略
+        lr_scheduler = CosineLR(optimizer,
+                                num_epochs,
+                                num_steps=num_steps,
+                                lr_init=lr_init,
+                                num_warn_up=kwargs["num_warn_up"],
+                                num_cycles=kwargs.get("num_cycles", 1),
+                                decay=kwargs.get("decay", 1.0),
+                                )
+    elif scheduler.lower() == "CosineAnnealingLR".lower():
         # 余弦退火学习率调整策略
         lr_scheduler = CosineAnnealingLR(optimizer,
                                          num_epochs,
