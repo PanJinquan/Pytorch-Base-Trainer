@@ -108,7 +108,7 @@ if __name__ == "__main__":
     import numpy as np
 
     model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/libs/best.onnx"
-    model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/output/model.pnnx.onnx"
+    # model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/output/model.pnnx.onnx"
     batch_size = 1
     num_classes = 4
     input_size = [320, 320]

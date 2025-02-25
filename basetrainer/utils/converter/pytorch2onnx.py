@@ -48,7 +48,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     if dynamic:
         inputs = torch.randn(B, C, H, W).to(device)
         # 声明动态维度，这里我们把input的第0维度赋名为batch_size
-        dynamic_axes = {input_names[0]: {0: 'batch_size'}, output_names[0]: {0: 'batch_size'}}
+        dynamic_axes = {input_names[0]: {0: 'batch', 2: 'height', 3: "width"}, output_names[0]: {0: 'batch_size'}}
     else:
         inputs = torch.randn(1, C, H, W).to(device)
         dynamic_axes = None
@@ -72,8 +72,11 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
             import onnxsim
             print(f'simplifying with onnx-simplifier {onnxsim.__version__}')
             onnx_model, check = onnxsim.simplify(onnx_model, dynamic_input_shape=dynamic, input_shapes=None)
-            onnx.save(onnx_model, onnx_file)
+            # import onnxslim
+            # print(f'simplifying with onnx-simplifier {onnxslim.__version__}')
+            # onnx_model = onnxslim.slim(onnx_model)
             print("simplifier onnx model:{}".format(onnx_file))
+            onnx.save(onnx_model, onnx_file)
         except Exception as e:
             print(f'simplifier failure: {e}')
     return onnx_file
