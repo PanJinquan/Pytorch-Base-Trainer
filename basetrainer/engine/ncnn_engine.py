@@ -7,8 +7,6 @@ import os
 import sys
 import ncnn
 import numpy as np
-import torch
-from pybaseutils import time_utils
 
 
 class NCNNEngine(object):
@@ -110,6 +108,7 @@ class NCNNEngine(object):
         :param iterate: number of iterations for performance testing
         :return: outputs
         """
+        from pybaseutils import time_utils
         outputs = self.forward(inputs)
         for i in range(iterate):
             with time_utils.Performance() as p:

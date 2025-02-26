@@ -8,9 +8,9 @@
 import os, sys
 
 sys.path.append(os.getcwd())
-import onnxruntime
 import onnx
-from pybaseutils import time_utils
+import onnxruntime
+import numpy as np
 
 
 class ONNXEngine():
@@ -97,6 +97,7 @@ class ONNXEngine():
         return out_tensor
 
     def performance(self, inputs, iterate=10):
+        from pybaseutils import time_utils
         outputs = self.forward(inputs)
         for i in range(iterate):
             with time_utils.Performance() as p:
@@ -105,10 +106,7 @@ class ONNXEngine():
 
 
 if __name__ == "__main__":
-    import numpy as np
-
-    model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/libs/best.onnx"
-    # model_file = "/home/PKing/nasdata/release/tmp/Pytorch-Character-Recognition/output/model.pnnx.onnx"
+    model_file = "libs/best.onnx"
     batch_size = 1
     num_classes = 4
     input_size = [320, 320]
