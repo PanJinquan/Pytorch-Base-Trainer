@@ -3,7 +3,8 @@
     @Author : PKing
     @E-mail : 390737991@qq.com
     @Date   : 2022-12-26 15:37:56
-    @Brief  : https://blog.csdn.net/JianguoChow/article/details/124637324
+    @Brief  : https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
+              https://github.com/pnnx/pnnx
 """
 
 import os
@@ -19,7 +20,7 @@ def convert2ncnn(model, input_shape, input_names=['input'], output_names=['outpu
     :param input_shape: 输入维度(B, C, H, W)
     :param input_names: 输入节点名称
     :param output_names: 输出节点名称
-    :param output: 输出模型文件
+    :param out_file: 输出模型文件     out_file = model_file.replace(".pth", ".jit").replace(".pt", ".jit")
     :param use_prune: 是否对模型进行剪枝
     :param sparsity: 对模型进行剪枝的稀疏度
     :param device: 运行设备

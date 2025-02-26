@@ -19,7 +19,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     :param input_shape: 输入维度(B, C, H, W)
     :param input_names: 输入节点名称
     :param output_names: 输出节点名称
-    :param onnx_file: 输出ONNX模型文件
+    :param onnx_file: 输出ONNX模型文件:  onnx_file = model_file.replace(".pth", ".onnx").replace(".pt", ".onnx")
     :param dynamic:
     :param simplify: 是否对ONNX进行simplify
     :param opset_version: ONNX版本，9，11,建议使用11，版本9可能有异常
