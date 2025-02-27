@@ -50,9 +50,9 @@ bash setup.sh #pip install dist/basetrainer-*.*.*.tar.gz
 
 ```bash
 # 安装方法1:(有延时，可能不是最新版本)
-pip install basetrainer 
+pip install --upgrade -i https://pypi.tuna.tsinghua.edu.cn/simple  basetrainer 
 # 安装方法2:(从pypi源下载最新版本)
-pip install --upgrade basetrainer -i https://pypi.org/simple
+pip install --upgrade -i https://pypi.org/simple basetrainer
 ```
 
 - 使用[NNI](https://github.com/microsoft/nni) 模型剪枝工具，需要安装[NNI](https://github.com/microsoft/nni)

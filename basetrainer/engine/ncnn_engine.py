@@ -38,6 +38,7 @@ class NCNNEngine(object):
         self.gpu_info = ncnn.get_gpu_device()
         self.num_thread = num_thread if num_thread > 0 else self.cpu_info
         # TODO 创建ncnn的Net对象
+        # ncnn.set_omp_num_threads(self.num_thread)
         self.net = ncnn.Net()
         self.net.opt.num_threads = self.num_thread  # must set net.opt.num_threads=N before net.load_param()
         if use_gpu:  # Enable vulkan compute if GPU is requested
@@ -75,19 +76,21 @@ class NCNNEngine(object):
         :param image_tensor: numpy array with shape (b, c, h, w)
         :return: list of outputs
         """
-        with self.net.create_extractor() as ex:
-            # ex.set_num_threads(self.num_thread);
-            # BUG：为避免内存不连续，需要copy或者np.ascontiguousarray()
-            data = np.ascontiguousarray(np.squeeze(image_tensor))  # 使用np.squeeze(data)简化数组维度，避免结果异常
-            # data = np.ascontiguousarray(image_tensor)    # BUG: 这样写，推理结果有异常，没有squeeze
-            # input = ncnn.Mat(np.ascontiguousarray(data)) # BUG: 这样写，推理结果有异常
-            input = ncnn.Mat(data)  # 推理结果正常  
-            ex.input(self.inp_names[0], input)
-            # Extract outputs
-            outputs = []
-            for name in self.out_names:
-                _, out = ex.extract(name)
-                outputs.append(np.array(out).reshape(1, out.c, out.h, out.w))
+        ex = self.net.create_extractor()
+        # ex.set_num_threads(self.num_thread);
+        # BUG：为避免内存不连续，需要copy或者np.ascontiguousarray()
+        data = np.ascontiguousarray(np.squeeze(image_tensor))  # 使用np.squeeze(data)简化数组维度，避免结果异常
+        # data = np.ascontiguousarray(image_tensor)    # BUG: 这样写，推理结果有异常，没有squeeze
+        # input = ncnn.Mat(np.ascontiguousarray(data)) # BUG: 这样写，推理结果有异常
+        input = ncnn.Mat(data)  # 推理结果正常
+        ex.input(self.inp_names[0], input)
+        # Extract outputs
+        outputs = []
+        for name in self.out_names:
+            _, out = ex.extract(name)
+            outputs.append(np.array(out).reshape(1, out.c, out.h, out.w))
+            out.release()
+        input.release()
         return outputs
 
     def forward_image(self, image, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
