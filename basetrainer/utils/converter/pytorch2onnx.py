@@ -13,7 +13,7 @@ import onnx
 
 def convert2onnx(model, input_shape, input_names=['input'], output_names=['output'],
                  onnx_file="", dynamic=False, simplify=True, opset_version=11,
-                 use_prune=False, sparsity=0.2, device="cuda:0"):
+                 use_prune=False, sparsity=0.2, device="cpu"):
     """
     :param model: Pytorch 模型
     :param input_shape: 输入维度(B, C, H, W)

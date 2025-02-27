@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-    @Author : Pan
-    @E-mail : 390737991@qq.com
-    @Date   : 2022-12-30 10:40:48
-    @Brief  : NCNN inference engine
+# --------------------------------------------------------
+# @Author : PKing
+# @E-mail : 390737991@qq.com
+# @Date   : 2024-02-18 16:10:49
+# @Brief  :
+# --------------------------------------------------------
 """
+
 import os
 import sys
 import ncnn
@@ -14,6 +17,9 @@ import numpy as np
 class NCNNEngine(object):
     def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=False, use_fp16=False):
         """
+        pnnx教程：https://github.com/pnnx/pnnx
+        ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
+        YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
         NCNN推理引擎，需要注意：
         (1)将输入数组转换为C/C++数组时，需要保证输入数据是顺序（行优先）的连续数组，否则会出现推理异常等问题
            为避免内存不连续，建议使用np.ascontiguousarray(data)或者使用copy()
@@ -31,21 +37,21 @@ class NCNNEngine(object):
         self.cpu_info = ncnn.get_cpu_count()
         self.gpu_info = ncnn.get_gpu_device()
         self.num_thread = num_thread if num_thread > 0 else self.cpu_info
-        # TODO 创建 ncnn 的 Net 对象
+        # TODO 创建ncnn的Net对象
         self.net = ncnn.Net()
         self.net.opt.num_threads = self.num_thread  # must set net.opt.num_threads=N before net.load_param()
         if use_gpu:  # Enable vulkan compute if GPU is requested
             self.net.opt.use_vulkan_compute = True
-            if use_fp16:
-                self.net.opt.use_fp16_packed = True
-                self.net.opt.use_fp16_storage = True
-                self.net.opt.use_fp16_arithmetic = True
+        if use_fp16:
+            self.net.opt.use_fp16_packed = True
+            self.net.opt.use_fp16_storage = True
+            self.net.opt.use_fp16_arithmetic = True
         # Load model
         self.net.load_param(par_file)
         self.net.load_model(bin_file)
         # Get input and output names from net
-        self.inp_names = self.net.input_names()
-        self.out_names = self.net.output_names()
+        self.inp_names = list(sorted(self.net.input_names()))
+        self.out_names = list(sorted(self.net.output_names()))
         print("cpu_info          :{},use threads:{}".format(self.cpu_info, self.num_thread))
         print("gpu_info          :{}".format(self.gpu_info))
         print("use_gpu           :{}".format(use_gpu))
@@ -124,12 +130,12 @@ class NCNNEngine(object):
 if __name__ == "__main__":
     np.random.seed(100)
     # Example usage
-    param_file = "../../data/model/ncnn-fp16/model.ncnn.param"
-    # param_file = "../../data/model/ncnn-fp32/model.ncnn.param"
+    # param_file = "../../data/model/ncnn-fp16/model.ncnn.param"
+    param_file = "../../data/model/ncnn-fp32/model.ncnn.param"
     # Create random input
     input_size = [168, 168]
     inputs = np.random.random(size=(1, 3, input_size[1], input_size[0]))
     inputs = np.asarray(inputs, dtype=np.float32)
-    model = NCNNEngine(param_file, use_gpu=True, use_fp16=True)
+    model = NCNNEngine(param_file, use_gpu=False, use_fp16=True)
     model.performance(inputs)
     print("----")

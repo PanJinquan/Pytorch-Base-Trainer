@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-    @Author : Pan
-    @E-mail : 390737991@qq.com
-    @Date   : 2022-12-30 10:40:48
-    @Brief  : ONNX inference engine
+# --------------------------------------------------------
+# @Author : PKing
+# @E-mail : 390737991@qq.com
+# @Date   : 2024-02-18 16:10:49
+# @Brief  :
+# --------------------------------------------------------
 """
 import os, sys
 
@@ -16,6 +18,9 @@ import numpy as np
 class ONNXEngine():
     def __init__(self, model_file, use_gpu=False):
         """
+        pnnx教程：https://github.com/pnnx/pnnx
+        ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
+        YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
         :param model_file:
         :param use_gpu:
         pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
@@ -43,10 +48,11 @@ class ONNXEngine():
         :param onnx_session:
         :return:
         """
-        output_name = []
+        names = []
         for node in onnx_session.get_outputs():
-            output_name.append(node.name)
-        return output_name
+            names.append(node.name)
+        # names = list(sorted(names))
+        return names
 
     def get_inp_names(self, onnx_session):
         """
@@ -54,10 +60,11 @@ class ONNXEngine():
         :param onnx_session:
         :return:
         """
-        input_name = []
+        names = []
         for node in onnx_session.get_inputs():
-            input_name.append(node.name)
-        return input_name
+            names.append(node.name)
+        # names = list(sorted(names))
+        return names
 
     def get_inp_feed(self, input_name, image_tensor):
         """
