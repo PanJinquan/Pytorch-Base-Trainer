@@ -16,30 +16,30 @@ import numpy as np
 
 
 class ONNXEngine():
-    def __init__(self, model_file, use_gpu=False):
+    def __init__(self, onnx_file, use_gpu=False):
         """
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
         YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
-        :param model_file:
+        :param onnx_file:
         :param use_gpu:
         pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
         """
+        assert os.path.exists(onnx_file), f"*.onnx file not exists:{onnx_file}"
         available_providers = onnxruntime.get_available_providers()
-        sess_options = onnxruntime.SessionOptions()
+        options = onnxruntime.SessionOptions()
         if use_gpu:
             self.providers = ['CUDAExecutionProvider']
         else:
             self.providers = ['CPUExecutionProvider']
-        self.onnx_session = onnxruntime.InferenceSession(model_file, providers=self.providers,
-                                                         sess_options=sess_options)
+        self.onnx_session = onnxruntime.InferenceSession(onnx_file, providers=self.providers, sess_options=options)
         self.device = onnxruntime.get_device()
         self.inp_names = self.get_inp_names(self.onnx_session)
         self.out_names = self.get_out_names(self.onnx_session)
         print("available_providers:{},use device:{}".format(available_providers, self.device))
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
-        print("model_file          :{}".format(model_file))
+        print("model_file          :{}".format(onnx_file))
         print('-----------' * 5, flush=True)
 
     def get_out_names(self, onnx_session):
