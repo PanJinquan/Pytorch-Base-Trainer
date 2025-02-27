@@ -16,13 +16,13 @@ import numpy as np
 
 
 class ONNXEngine():
-    def __init__(self, onnx_file, use_gpu=False):
+    def __init__(self, onnx_file, use_gpu=True):
         """
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
         YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
         :param onnx_file:
-        :param use_gpu:
+        :param use_gpu: 是否使用GPU
         pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
         """
         assert os.path.exists(onnx_file), f"*.onnx file not exists:{onnx_file}"

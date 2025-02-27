@@ -15,7 +15,7 @@ import numpy as np
 
 
 class NCNNEngine(object):
-    def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=False, use_fp16=False):
+    def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=True, use_fp16=True):
         """
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
