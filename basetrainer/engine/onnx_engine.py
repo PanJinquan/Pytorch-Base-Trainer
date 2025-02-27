@@ -39,7 +39,7 @@ class ONNXEngine():
         print("available_providers:{},use device:{}".format(available_providers, self.device))
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
-        print("model_file          :{}".format(onnx_file))
+        print("onnx_file          :{}".format(onnx_file))
         print('-----------' * 5, flush=True)
 
     def get_out_names(self, onnx_session):
