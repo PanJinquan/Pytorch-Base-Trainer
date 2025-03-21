@@ -107,7 +107,7 @@ class ClassificationTrainer(trainer.EngineTrainer):
         """build_model"""
         self.logger.info("build_model,net_type:{}".format(cfg.net_type))
         model = build_models.get_models(net_type=cfg.net_type, input_size=cfg.input_size,
-                                        num_classes=cfg.num_classes, pretrained=True)
+                                        num_classes=cfg.num_classes, pretrained=False)
         if cfg.finetune:
             self.logger.info("finetune:{}".format(cfg.finetune))
             state_dict = torch_tools.load_state_dict(cfg.finetune)

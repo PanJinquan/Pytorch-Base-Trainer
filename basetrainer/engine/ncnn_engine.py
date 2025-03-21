@@ -34,15 +34,26 @@ class NCNNEngine(object):
         if not bin_file: bin_file = par_file.replace(".param", ".bin")
         assert os.path.exists(par_file), f"*.param file not exists:{par_file}"
         assert os.path.exists(bin_file), f"*.bin   file not exists:{bin_file}"
-        self.cpu_info = ncnn.get_cpu_count()
-        self.gpu_info = ncnn.get_gpu_device()
-        self.num_thread = num_thread if num_thread > 0 else self.cpu_info
+        self.cpu_count = ncnn.get_cpu_count()
+        self.gpu_count = ncnn.get_gpu_count()
+        self.gpu_info = ncnn.get_gpu_info()
+        self.gpu_index = ncnn.get_default_gpu_index()
+        self.device = "cpu"
+        self.num_thread = num_thread if num_thread > 0 else self.cpu_count
         # TODO 创建ncnn的Net对象
         # ncnn.set_omp_num_threads(self.num_thread)
         self.net = ncnn.Net()
         self.net.opt.num_threads = self.num_thread  # must set net.opt.num_threads=N before net.load_param()
         if use_gpu:  # Enable vulkan compute if GPU is requested
-            self.net.opt.use_vulkan_compute = True
+            try:
+                ncnn.create_gpu_instance()
+                self.net.opt.use_vulkan_compute = True
+                self.net.set_vulkan_device(self.gpu_index)
+                self.device = self.net.vulkan_device().info().device_name()
+                # self.device = ncnn.get_gpu_device(self.gpu_index).info().device_name()  # 如果没有GPU会出现异常
+            except Exception as e:
+                print("Warning：当前环境不支持GPU运行，自动切换到CPU运行")
+                self.net.opt.use_vulkan_compute = False
         if use_fp16:
             self.net.opt.use_fp16_packed = True
             self.net.opt.use_fp16_storage = True
@@ -53,9 +64,10 @@ class NCNNEngine(object):
         # Get input and output names from net
         self.inp_names = list(sorted(self.net.input_names()))
         self.out_names = list(sorted(self.net.output_names()))
-        print("cpu_info          :{},use threads:{}".format(self.cpu_info, self.num_thread))
-        print("gpu_info          :{}".format(self.gpu_info))
-        print("use_gpu           :{}".format(use_gpu))
+        print("use_device        :{}".format(self.device))
+        print("cpu_info          :cpu_count={},use threads:{}".format(self.cpu_count, self.num_thread))
+        print("gpu_info          :gpu_count={},gpu_info={}".format(self.gpu_count, self.gpu_info))
+        print("use_gpu           :{},gpu_index={}".format(use_gpu, self.gpu_index))
         print("use_fp16          :{}".format(use_fp16))
         print("inp_names         :{}".format(self.inp_names))
         print("out_names         :{}".format(self.out_names))
@@ -139,6 +151,6 @@ if __name__ == "__main__":
     input_size = [168, 168]
     inputs = np.random.random(size=(1, 3, input_size[1], input_size[0]))
     inputs = np.asarray(inputs, dtype=np.float32)
-    model = NCNNEngine(param_file, use_gpu=False, use_fp16=True)
+    model = NCNNEngine(param_file, use_gpu=True, use_fp16=True)
     model.performance(inputs)
     print("----")
