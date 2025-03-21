@@ -1,7 +1,7 @@
 # -*-coding: utf-8 -*-
 """
     @Author : PKing
-    @E-mail : 390737991@qq.com
+    @E-mail : pan_jinquan@163.com
     @Date   : 2022-12-23 11:06:28
     @Brief  : https://blog.csdn.net/weixin_42492254/article/details/125319112
 """

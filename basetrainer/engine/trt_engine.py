@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
     @Author : PKing
-    @E-mail : 390737991@qq.com
+    @E-mail : pan_jinquan@163.com
     @Date   : 2022-12-23 14:45:13
     @Brief  :常见问题：
     (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理

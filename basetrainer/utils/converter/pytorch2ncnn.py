@@ -1,7 +1,7 @@
 # -*-coding: utf-8 -*-
 """
     @Author : PKing
-    @E-mail : 390737991@qq.com
+    @E-mail : pan_jinquan@163.com
     @Date   : 2022-12-26 15:37:56
     @Brief  : https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
               https://github.com/pnnx/pnnx
