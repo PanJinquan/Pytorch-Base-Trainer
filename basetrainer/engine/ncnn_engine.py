@@ -46,7 +46,7 @@ class NCNNEngine(object):
         self.net.opt.num_threads = self.num_thread  # must set net.opt.num_threads=N before net.load_param()
         if use_gpu:  # Enable vulkan compute if GPU is requested
             try:
-                ncnn.create_gpu_instance()
+                # ncnn.create_gpu_instance()
                 self.net.opt.use_vulkan_compute = True
                 self.net.set_vulkan_device(self.gpu_index)
                 self.device = self.net.vulkan_device().info().device_name()
