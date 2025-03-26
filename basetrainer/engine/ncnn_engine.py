@@ -64,10 +64,10 @@ class NCNNEngine(object):
         # Get input and output names from net
         self.inp_names = list(sorted(self.net.input_names()))
         self.out_names = list(sorted(self.net.output_names()))
-        print("use_device        :{}".format(self.device))
+        print("use_gpu           :{},gpu_index={}".format(use_gpu, self.gpu_index))
         print("cpu_info          :cpu_count={},use threads:{}".format(self.cpu_count, self.num_thread))
         print("gpu_info          :gpu_count={},gpu_info={}".format(self.gpu_count, self.gpu_info))
-        print("use_gpu           :{},gpu_index={}".format(use_gpu, self.gpu_index))
+        print("device name       :{}".format(self.device))
         print("use_fp16          :{}".format(use_fp16))
         print("inp_names         :{}".format(self.inp_names))
         print("out_names         :{}".format(self.out_names))
