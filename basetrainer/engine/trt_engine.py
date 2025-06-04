@@ -7,6 +7,9 @@
     (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理
     (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
     (3) 多次`import pycuda.autoinit` 可能出现异常:Error Code 1: Cask (Cask convolution execution)
+    (4) 若出现cuDNN error: CUDNN_STATUS_MAPPING_ERROR错误，尝试设置
+         torch.cuda.set_device('cuda:0')
+         torch.backends.cudnn.enabled = False
 """
 import os
 import cv2
