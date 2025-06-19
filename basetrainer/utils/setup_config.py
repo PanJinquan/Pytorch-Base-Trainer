@@ -10,9 +10,12 @@ from pybaseutils import file_utils
 
 
 def parser_work_space(work_dir, flags: list = [], time=True):
-    """生成工程空间
-    flag = [cfg.net_type, cfg.width_mult, cfg.input_size[0], cfg.input_size[1],
-            cfg.loss_type, cfg.optim_type, flag, file_utils.get_time()]
+    """
+    生成工程空间路径
+    :param work_dir:
+    :param flags:
+    :param time:
+    :return:
     """
     if isinstance(flags, str):
         flags = [flags]
@@ -22,6 +25,26 @@ def parser_work_space(work_dir, flags: list = [], time=True):
     name = "_".join(name)
     work_dir = os.path.join(work_dir, name)
     return work_dir
+
+
+def create_workspace(cfg, flags=[], is_main_process=True, backup=True):
+    """
+    生成工作目录
+    :param cfg:
+    :param flags:
+    :param is_main_process:
+    :param backup:
+    :return:
+    """
+    cfg.work_dir = parser_work_space(cfg.work_dir, flags, time=True)
+    cfg.model_dir = os.path.join(cfg.work_dir, "model")
+    cfg.log_dir = os.path.join(cfg.work_dir, "log")
+    if is_main_process:
+        file_utils.create_dir(cfg.work_dir)
+        file_utils.create_dir(cfg.model_dir)
+        file_utils.create_dir(cfg.log_dir)
+        if backup: file_utils.copy_file_to_dir(cfg.config_file, cfg.work_dir)
+    return cfg
 
 
 def parser_config(args: argparse.Namespace, cfg_updata: bool = True):

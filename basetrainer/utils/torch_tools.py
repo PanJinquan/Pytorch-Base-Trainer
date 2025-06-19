@@ -382,6 +382,7 @@ def summary_model(model, batch_size=1, input_size=[112, 112], plot=False, device
 def nni_summary_model(model, batch_size=1, input_size=[112, 112], plot=False, device="cpu"):
     """
     https://nni.readthedocs.io/zh/stable/Compression/CompressionUtils.html
+    pip install nni==3.0 -i https://pypi.tuna.tsinghua.edu.cn/simple
     NNI 提供了模型计数器，用于计算模型的 FLOPs 和参数。
     此计数器支持计算没有掩码模型的 FLOPs、参数，也可以计算有掩码模型的 FLOPs、参数，
     这有助于在模型压缩过程中检查模型的复杂度。
@@ -492,3 +493,35 @@ def print_model_shape(inp, out):
     for i in range(len(out)):
         print("output{} {}".format(i, out[i].shape))
     print("===" * 10)
+
+
+def get_randn_batch(size, device="cuda:0", seed=2024):
+    """
+    生成标准正态分布随机数
+    :param size: (B, C, H, W)
+    :param device:
+    :return:
+    """
+    # 设置随机种子
+    if seed > 0: torch.manual_seed(seed)
+    batch = torch.randn(size=size).to(device)
+    return batch
+
+
+def get_randint_batch(low, high, size, device="cuda:0", seed=2024):
+    """
+    成指定范围的随机整数
+    :param size: (B, C, H, W)
+    :param device:
+    :return:
+    """
+    # 设置随机种子
+    if seed > 0: torch.manual_seed(seed)
+    batch = torch.randint(low, high, size=size).to(device)  # 0-10之间的3x3整数矩阵
+    return batch
+
+
+if __name__ == "__main__":
+    print(get_random_batch(size=(1, 3, 2, 2)))
+    print(get_random_batch(size=(1, 3, 2, 2)))
+    print(get_random_batch(size=(1, 3, 2, 2)))

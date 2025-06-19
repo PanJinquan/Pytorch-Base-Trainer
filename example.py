@@ -143,7 +143,7 @@ class ClassificationTrainer(trainer.EngineTrainer):
                                                         optimizer=self.optimizer,
                                                         moder_dir=cfg.model_root,
                                                         epochs=cfg.num_epochs,
-                                                        start_save=-1,
+                                                        start_save=0,
                                                         indicator="Accuracy",
                                                         logger=self.logger)
         # 学习率调整策略回调函数

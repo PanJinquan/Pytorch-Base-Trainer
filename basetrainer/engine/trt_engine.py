@@ -10,6 +10,7 @@
     (4) 若出现cuDNN error: CUDNN_STATUS_MAPPING_ERROR错误，尝试设置
          torch.cuda.set_device('cuda:0')
          torch.backends.cudnn.enabled = False
+    (5) Pytorch使用半精度进行模型推理时，需要执行torch.cuda.empty_cache()，显存才会显著下降，否则显存比全精度还高
 """
 import os
 import cv2

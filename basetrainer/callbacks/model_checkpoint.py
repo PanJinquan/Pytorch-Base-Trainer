@@ -32,8 +32,10 @@ class ModelCheckpoint(Callback):
         :param optimizer:优化器
         :param moder_dir:保存训练模型的目录
         :param epochs: 训练的epochs数
-        :param start_save: epoch >= start_save开始保存，如果为-1，则保存最后model_nums个epoch模型
-        :param best_save: 最优模型开始保存
+        :param start_save: epoch >= start_save开始保存，
+                           如果为0，则只保存最优模型
+                           如果为-1，则保存最后model_nums个epoch模型
+        :param best_save: 当epoch>best_save,开始保存最优模型
         :param indicator:需要关注的指标，以便保存最优模型，需要根据Metrics定义的指标对应，
                          如分类模型中indicator="acc"；如果关注losss,则indicator="loss"
                          如果不需要关注，则设置为空
@@ -46,7 +48,7 @@ class ModelCheckpoint(Callback):
         self.optimizer = optimizer
         self.moder_dir = moder_dir
         self.epochs = epochs
-        self.start_save = start_save if start_save else -1
+        self.start_save = start_save
         self.best_save = best_save if best_save else -1
         file_utils.create_dir(self.moder_dir)
         self.logger = log.get_logger() if logger is None else logger
@@ -92,6 +94,7 @@ class ModelCheckpoint(Callback):
 
     def save_model(self, model_root, value, epoch, start_save=0):
         """保存模型"""
+        if start_save == 0: return
         model = self.model
         optimizer = self.optimizer
         if value:
