@@ -239,20 +239,14 @@ def fix_onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_
 if __name__ == "__main__":
     from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
 
-    # onnx_file = "../../data/model/resnet18_224_224.onnx"
-    onnx_file = "../../data/model/yolov8n-seg.onnx"
-    batch_size = 1
-    input_size = [640, 640]
-    np.random.seed(200)
-    inputs = np.random.random(size=(batch_size, 3, input_size[1], input_size[0]))
-    inputs = np.asarray(inputs, dtype=np.float32)
-    model = ONNXEngine(onnx_file, use_gpu=False, quant=1, simplify=False, dynamic=True, op_block=['Cast'])
-    model.performance(inputs)
+    onnx_file = "../../data/model/resnet18_224_224.onnx"
+    # onnx_file = "../../data/model/yolov8n-seg.onnx"
+    input_shape = [1, 3, 224, 224]
+    np.random.seed(2020)
+    inputs = np.random.randn(*input_shape).astype(np.float32)
+    model = ONNXEngine(onnx_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
+    output = model.forward(inputs)
+    # model.performance(inputs)
+    print("inputs=", inputs[0, 0, 0, 0:20])
+    print("output=", output)
     print("----")
-
-    # from onnxconverter_common import float16
-    #
-    # fp32_model = onnx.load(model_file)
-    # fp16_model = float16.convert_float_to_float16(fp32_model)
-    # model_fp32 = float16.convert_float_to_float32(model)
-    # onnx.save(fp16_model, '../../data/model/yolov8n-seg_fp16.onnx')
