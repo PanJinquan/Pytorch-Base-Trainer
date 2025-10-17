@@ -7,8 +7,8 @@
 """
 
 import os
-import torch.onnx
 import onnx
+from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16
 
 
 def convert2onnx(model, input_shape, input_names=['input'], output_names=['output'],
@@ -28,6 +28,8 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     :param device: 运行设备
     :return:
     """
+    import torch.onnx
+
     if onnx_file:
         output = os.path.dirname(onnx_file)
     else:
@@ -68,17 +70,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     print("save onnx modle file:{}".format(onnx_file))
     # simplify model
     if simplify:
-        try:
-            import onnxsim
-            print(f'simplifying with onnx-simplifier {onnxsim.__version__}')
-            onnx_model, check = onnxsim.simplify(onnx_model, dynamic_input_shape=dynamic, input_shapes=None)
-            # import onnxslim
-            # print(f'simplifying with onnx-simplifier {onnxslim.__version__}')
-            # onnx_model = onnxslim.slim(onnx_model)
-            print("simplifier onnx model:{}".format(onnx_file))
-            onnx.save(onnx_model, onnx_file)
-        except Exception as e:
-            print(f'simplifier failure: {e}')
+        simplify_onnx(onnx_file, onnx_model=onnx_model, dynamic=dynamic)
     return onnx_file
 
 
