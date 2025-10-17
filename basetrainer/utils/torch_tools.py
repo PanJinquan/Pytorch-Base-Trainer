@@ -495,7 +495,7 @@ def print_model_shape(inp, out):
     print("===" * 10)
 
 
-def get_randn_batch(size, device="cuda:0", seed=2024):
+def get_randn_batch(size, device="cpu", seed=2024):
     """
     生成标准正态分布随机数
     :param size: (B, C, H, W)
@@ -508,7 +508,7 @@ def get_randn_batch(size, device="cuda:0", seed=2024):
     return batch
 
 
-def get_randint_batch(low, high, size, device="cuda:0", seed=2024):
+def get_randint_batch(low, high, size, device="cpu", seed=2024):
     """
     成指定范围的随机整数
     :param size: (B, C, H, W)
@@ -522,6 +522,6 @@ def get_randint_batch(low, high, size, device="cuda:0", seed=2024):
 
 
 if __name__ == "__main__":
-    print(get_random_batch(size=(1, 3, 2, 2)))
-    print(get_random_batch(size=(1, 3, 2, 2)))
-    print(get_random_batch(size=(1, 3, 2, 2)))
+    print(get_randn_batch(size=(1, 3, 2, 2)))
+    print(get_randn_batch(size=(1, 3, 2, 2)))
+    print(get_randn_batch(size=(1, 3, 2, 2)))

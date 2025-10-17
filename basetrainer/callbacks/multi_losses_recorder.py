@@ -11,10 +11,10 @@ from . import callbacks
 
 
 class MultiLossesRecorder(callbacks.Callback):
-    def __init__(self, indicators: Dict[str, List] = None):
+    def __init__(self, indicators: Dict[str, List] = {}):
         """
         用于记录多个loss的值,并自动计算total_loss
-        :param indicators: 指标名称(dict), 若indicators = None则表示记录所有loss
+        :param indicators: 指标名称(dict), 若indicators = {}则表示记录所有loss
                如indicators = {"loss": ["loss1", "loss2"]}，其中"loss1", "loss2"是run_step()中返回的loss值:
                Examples:
                    > outputs = model(inputs)

@@ -15,6 +15,9 @@ import pnnx
 def convert2ncnn(model, input_shape, input_names=['input'], output_names=['output'],
                  out_file="", fp16=True, use_prune=False, sparsity=0.2, device="cpu"):
     """
+        output, name = os.path.split(opt.model_file)
+    out_file = os.path.join(output, "ncnn", name.replace(".pth", ".jit"))
+
     https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
     command: 默认开启fp16=1
     >>  pnnx model.onnx inputshape=[1,3,320,320]= pnnx model.onnx inputshape=[1,3,320,320]f32 fp16=1
