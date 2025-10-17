@@ -13,10 +13,11 @@ sys.path.append(os.getcwd())
 import onnx
 import onnxruntime
 import numpy as np
+from collections import defaultdict
 
 
-class ONNXEngine():
-    def __init__(self, onnx_file, use_gpu=True, quant=0, simplify=False, dynamic=False, device_id=0, **kwargs):
+class ONNXEngine(object):
+    def __init__(self, onnx_file, use_gpu=True, quant=0, simplify=False, dynamic=True, device_id=0, **kwargs):
         """
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
@@ -24,6 +25,8 @@ class ONNXEngine():
         :param onnx_file:
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
+        :param simplify: 是否简化模型
+        :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param device_id: GPU id
         :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
         TODO pip uninstall onnxruntime 先卸载cpu，然后再安装gpu版本
@@ -31,6 +34,7 @@ class ONNXEngine():
         """
         self.quant = quant
         self.simplify = simplify
+        self.dynamic = dynamic
         if self.simplify:
             onnx_file = simplify_onnx(onnx_file, onnx_model=None, dynamic=dynamic)
         if self.quant == 1:
@@ -43,14 +47,14 @@ class ONNXEngine():
         else:
             self.providers = ['CPUExecutionProvider']
         # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-        options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-
+        # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
         self.onnx_session = onnxruntime.InferenceSession(onnx_file, providers=self.providers, sess_options=options)
         # self.device = onnxruntime.get_device()
         self.device = self.onnx_session.get_providers()
         self.inp_names = self.get_inp_names(self.onnx_session)
         self.out_names = self.get_out_names(self.onnx_session)
-        print("available_providers:{},use device:{}".format(available_providers, self.device))
+        print("available_providers:{}".format(available_providers))
+        print("use device         :{}".format(self.device))
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
         print("quant level        :{}".format(self.quant))
@@ -119,11 +123,20 @@ class ONNXEngine():
         """
         if self.quant == 1:
             inp_tensor = inp_tensor.astype(np.float16)
-        # 输入数据的类型必须与模型一致,以下三种写法都是可以的
-        # scores, boxes = self.onnx_session.run(None, {self.input_name: image_tensor})
-        # scores, boxes = self.onnx_session.run(self.output_name, input_feed={self.input_name: image_tensor})
-        inp_feed = self.get_inp_feed(self.inp_names, inp_tensor)
-        out_tensor = self.onnx_session.run(self.out_names, input_feed=inp_feed)
+        if self.dynamic and len(inp_tensor) > 1:
+            out_tensor = defaultdict(list)  # TODO  CPU模式逐个推理，比批量推理快
+            for i in range(len(inp_tensor)):
+                inp_feed = self.get_inp_feed(self.inp_names, inp_tensor[i:i + 1, ...])
+                out = self.onnx_session.run(self.out_names, input_feed=inp_feed)
+                for k in range(len(out)):
+                    out_tensor[k].append(out[k])
+            out_tensor = [np.concatenate(v, axis=0) for k, v in out_tensor.items()]
+        else:
+            # 输入数据的类型必须与模型一致,以下三种写法都是可以的
+            # scores, boxes = self.onnx_session.run(None, {self.input_name: image_tensor})
+            # scores, boxes = self.onnx_session.run(self.output_name, input_feed={self.input_name: image_tensor})
+            inp_feed = self.get_inp_feed(self.inp_names, inp_tensor)
+            out_tensor = self.onnx_session.run(self.out_names, input_feed=inp_feed)
         return out_tensor
 
     def performance(self, inputs, iterate=50):
@@ -226,18 +239,14 @@ def fix_onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_
 if __name__ == "__main__":
     from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
 
-    onnx_file = "libs/best.onnx"
-    onnx_file = "../../data/model/resnet18_224_224.onnx"
-    # onnx_file = "../../data/model/yolov8n-seg.onnx"
-    # onnx_file = "../../data/model/resnet18_224_224_fp16.onnx"
-
+    # onnx_file = "../../data/model/resnet18_224_224.onnx"
+    onnx_file = "../../data/model/yolov8n-seg.onnx"
     batch_size = 1
-    num_classes = 4
-    input_size = [224, 224]
+    input_size = [640, 640]
     np.random.seed(200)
     inputs = np.random.random(size=(batch_size, 3, input_size[1], input_size[0]))
     inputs = np.asarray(inputs, dtype=np.float32)
-    model = ONNXEngine(onnx_file, use_gpu=False, quant=1, simplify=False, dynamic=False, op_block=['Cast'])
+    model = ONNXEngine(onnx_file, use_gpu=False, quant=1, simplify=False, dynamic=True, op_block=['Cast'])
     model.performance(inputs)
     print("----")
 
