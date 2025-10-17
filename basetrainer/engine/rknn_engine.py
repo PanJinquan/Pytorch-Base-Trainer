@@ -198,14 +198,14 @@ class RKNNEngine(object):
 if __name__ == "__main__":
     from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
 
-    onnx_file = "../../data/model/resnet18_224_224.onnx"
-    # onnx_file = "../../data/model/yolov8n-seg.onnx"
-    input_shape = [1, 3, 224, 224]
+    # onnx_file = "../../data/model/resnet18_224_224.onnx"
+    onnx_file = "../../data/model/yolov8n-seg.onnx"
+    input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = RKNNEngine(onnx_file, use_npu=False, quant=0, simplify=False, dynamic=False)
+    model = RKNNEngine(onnx_file, use_npu=False, quant=0, simplify=False, dynamic=False,shape=input_shape)
     output = model.forward(inputs)
-    # model.performance(inputs)
+    model.performance(inputs)
     print("inputs=", inputs[0, 0, 0, 0:20])
     print("output=", output)
     print("----")
