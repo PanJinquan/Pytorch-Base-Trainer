@@ -56,4 +56,5 @@ def convert2ncnn(model, input_shape, input_names=['input'], output_names=['outpu
 
 
 if __name__ == "__main__":
-    pass
+    model_file = "../../data/model/resnet/resnet18_224_224.pth"
+    convert2ncnn(model_file, input_shape=[1, 3, 224, 224])

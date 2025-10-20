@@ -147,10 +147,14 @@ if __name__ == "__main__":
     # Example usage
     param_file = "../../data/model/ncnn-fp16/model.ncnn.param"
     # param_file = "../../data/model/ncnn-fp32/model.ncnn.param"
+    param_file = "../../data/model/yolov8n-seg_ncnn_fp32/model.ncnn.param"
     # Create random input
-    input_size = [168, 168]
-    inputs = np.random.random(size=(1, 3, input_size[1], input_size[0]))
-    inputs = np.asarray(inputs, dtype=np.float32)
+    input_shape = [1, 3, 640, 640]
+    np.random.seed(2020)
+    inputs = np.random.randn(*input_shape).astype(np.float32)
     model = NCNNEngine(param_file, use_gpu=False, use_fp16=True)
     model.performance(inputs)
+    print("inputs=", inputs[0, 0, 0, 0:20])
+    # print("output=", output)
     print("----")
+

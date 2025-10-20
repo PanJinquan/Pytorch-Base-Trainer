@@ -4,7 +4,8 @@
 # @Author : PKing
 # @E-mail : pan_jinquan@163.com
 # @Date   : 2024-02-18 16:10:49
-# @Brief  :
+# @Brief  : pip uninstall onnxruntime 先卸载cpu，然后再安装gpu版本
+            pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
 # --------------------------------------------------------
 """
 import os, sys
@@ -29,8 +30,6 @@ class ONNXEngine(object):
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param device_id: GPU id
         :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
-        TODO pip uninstall onnxruntime 先卸载cpu，然后再安装gpu版本
-             pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
         """
         self.quant = quant
         self.simplify = simplify
@@ -244,9 +243,9 @@ if __name__ == "__main__":
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = ONNXEngine(onnx_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
+    model = ONNXEngine(onnx_file, use_gpu=False, quant=1, simplify=False, dynamic=False, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     print("inputs=", inputs[0, 0, 0, 0:20])
-    print("output=", output)
+    # print("output=", output)
     print("----")
