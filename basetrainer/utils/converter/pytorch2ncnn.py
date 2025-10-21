@@ -1,10 +1,12 @@
-# -*-coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
-    @Author : PKing
-    @E-mail : pan_jinquan@163.com
-    @Date   : 2022-12-26 15:37:56
-    @Brief  : https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
-              https://github.com/pnnx/pnnx
+# --------------------------------------------------------
+# @Author : Pan
+# @E-mail :
+# @Date   : 2025-04-29 09:13:09
+# @Brief  : https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
+#           https://github.com/pnnx/pnnx
+# --------------------------------------------------------
 """
 
 import os

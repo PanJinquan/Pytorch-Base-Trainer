@@ -1,11 +1,12 @@
-# -*-coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
-    @Author : PKing
-    @E-mail : pan_jinquan@163.com
-    @Date   : 2022-12-26 15:37:56
-    @Brief  : https://blog.csdn.net/JianguoChow/article/details/124637324
+# --------------------------------------------------------
+# @Author : Pan
+# @E-mail :
+# @Date   : 2025-04-29 09:13:09
+# @Brief  : https://blog.csdn.net/JianguoChow/article/details/124637324
+# --------------------------------------------------------
 """
-
 import os
 import onnx
 from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16

@@ -4,52 +4,64 @@
 # @Author : PKing
 # @E-mail : pan_jinquan@163.com
 # @Date   : 2024-02-18 16:10:49
-# @Brief  : pip uninstall onnxruntime 先卸载cpu，然后再安装gpu版本
-            pip install onnxruntime-gpu -i https://pypi.tuna.tsinghua.edu.cn/simple
+# @Brief  :  https://www.yuque.com/mnn/en/usage_in_python
+             https://mnn-docs.readthedocs.io/en/latest/start/python.html
+             模型转换工具 https://github.com/alibaba/MNN/wiki/convert#%25
+             pip install mnn(不支持opencl等加速)
 # --------------------------------------------------------
 """
 import os, sys
 
 sys.path.append(os.getcwd())
-import onnx
-import onnxruntime
 import numpy as np
-from collections import defaultdict
+import MNN
+from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16
+from basetrainer.utils.converter import onnx2mnn
 
 
 class MNNEngine(object):
-    def __init__(self, mnn_file, use_gpu=True, quant=0, simplify=False, dynamic=True, device_id=0, **kwargs):
+    def __init__(self, mnn_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
         """
+        CPU, OPENCL, OPENGL, NN, VULKAN, METAL, TRT, CUDA, HIAI
+        config 中需要配置如下参数，均传整数，具体用法参考后面章节
+        backend    0 : CPU       1 : Metal      2 : CUDA    3 : OpenCL     5: NPU   7: Vulkan
+        precision  0 : normal    1 : high       2 : low
+        memory     0 : normal    1 : high       2 : low
+        power      0 : normal    1 : high       2 : low
         :param mnn_file:
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
         :param simplify: 是否简化模型
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
-        :param device_id: GPU id
-        :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
+        :param device: ["CPU", "CUDA", "OPENCL", "VULKAN"]
         """
         self.quant = quant
         self.simplify = simplify
         self.dynamic = dynamic
-        if self.simplify:
-            mnn_file = simplify_onnx(mnn_file, onnx_model=None, dynamic=dynamic)
-        if self.quant == 1:
-            mnn_file = onnx_fp16(mnn_file, out_file="", **kwargs)
-        assert os.path.exists(mnn_file), f"*.onnx file not exists:{mnn_file}"
-        available_providers = onnxruntime.get_available_providers()
-        options = onnxruntime.SessionOptions()
-        if use_gpu:
-            self.providers = [('CUDAExecutionProvider', {'device_id': device_id}), 'CPUExecutionProvider']
-        else:
-            self.providers = ['CPUExecutionProvider']
-        # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-        # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-        self.onnx_session = onnxruntime.InferenceSession(mnn_file, providers=self.providers, sess_options=options)
-        # self.device = onnxruntime.get_device()
-        self.device = self.onnx_session.get_providers()
-        self.inp_names = self.get_inp_names(self.onnx_session)
-        self.out_names = self.get_out_names(self.onnx_session)
-        print("available_providers:{}".format(available_providers))
+        self.device = device.upper()
+        if mnn_file.endswith(".onnx"):  # TODO 如何是ONNX模型，需要转换为MNN模型
+            if self.simplify: mnn_file = simplify_onnx(mnn_file, onnx_model=None, dynamic=dynamic)
+            mnn_file = onnx2mnn.convert2mnn(mnn_file, fp16=self.quant == 1)
+        assert os.path.exists(mnn_file), f"*.mnn file not exists:{mnn_file}"
+        self.config = {
+            "backend": self.device,
+            "precision": "low" if self.quant == 1 else "normal",
+            "numThread": num_thread,
+            "memory": "normal",
+            "power": "normal",
+        }
+        # TODO
+        rt = MNN.nn.create_runtime_manager((self.config,))
+        rt.set_cache(mnn_file.replace('.mnn', '.cache'))
+        # TODO MNN.Interpreter（传统推理接口），MNN.nn.load_module_from_file（高级模块接口）推荐使用后者
+        self.inp_names, self.out_names = self.get_node_names(mnn_file)
+        # 若输入shape固定，应设 shape_mutable=False 以提升性能。
+        self.model = MNN.nn.load_module_from_file(file_name=mnn_file,
+                                                  input_names=self.inp_names,
+                                                  output_names=self.out_names,
+                                                  shape_mutable=dynamic,
+                                                  runtime_manager=rt,
+                                                  )
         print("use device         :{}".format(self.device))
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
@@ -57,47 +69,22 @@ class MNNEngine(object):
         print("onnx_file          :{}".format(mnn_file))
         print('-----------' * 5, flush=True)
 
-    def get_out_names(self, onnx_session):
+    @staticmethod
+    def get_node_names(mnn_file):
         """
-        output_name = onnx_session.get_outputs()[0].name
-        :param onnx_session:
+        获取MNN模型的输入输出节点名称
+        :param mnn_file:
         :return:
         """
-        names = []
-        for node in onnx_session.get_outputs():
-            names.append(node.name)
-        # names = list(sorted(names))
-        return names
-
-    def get_inp_names(self, onnx_session):
-        """
-        input_name = onnx_session.get_inputs()[0].name
-        :param onnx_session:
-        :return:
-        """
-        names = []
-        for node in onnx_session.get_inputs():
-            names.append(node.name)
-            if node.type == 'tensor(float)':
-                self.quant = 0
-            elif node.type == 'tensor(float16)':
-                self.quant = 1
-            elif node.type == 'tensor(int)':
-                self.quant = 2
-        # names = list(sorted(names))
-        return names
-
-    def get_inp_feed(self, input_name, image_tensor):
-        """
-        input_feed={self.input_name: image_tensor}
-        :param input_name:
-        :param image_tensor:
-        :return:
-        """
-        input_feed = {}
-        for name in input_name:
-            input_feed[name] = image_tensor
-        return input_feed
+        interpreter = MNN.Interpreter(mnn_file)
+        session = interpreter.createSession()
+        inp_names = interpreter.getSessionInputAll(session)
+        out_names = interpreter.getSessionOutputAll(session)
+        # for name, tensor in inp_names.items():
+        #     pass
+        # for name, tensor in out_names.items():
+        #     pass
+        return list(inp_names.keys()), list(out_names.keys())
 
     def __call__(self, image_tensor):
         """
@@ -117,22 +104,8 @@ class MNNEngine(object):
         :param inp_tensor:
         :return:
         """
-        if self.quant == 1:
-            inp_tensor = inp_tensor.astype(np.float16)
-        if self.dynamic and len(inp_tensor) > 1:
-            out_tensor = defaultdict(list)  # TODO  CPU模式逐个推理，比批量推理快
-            for i in range(len(inp_tensor)):
-                inp_feed = self.get_inp_feed(self.inp_names, inp_tensor[i:i + 1, ...])
-                out = self.onnx_session.run(self.out_names, input_feed=inp_feed)
-                for k in range(len(out)):
-                    out_tensor[k].append(out[k])
-            out_tensor = [np.concatenate(v, axis=0) for k, v in out_tensor.items()]
-        else:
-            # 输入数据的类型必须与模型一致,以下三种写法都是可以的
-            # scores, boxes = self.onnx_session.run(None, {self.input_name: image_tensor})
-            # scores, boxes = self.onnx_session.run(self.output_name, input_feed={self.input_name: image_tensor})
-            inp_feed = self.get_inp_feed(self.inp_names, inp_tensor)
-            out_tensor = self.onnx_session.run(self.out_names, input_feed=inp_feed)
+        inp_tensor = MNN.expr.const(inp_tensor, inp_tensor.shape, MNN.expr.NCHW)
+        out_tensor = self.model.forward(inp_tensor)
         return out_tensor
 
     def performance(self, inputs, iterate=50):
@@ -144,103 +117,14 @@ class MNNEngine(object):
         return outputs
 
 
-def simplify_onnx(onnx_file: str, onnx_model=None, dynamic=False):
-    """
-    简化ONNX模型
-    :param onnx_file:
-    :param onnx_model:
-    :return:
-    """
-    onnx_model = onnx_model if onnx_model else onnx.load(onnx_file)
-    try:
-        import onnxsim
-        print(f'simplifying with onnx-simplifier {onnxsim.__version__}')
-        onnx_model, check = onnxsim.simplify(onnx_model, dynamic_input_shape=dynamic, input_shapes=None)
-        # import onnxslim
-        # print(f'simplifying with onnx-simplifier {onnxslim.__version__}')
-        # onnx_model = onnxslim.slim(onnx_model)
-        out_file = onnx_file.replace(".onnx", "_sim.onnx")
-        onnx.save(onnx_model, out_file)
-        print("simplifier onnx model:{}".format(out_file))
-    except Exception as e:
-        print(f'simplifier failure: {e}')
-        out_file = None
-    return out_file
-
-
-def onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_block=[]):
-    """
-    pip install onnxconverter-common
-    将FP32模型转换为FP16模型
-    :param onnx_file:
-    :param onnx_model:
-    :param op_block: 指定哪些算子不转换为FP16，如["Softmax", "BatchNormalization"]
-    :param nd_block: 指定哪些节点类型不转换为FP16，如["layer1/attention/weight", "output_layer/scale"]
-    :return:
-    """
-    from onnxconverter_common import float16
-    try:
-        fp32_model = onnx_model if onnx_model else onnx.load(onnx_file)
-        # fp16_model = float16.convert_float_to_float16(fp32_model, op_block_list=['Cast', 'Resize']) # 会卡死
-        fp16_model = float16.convert_float_to_float16(fp32_model)
-        out_file = out_file if out_file else onnx_file.replace(".onnx", "_fp16.onnx")
-        onnx.save(fp16_model, out_file)
-        out_file = fix_onnx_fp16(out_file, onnx_model, out_file=out_file, op_block=op_block, nd_block=nd_block)
-        print(f'converter model FP16 success: {out_file}')
-    except Exception as e:
-        fp16_model = None
-        out_file = None
-        print(f'converter model FP16 failure: {e}')
-    return out_file
-
-
-def fix_onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_block=[]):
-    """
-    修复ONNX模型
-    :param onnx_file:
-    :param onnx_model:
-    :return:
-    """
-    if len(op_block) == 0 and len(nd_block) == 0: return onnx_file
-    out_file = out_file if out_file else onnx_file.replace(".onnx", "_fix.onnx")
-    model = onnx_model if onnx_model else onnx.load(onnx_file)
-
-    def match_op_name(op_list, tar):
-        """
-        使用循环判断列表中是否存在目标字符串
-        """
-        for op in op_list:
-            if op in tar:  return op
-        return ""
-
-    print('-----------' * 5, flush=True)
-    print(f'fixed model FP16: {out_file},op_block={op_block}, nd_block={nd_block}')
-    # 找到有问题的节点并修改其输出类型
-    for node in model.graph.node:
-        op_name = match_op_name(op_block, node.name)
-        if op_name or (node.name in nd_block):
-            print("op:{:10s},node:{:50s},float16 --> float32".format(node.op_type, node.name))
-            for output in node.output:  # 找到对应的输出
-                for value_info in model.graph.value_info:
-                    if value_info.name == output:
-                        # 修改类型为 float
-                        value_info.type.tensor_type.elem_type = onnx.TensorProto.FLOAT
-    model = onnx.shape_inference.infer_shapes(model)
-    onnx.save(model, out_file)
-    print(f'fixed model FP16 success    : {out_file}')
-    print('-----------' * 5, flush=True)
-    return out_file
-
-
 if __name__ == "__main__":
-    from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
-
-    # onnx_file = "../../data/model/resnet18_224_224.onnx"
-    onnx_file = "../../data/model/yolov8n-seg.onnx"
+    # mnn_file = "../../data/model/resnet/resnet18_224_224.mnn"
+    # mnn_file = "../../data/model/yolov8n-seg.mnn"
+    mnn_file = "../../data/model/yolov8n-seg.onnx"
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = MNNEngine(onnx_file, use_gpu=True, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
+    model = MNNEngine(mnn_file, quant=1, simplify=False, dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     print("inputs=", inputs[0, 0, 0, 0:20])

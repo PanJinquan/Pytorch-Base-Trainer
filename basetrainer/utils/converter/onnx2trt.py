@@ -1,9 +1,11 @@
-# -*-coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 """
-    @Author : PKing
-    @E-mail : pan_jinquan@163.com
-    @Date   : 2022-12-23 11:06:28
-    @Brief  : https://blog.csdn.net/weixin_42492254/article/details/125319112
+# --------------------------------------------------------
+# @Author : Pan
+# @E-mail :
+# @Date   : 2025-04-29 09:13:09
+# @Brief  : https://blog.csdn.net/weixin_42492254/article/details/125319112
+# --------------------------------------------------------
 """
 
 import os

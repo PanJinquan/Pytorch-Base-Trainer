@@ -16,7 +16,7 @@ output/
 .DS_Store
 pip
 eth.yaml
-
+*.cache
 *.whl
 *.so
 *.pth
