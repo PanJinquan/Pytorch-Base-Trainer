@@ -22,6 +22,8 @@ from basetrainer.utils.converter import onnx2mnn
 class MNNEngine(object):
     def __init__(self, mnn_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
         """
+        pip install --upgrade docs/MNN/vulkan/mnn-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
+        pip install --upgrade docs/MNN/opencl/MNN-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         CPU, OPENCL, OPENGL, NN, VULKAN, METAL, TRT, CUDA, HIAI
         config 中需要配置如下参数，均传整数，具体用法参考后面章节
         backend    0 : CPU       1 : Metal      2 : CUDA    3 : OpenCL     5: NPU   7: Vulkan
@@ -32,7 +34,7 @@ class MNNEngine(object):
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
         :param simplify: 是否简化模型
-        :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
+        :param dynamic: 是否动态输入
         :param device: ["CPU", "CUDA", "OPENCL", "VULKAN"]
         """
         self.quant = quant
@@ -84,6 +86,7 @@ class MNNEngine(object):
         #     pass
         # for name, tensor in out_names.items():
         #     pass
+        del interpreter
         return list(inp_names.keys()), list(out_names.keys())
 
     def __call__(self, image_tensor):
@@ -96,7 +99,7 @@ class MNNEngine(object):
         outputs = self.forward(image_tensor)
         return outputs
 
-    def forward(self, inp_tensor):
+    def forward(self, inp_tensor: np.ndarray):
         """
         image_tensor = image.transpose(2, 0, 1)
         image_tensor = image_tensor[np.newaxis, :]
@@ -104,8 +107,10 @@ class MNNEngine(object):
         :param inp_tensor:
         :return:
         """
-        inp_tensor = MNN.expr.const(inp_tensor, inp_tensor.shape, MNN.expr.NCHW)
-        out_tensor = self.model.forward(inp_tensor)
+        # inp_var = MNN.expr.const(inp_tensor, inp_tensor.shape, MNN.expr.NCHW)
+        inp_vars = MNN.expr.const(inp_tensor, inp_tensor.shape, dtype=MNN.expr.float)
+        out_vars = self.model.onForward([inp_vars])
+        out_tensor = [var.read() for var in out_vars]  # List[np.ndarray
         return out_tensor
 
     def performance(self, inputs, iterate=50):
@@ -121,10 +126,10 @@ if __name__ == "__main__":
     # mnn_file = "../../data/model/resnet/resnet18_224_224.mnn"
     # mnn_file = "../../data/model/yolov8n-seg.mnn"
     mnn_file = "../../data/model/yolov8n-seg.onnx"
-    input_shape = [1, 3, 640, 640]
+    input_shape = [5, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = MNNEngine(mnn_file, quant=1, simplify=False, dynamic=True, op_block=['Cast'])
+    model = MNNEngine(mnn_file, quant=0, simplify=False, dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     print("inputs=", inputs[0, 0, 0, 0:20])

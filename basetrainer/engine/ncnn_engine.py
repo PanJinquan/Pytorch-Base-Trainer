@@ -17,6 +17,7 @@ import numpy as np
 class NCNNEngine(object):
     def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=True, use_fp16=True):
         """
+        TODO 暂时支持batch_size=1
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
         YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
@@ -149,12 +150,11 @@ if __name__ == "__main__":
     # param_file = "../../data/model/ncnn-fp32/model.ncnn.param"
     param_file = "../../data/model/yolov8n-seg_ncnn_fp32/model.ncnn.param"
     # Create random input
-    input_shape = [1, 3, 640, 640]
+    input_shape = [5, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = NCNNEngine(param_file, use_gpu=False, use_fp16=True)
+    model = NCNNEngine(param_file, use_gpu=True, use_fp16=True)
     model.performance(inputs)
     print("inputs=", inputs[0, 0, 0, 0:20])
     # print("output=", output)
     print("----")
-
