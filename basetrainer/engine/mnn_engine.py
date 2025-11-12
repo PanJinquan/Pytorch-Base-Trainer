@@ -12,7 +12,7 @@
 """
 import os, sys
 
-sys.path.append(os.getcwd())
+sys.path.insert(0, os.getcwd())
 import numpy as np
 import MNN
 from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16, print_tensor

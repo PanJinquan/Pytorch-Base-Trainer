@@ -10,7 +10,7 @@
 """
 import os, sys
 
-sys.path.append(os.getcwd())
+sys.path.insert(0, os.getcwd())
 import onnx
 import onnxruntime
 import numpy as np

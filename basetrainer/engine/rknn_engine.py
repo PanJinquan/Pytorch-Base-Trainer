@@ -10,7 +10,7 @@
 """
 import os, sys
 
-sys.path.append(os.getcwd())
+sys.path.insert(0, os.getcwd())
 import numpy as np
 import platform
 from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16, print_tensor
@@ -22,7 +22,7 @@ class RKNNEngine(object):
                  shape=(1, 3, 224, 224),
                  device=None,
                  quant=0,
-                 simplify=False,
+                 simplify=True,
                  dynamic=True,
                  dynamic_shape=[],
                  **kwargs):
@@ -34,7 +34,7 @@ class RKNNEngine(object):
         :param device: rknn目标平台，simulator or rv1103/rv1103b/rv1106/rv1106b/rv1126b/rk3562/rk3566/rk3568/rk3576/rk3588.
                        default is None, means simulator.
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
-        :param simplify: 是否简化模型
+        :param simplify: 是否简化模型，建议True
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
         :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
@@ -111,7 +111,7 @@ class RKNNEngine(object):
             exit(ret)
         # 释放资源
         # rknn.release()
-        print("Export rknn model success,rknn={}，shapes=:{}".format(model_file, shapes))
+        print("Export rknn model success,rknn={}，shapes=:{}".format(rknn_file, shapes))
         ret = rknn.init_runtime(target=None)
         return rknn_file, rknn
 
