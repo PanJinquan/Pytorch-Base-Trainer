@@ -146,7 +146,9 @@ class ONNXEngine(object):
                 outputs = self.forward(inputs)
         return outputs
 
+
 def print_tensor(name, tensor, num=10):
+    print("===" * 30)
     print(f"{name}=")
     if isinstance(tensor, list) or isinstance(tensor, tuple):
         for k in range(len(tensor)):
@@ -161,7 +163,6 @@ def print_tensor(name, tensor, num=10):
             print("-" * 20)
     else:
         print(f"{tensor}")
-    print("===" * 30)
 
 
 def simplify_onnx(onnx_file: str, onnx_model=None, dynamic=False):
@@ -259,7 +260,7 @@ if __name__ == "__main__":
     model_file = "data/model/yolov8n-seg.onnx"
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
-    inputs = np.random.randn(*input_shape).astype(np.float32)
+    inputs = np.random.randint(0, 255, size=input_shape).astype(np.float32)
     model = ONNXEngine(model_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)

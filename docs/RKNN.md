@@ -3,6 +3,7 @@
 #### RKNN安装(RK3588)
 
 - https://github.com/airockchip/rknn-toolkit2
+- 详细看`02_Rockchip_RKNPU_User_Guide_RKNN_SDK_V2.3.2_CN.pdf`
 - PC端：pip install docs/rknn-toolkit2/rknn_toolkit2-2.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
 - 板端：pip install docs/rknn-toolkit2/rknn_toolkit_lite2-2.3.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
 - 板端更新npu：

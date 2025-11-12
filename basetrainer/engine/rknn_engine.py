@@ -51,8 +51,8 @@ class RKNNEngine(object):
         if model_file.endswith(".onnx"):  # TODO 如果是ONNX模型，需要转换为MNN模型
             print("load onnx model        :{}".format(model_file))
             if self.simplify: model_file = simplify_onnx(model_file, onnx_model=None, dynamic=dynamic)
-            if self.quant == 1:
-                model_file = onnx_fp16(model_file, out_file="", **kwargs)
+            # if self.quant == 1:
+            #     model_file = onnx_fp16(model_file, out_file="", **kwargs)
             # TODO 转换为RKNN模型
             model_file, self.model = self.export_rknn(model_file, shapes=dynamic_shape, quant=bool(quant), **kwargs)
         # TODO 如果是RK机器，则加载RKNN模型
@@ -72,7 +72,7 @@ class RKNNEngine(object):
 
     @staticmethod
     def export_rknn(onnx_file, rknn_file="", shapes=[1, 3, 224, 224], device=None, quant=False,
-                    dataset="./images.txt"):
+                    dataset="./images.txt", **kwargs):
         """
         TODO pip install rknn-toolkit2
         :param onnx_file:
@@ -82,34 +82,36 @@ class RKNNEngine(object):
         :param dataset: dataset: find images/ -type f > images.txt, 包含所有图像的txt文件
         :return: rknn.release(), rknn_file
         """
+        # TODO 详细看02_Rockchip_RKNPU_User_Guide_RKNN_SDK_V2.3.2_CN.pdf
         from rknn.api import RKNN
         rknn_file = rknn_file if rknn_file else onnx_file.replace(".onnx", ".rknn")
+        rknn_file = rknn_file.replace(".rknn", "_int8.rknn") if quant else rknn_file
         rknn = RKNN(verbose=True)
         device = device if device else "rk3588"
         # 预处理器置
-        rknn.config(target_platform=device,  # 请根据你的开发板芯片修改，如rk3568, rk3588
+        rknn.config(mean_values=kwargs.get("mean_values", None),
+                    std_values=kwargs.get("std_values", None),
+                    target_platform=device,  # 请根据你的开发板芯片修改，如rk3568, rk3588
                     dynamic_input=shapes if shapes else None
                     )
         # 加载ONNX模型
-        ret = rknn.load_onnx(model=onnx_file,
-                             input_size_list=shapes if shapes else None
-                             )
+        ret = rknn.load_onnx(model=onnx_file, input_size_list=shapes if shapes else None)
         if ret != 0:
             print('Load model failed!')
             exit(ret)
-        # 构建RKNN模型,INT8量化可以显著提升在板端的推理性能，建议开启:cite[3]
+        # 构建RKNN模型,INT8量化可以显著提升在板端的推理性能，建议开启
         ret = rknn.build(do_quantization=quant, dataset=dataset)
         if ret != 0:
             print('Build model failed!')
             exit(ret)
-        # # 导出RKNN模型文件
+        # 导出RKNN模型文件
         ret = rknn.export_rknn(rknn_file)
         if ret != 0:
             print('Export rknn model failed!')
             exit(ret)
         # 释放资源
         # rknn.release()
-        print("export rknn model success,rknn={}，shapes=:{}".format(model_file, shapes))
+        print("Export rknn model success,rknn={}，shapes=:{}".format(model_file, shapes))
         ret = rknn.init_runtime(target=None)
         return rknn_file, rknn
 
@@ -214,12 +216,14 @@ def get_system_host_name():
 
 if __name__ == "__main__":
     # model_file = "../../data/model/resnet18_224_224.onnx"
-    # model_file = "../../data/model/yolov8n-seg.onnx"
-    model_file = "data/model/yolov8n-seg.rknn"
+    # model_file = "data/model/yolov8n-seg.onnx"
+    # model_file = "data/model/yolov8n-seg.rknn"
+    model_file = "data/model/yolov8n-seg_int8.rknn"
     input_shape = [1, 3, 640, 640]
     dynamic_shape = [[[1, 3, 640, 640]], [[1, 3, 480, 480]], [[1, 3, 320, 320]]]
     np.random.seed(2020)
-    inputs = np.random.randn(*input_shape).astype(np.float32)
+    inputs = np.random.randint(0, 255, size=input_shape).astype(np.float32)
+    inputs = inputs.astype(np.uint8)
     model = RKNNEngine(model_file, shape=input_shape, quant=0, simplify=False, device="rk3588",
                        dynamic_shape=dynamic_shape)
     output = model.forward(inputs)
