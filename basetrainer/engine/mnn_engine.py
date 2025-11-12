@@ -15,12 +15,12 @@ import os, sys
 sys.path.append(os.getcwd())
 import numpy as np
 import MNN
-from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16
+from basetrainer.engine.onnx_engine import simplify_onnx, onnx_fp16, print_tensor
 from basetrainer.utils.converter import onnx2mnn
 
 
 class MNNEngine(object):
-    def __init__(self, mnn_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
+    def __init__(self, model_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
         """
         pip install --upgrade docs/MNN/vulkan/mnn-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         pip install --upgrade docs/MNN/opencl/MNN-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
@@ -30,7 +30,7 @@ class MNNEngine(object):
         precision  0 : normal    1 : high       2 : low
         memory     0 : normal    1 : high       2 : low
         power      0 : normal    1 : high       2 : low
-        :param mnn_file:
+        :param model_file:
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
         :param simplify: 是否简化模型
@@ -41,10 +41,10 @@ class MNNEngine(object):
         self.simplify = simplify
         self.dynamic = dynamic
         self.device = device.upper()
-        if mnn_file.endswith(".onnx"):  # TODO 如果是ONNX模型，需要转换为MNN模型
-            if self.simplify: mnn_file = simplify_onnx(mnn_file, onnx_model=None, dynamic=dynamic)
-            mnn_file = onnx2mnn.convert2mnn(mnn_file, fp16=self.quant == 1)
-        assert os.path.exists(mnn_file), f"*.mnn file not exists:{mnn_file}"
+        if model_file.endswith(".onnx"):  # TODO 如果是ONNX模型，需要转换为MNN模型
+            if self.simplify: model_file = simplify_onnx(model_file, onnx_model=None, dynamic=dynamic)
+            model_file = onnx2mnn.convert2mnn(model_file, fp16=self.quant == 1)
+        assert os.path.exists(model_file), f"model file not exists:{model_file}"
         self.config = {
             "backend": self.device,
             "precision": "low" if self.quant == 1 else "normal",
@@ -54,11 +54,11 @@ class MNNEngine(object):
         }
         # TODO
         rt = MNN.nn.create_runtime_manager((self.config,))
-        rt.set_cache(mnn_file.replace('.mnn', '.cache'))
+        rt.set_cache(model_file.replace('.mnn', '.cache'))
         # TODO MNN.Interpreter（传统推理接口），MNN.nn.load_module_from_file（高级模块接口）推荐使用后者
-        self.inp_names, self.out_names = self.get_node_names(mnn_file)
+        self.inp_names, self.out_names = self.get_node_names(model_file)
         # 若输入shape固定，应设 shape_mutable=False 以提升性能。
-        self.model = MNN.nn.load_module_from_file(file_name=mnn_file,
+        self.model = MNN.nn.load_module_from_file(file_name=model_file,
                                                   input_names=self.inp_names,
                                                   output_names=self.out_names,
                                                   shape_mutable=dynamic,
@@ -68,7 +68,7 @@ class MNNEngine(object):
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
         print("quant level        :{}".format(self.quant))
-        print("onnx_file          :{}".format(mnn_file))
+        print("model_file         :{}".format(model_file))
         print('-----------' * 5, flush=True)
 
     @staticmethod
@@ -123,15 +123,15 @@ class MNNEngine(object):
 
 
 if __name__ == "__main__":
-    # mnn_file = "data/model/resnet/resnet18_224_224.mnn"
-    # mnn_file = "data/model/yolov8n-seg.mnn"
-    mnn_file = "data/model/yolov8n-seg.onnx"
+    # model_file = "data/model/resnet/resnet18_224_224.mnn"
+    model_file = "data/model/yolov8n-seg.mnn"
+    # model_file = "data/model/yolov8n-seg.onnx"
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = MNNEngine(mnn_file, quant=1, simplify=False, device="cpu",dynamic=True, op_block=['Cast'])
+    model = MNNEngine(model_file, quant=1, simplify=False, device="cpu", dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
-    print("inputs=", inputs[0, 0, 0, 0:20], inputs.shape)
-    print("output=", output[0][0])
-    print("----")
+    print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
+    print_tensor("output", output, num=10)
+    print(model_file)

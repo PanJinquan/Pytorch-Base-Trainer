@@ -18,12 +18,12 @@ from collections import defaultdict
 
 
 class ONNXEngine(object):
-    def __init__(self, onnx_file, use_gpu=True, quant=0, simplify=False, dynamic=True, device_id=0, **kwargs):
+    def __init__(self, model_file, use_gpu=True, quant=0, simplify=False, dynamic=True, device_id=0, **kwargs):
         """
         pnnx教程：https://github.com/pnnx/pnnx
         ncnn教程：https://github.com/Tencent/ncnn/wiki/use-ncnn-with-pytorch-or-onnx
         YOLOv8:  https://github.com/jahongir7174/YOLOv8-onnx/tree/master
-        :param onnx_file:
+        :param model_file:
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
         :param simplify: 是否简化模型
@@ -35,10 +35,10 @@ class ONNXEngine(object):
         self.simplify = simplify
         self.dynamic = dynamic
         if self.simplify:
-            onnx_file = simplify_onnx(onnx_file, onnx_model=None, dynamic=dynamic)
+            model_file = simplify_onnx(model_file, onnx_model=None, dynamic=dynamic)
         if self.quant == 1:
-            onnx_file = onnx_fp16(onnx_file, out_file="", **kwargs)
-        assert os.path.exists(onnx_file), f"*.onnx file not exists:{onnx_file}"
+            model_file = onnx_fp16(model_file, out_file="", **kwargs)
+        assert os.path.exists(model_file), f"*.onnx file not exists:{model_file}"
         available_providers = onnxruntime.get_available_providers()
         options = onnxruntime.SessionOptions()
         if use_gpu:
@@ -47,7 +47,7 @@ class ONNXEngine(object):
             self.providers = ['CPUExecutionProvider']
         # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
         # options.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-        self.onnx_session = onnxruntime.InferenceSession(onnx_file, providers=self.providers, sess_options=options)
+        self.onnx_session = onnxruntime.InferenceSession(model_file, providers=self.providers, sess_options=options)
         # self.device = onnxruntime.get_device()
         self.device = self.onnx_session.get_providers()
         self.inp_names = self.get_inp_names(self.onnx_session)
@@ -57,7 +57,7 @@ class ONNXEngine(object):
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
         print("quant level        :{}".format(self.quant))
-        print("onnx_file          :{}".format(onnx_file))
+        print("onnx_file          :{}".format(model_file))
         print('-----------' * 5, flush=True)
 
     def get_out_names(self, onnx_session):
@@ -145,6 +145,23 @@ class ONNXEngine(object):
             with time_utils.Performance(n=2) as p:
                 outputs = self.forward(inputs)
         return outputs
+
+def print_tensor(name, tensor, num=10):
+    print(f"{name}=")
+    if isinstance(tensor, list) or isinstance(tensor, tuple):
+        for k in range(len(tensor)):
+            t, s = tensor[k], tensor[k].shape
+            h = ""
+            for i in range(len(s) - 1):
+                t = t[0]
+                h += f"[0]"
+            h += f"[0:{num}]"
+            print(f"{name}{k}{s}{h}=")
+            print(f"{t[0:num]}")
+            print("-" * 20)
+    else:
+        print(f"{tensor}")
+    print("===" * 30)
 
 
 def simplify_onnx(onnx_file: str, onnx_model=None, dynamic=False):
@@ -238,14 +255,14 @@ def fix_onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_
 if __name__ == "__main__":
     from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
 
-    # onnx_file = "../../data/model/resnet/resnet18_224_224.onnx"
-    onnx_file = "data/model/yolov8n-seg.onnx"
+    # model_file = "../../data/model/resnet/resnet18_224_224.onnx"
+    model_file = "data/model/yolov8n-seg.onnx"
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = ONNXEngine(onnx_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
+    model = ONNXEngine(model_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
-    print("inputs=", inputs[0, 0, 0, 0:20], inputs.shape)
-    print("output=", output[0][0])
-    print("----")
+    print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
+    print_tensor("output", output, num=10)
+    print(model_file)
