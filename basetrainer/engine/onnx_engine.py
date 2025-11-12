@@ -138,7 +138,7 @@ class ONNXEngine(object):
             out_tensor = self.onnx_session.run(self.out_names, input_feed=inp_feed)
         return out_tensor
 
-    def performance(self, inputs, iterate=50):
+    def performance(self, inputs, iterate=20):
         from pybaseutils import time_utils
         outputs = self.forward(inputs)
         for i in range(iterate):
@@ -238,14 +238,14 @@ def fix_onnx_fp16(onnx_file: str, onnx_model=None, out_file="", op_block=[], nd_
 if __name__ == "__main__":
     from basetrainer.utils.converter.pytorch2onnx import onnx_fp16
 
-    onnx_file = "../../data/model/resnet/resnet18_224_224.onnx"
-    # onnx_file = "../../data/model/yolov8n-seg.onnx"
-    input_shape = [5, 3, 640, 640]
+    # onnx_file = "../../data/model/resnet/resnet18_224_224.onnx"
+    onnx_file = "data/model/yolov8n-seg.onnx"
+    input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
     model = ONNXEngine(onnx_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
-    print("inputs=", inputs[0, 0, 0, 0:20])
-    print("output=", output)
+    print("inputs=", inputs[0, 0, 0, 0:20], inputs.shape)
+    print("output=", output[0][0])
     print("----")

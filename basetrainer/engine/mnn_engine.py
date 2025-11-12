@@ -41,7 +41,7 @@ class MNNEngine(object):
         self.simplify = simplify
         self.dynamic = dynamic
         self.device = device.upper()
-        if mnn_file.endswith(".onnx"):  # TODO 如何是ONNX模型，需要转换为MNN模型
+        if mnn_file.endswith(".onnx"):  # TODO 如果是ONNX模型，需要转换为MNN模型
             if self.simplify: mnn_file = simplify_onnx(mnn_file, onnx_model=None, dynamic=dynamic)
             mnn_file = onnx2mnn.convert2mnn(mnn_file, fp16=self.quant == 1)
         assert os.path.exists(mnn_file), f"*.mnn file not exists:{mnn_file}"
@@ -123,15 +123,15 @@ class MNNEngine(object):
 
 
 if __name__ == "__main__":
-    # mnn_file = "../../data/model/resnet/resnet18_224_224.mnn"
-    # mnn_file = "../../data/model/yolov8n-seg.mnn"
-    mnn_file = "../../data/model/yolov8n-seg.onnx"
-    input_shape = [5, 3, 640, 640]
+    # mnn_file = "data/model/resnet/resnet18_224_224.mnn"
+    # mnn_file = "data/model/yolov8n-seg.mnn"
+    mnn_file = "data/model/yolov8n-seg.onnx"
+    input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = MNNEngine(mnn_file, quant=0, simplify=False, dynamic=True, op_block=['Cast'])
+    model = MNNEngine(mnn_file, quant=1, simplify=False, device="cpu",dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
-    print("inputs=", inputs[0, 0, 0, 0:20])
-    print("output=", output)
+    print("inputs=", inputs[0, 0, 0, 0:20], inputs.shape)
+    print("output=", output[0][0])
     print("----")

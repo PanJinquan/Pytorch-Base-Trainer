@@ -78,7 +78,7 @@ class RKNNEngine(object):
         shape = list(shape)
         rknn_file = rknn_file if rknn_file else onnx_file.replace(".onnx", ".rknn")
         rknn = RKNN(verbose=True)
-        device = device if device else "rk3566"
+        device = device if device else "rk3588"
         # 预处理器置
         rknn.config(target_platform=device,  # 请根据你的开发板芯片修改，如rk3568, rk3588
                     dynamic_input=[[shape]] if shape else None
