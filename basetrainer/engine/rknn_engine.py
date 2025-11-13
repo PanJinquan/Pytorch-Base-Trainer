@@ -33,7 +33,10 @@ class RKNNEngine(object):
         :param model_file:
         :param device: rknn目标平台，simulator or rv1103/rv1103b/rv1106/rv1106b/rv1126b/rk3562/rk3566/rk3568/rk3576/rk3588.
                        default is None, means simulator.
-        :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
+        :param quant: 0:不进行量化(FP16)，1: 混合精度量化，2:进行INT8量化(INT8)
+                      RKNPU目前不支持FP32的计算方式，因此模拟器在不开启量化的情况下，默认是FP16的运算类型，所以
+                      只需要在使用rknn.build()接口时，将do_quantization参数设置为False，即可以将原始模型转换为FP16的
+                      RKNN模型，接着调用rknn.init_runtime(target=None)和rknn.inference()接口进行FP16模拟推理并获取输出结果。
         :param simplify: 是否简化模型，建议True
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
@@ -54,7 +57,7 @@ class RKNNEngine(object):
             # if self.quant == 1:
             #     model_file = onnx_fp16(model_file, out_file="", **kwargs)
             # TODO 转换为RKNN模型
-            model_file, self.model = self.export_rknn(model_file, shapes=dynamic_shape, quant=bool(quant), **kwargs)
+            model_file, self.model = self.export_rknn(model_file, shapes=dynamic_shape, quant=quant, **kwargs)
         # TODO 如果是RK机器，则加载RKNN模型
         if self.host_name.startswith("rk") and model_file.endswith(".rknn"):
             assert os.path.exists(model_file), f"model file not exists:{model_file}"
@@ -71,14 +74,14 @@ class RKNNEngine(object):
         print('-----------' * 5, flush=True)
 
     @staticmethod
-    def export_rknn(onnx_file, rknn_file="", shapes=[1, 3, 224, 224], device=None, quant=False,
+    def export_rknn(onnx_file, rknn_file="", shapes=[1, 3, 224, 224], device=None, quant=0,
                     dataset="./images.txt", **kwargs):
         """
         TODO pip install rknn-toolkit2
         :param onnx_file:
         :param rknn_file:
         :param shapes: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
-        :param quant:
+        :param quant: 0:不进行量化(FP16)，1: 混合精度量化，2:进行INT8量化(INT8)
         :param dataset: dataset: find images/ -type f > images.txt, 包含所有图像的txt文件
         :return: rknn.release(), rknn_file
         """
@@ -100,7 +103,9 @@ class RKNNEngine(object):
             print('Load model failed!')
             exit(ret)
         # 构建RKNN模型,INT8量化可以显著提升在板端的推理性能，建议开启
-        ret = rknn.build(do_quantization=quant, dataset=dataset)
+        ret = rknn.build(do_quantization=quant > 0,  # 是否进行量化
+                         auto_hybrid=quant == 1,  # 自动混合精度量化
+                         dataset=dataset, )
         if ret != 0:
             print('Build model failed!')
             exit(ret)
