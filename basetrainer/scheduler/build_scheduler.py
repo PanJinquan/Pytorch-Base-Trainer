@@ -11,6 +11,18 @@ from .LambdaLR import LambdaLR
 
 
 def get_scheduler(scheduler, optimizer, lr_init, num_epochs, num_steps, **kwargs):
+    """
+    参考配置：
+    get_scheduler(scheduler='cosine', optimizer=Adam, lr_init=0.01, num_epochs=200, num_steps=num_steps, num_warn_up=10)
+    get_scheduler(scheduler='multi_step', optimizer=SGD, lr_init=0.1, num_epochs=200,milestones=[100,150], num_steps=num_steps, num_warn_up=10)
+    :param scheduler:
+    :param optimizer:
+    :param lr_init:
+    :param num_epochs:
+    :param num_steps:
+    :param kwargs:
+    :return:
+    """
     if scheduler.lower() == "multi-step".lower() or scheduler.lower() == "multi_step".lower():
         lr_scheduler = MultiStepLR(optimizer,
                                    lr_init=lr_init,

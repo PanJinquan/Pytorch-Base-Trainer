@@ -33,7 +33,7 @@ def test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init,
             lr_scheduler.step(epoch, step)
         lr = optimizer.param_groups[0]["lr"]
         lr_list.append(lr)
-        print("epoch:{},lr:{}".format(epoch, lr))
+        print("epoch:{},lr:{:.6f}".format(epoch, lr))
     plot_utils.plot_multi_line(x_data_list=[range(num_epochs)], y_data_list=[lr_list])
 
 
@@ -61,11 +61,11 @@ def test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, 
 if __name__ == "__main__":
     num_epochs = 200
     num_warn_up = 10
-    lr_init = 0.01
+    lr_init = 0.005
     num_steps = 1000
     milestones = []
     # milestones = [50, 100, 120]
     model = models.resnet18(pretrained=False)
     optimizer = optim.SGD(model.parameters(), lr=lr_init)
     test_callback_for_build_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up)
-    # test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up)
+    test_torch_scheduler(num_epochs, num_steps, optimizer, lr_init, milestones, num_warn_up)
