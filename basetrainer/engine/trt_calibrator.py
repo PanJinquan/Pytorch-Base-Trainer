@@ -1,9 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-    @Author : PanJinquan
-    @E-mail : pan_jinquan@163.com
-    @Date   : 2024-05-22 14:11:49
-    @Brief  : https://blog.csdn.net/weixin_44613415/article/details/131850160
+# --------------------------------------------------------
+# @Author : PKing
+# @E-mail : pan_jinquan@163.com
+# @Date   : 2024-02-18 16:10:49
+# @Brief  : 常见问题
+    (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理
+    (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
+    (3) 多次`import pycuda.autoinit` 可能出现异常:Error Code 1: Cask (Cask convolution execution)
+    (4) 若出现cuDNN error: CUDNN_STATUS_MAPPING_ERROR错误，尝试设置
+         torch.cuda.set_device('cuda:0') # fix error: CUDNN_STATUS_MAPPING_ERROR错误
+         # torch.backends.cudnn.enabled = False
+    (5) Pytorch使用半精度进行模型推理时，需要执行torch.cuda.empty_cache()，显存才会显著下降，否则显存比全精度还高
+         torch.cuda.empty_cache() # 清空显存缓存
+     https://blog.csdn.net/weixin_44613415/article/details/131850160
+# --------------------------------------------------------
 """
 import os
 import cv2
