@@ -8,9 +8,10 @@
     (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
     (3) 多次`import pycuda.autoinit` 可能出现异常:Error Code 1: Cask (Cask convolution execution)
     (4) 若出现cuDNN error: CUDNN_STATUS_MAPPING_ERROR错误，尝试设置
-         torch.cuda.set_device('cuda:0')
-         torch.backends.cudnn.enabled = False
+         torch.cuda.set_device('cuda:0') # fix error: CUDNN_STATUS_MAPPING_ERROR错误
+         # torch.backends.cudnn.enabled = False
     (5) Pytorch使用半精度进行模型推理时，需要执行torch.cuda.empty_cache()，显存才会显著下降，否则显存比全精度还高
+         torch.cuda.empty_cache() # 清空显存缓存
 """
 import os
 import cv2
