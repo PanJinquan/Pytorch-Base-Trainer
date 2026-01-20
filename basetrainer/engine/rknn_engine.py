@@ -40,7 +40,7 @@ class RKNNEngine(object):
         :param simplify: 是否简化模型，建议True
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
-        :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
+        :param kwargs: 其他参数
         TODO
         """
         if not dynamic_shape: dynamic_shape = [[shape]]

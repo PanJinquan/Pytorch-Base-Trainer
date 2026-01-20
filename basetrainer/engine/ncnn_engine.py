@@ -15,7 +15,7 @@ import numpy as np
 
 
 class NCNNEngine(object):
-    def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=True, use_fp16=True):
+    def __init__(self, par_file, bin_file="", num_thread=8, use_gpu=True, use_fp16=True, **kwargs):
         """
         TODO 暂时支持batch_size=1
         pnnx教程：https://github.com/pnnx/pnnx

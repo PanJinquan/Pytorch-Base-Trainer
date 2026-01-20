@@ -30,6 +30,8 @@ class ONNXEngine(object):
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param device_id: GPU id
         :param kwargs: 其他参数，如op_block=['Cast'], nd_block等
+                       op_block: 指定哪些算子不转换为FP16，如["Softmax", "BatchNormalization"]
+                       nd_block: 指定哪些节点类型不转换为FP16，如["layer1/attention/weight", "output_layer/scale"]
         """
         self.quant = quant
         self.simplify = simplify
