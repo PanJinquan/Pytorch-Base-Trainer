@@ -24,7 +24,7 @@ class RKNNEngine(object):
                  quant=0,
                  simplify=True,
                  dynamic=True,
-                 dynamic_shape=[],
+                 dynamic_shape=None,
                  **kwargs):
         """
         安装RKNN-Toolkit2（PC端）或RKNN-Toolkit-Lite2（板端）
@@ -39,7 +39,8 @@ class RKNNEngine(object):
                       RKNN模型，接着调用rknn.init_runtime(target=None)和rknn.inference()接口进行FP16模拟推理并获取输出结果。
         :param simplify: 是否简化模型，建议True
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
-        :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
+        :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]，
+                              ！！！！量化不支持动态输入，dynamic_input必须为None
         :param kwargs: 其他参数
         TODO
         """
