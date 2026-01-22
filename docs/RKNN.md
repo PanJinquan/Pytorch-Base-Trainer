@@ -5,8 +5,8 @@
 - https://github.com/airockchip/rknn-toolkit2
 - 详细看`02_Rockchip_RKNPU_User_Guide_RKNN_SDK_V2.3.2_CN.pdf`
 - PC端：pip install docs/rknn-toolkit2/rknn_toolkit2-2.3.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-- 板端：pip install
-  docs/rknn-toolkit2/rknn_toolkit_lite2-2.3.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+- 板端：pip install docs/rknn-toolkit2/rknn_toolkit2-2.3.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (仅转换模型使用)
+- 板端：pip install docs/rknn-toolkit2/rknn_toolkit_lite2-2.3.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
 - 板端更新npu：
 
 ```bash
@@ -45,6 +45,7 @@ sudo restart_rknn.sh
   RKNPU目前不支持FP32的计算方式，因此模拟器在不开启量化的情况下，默认是FP16的运算类型，所以 只需要在使用rknn.build()
   接口时，将do_quantization参数设置为False，即可以将原始模型转换为FP16的
   RKNN模型，接着调用rknn.init_runtime(target=None)和rknn.inference()接口进行FP16模拟推理并获取输出结果
+- RKNN模型量化时，不支持动态输入，dynamic_input必须为None
 
 ## 性能测试
 

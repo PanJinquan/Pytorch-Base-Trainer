@@ -51,13 +51,14 @@ class RKNNEngine(object):
         self.device = device
         assert os.path.exists(model_file), f"model file not exists:{model_file}"
         self.model = None
+        if self.quant > 0: dynamic_shape, dynamic = None, False  # TODO 量化不支持动态输入，dynamic_input必须为None
         if model_file.endswith(".onnx"):  # TODO 如果是ONNX模型，需要转换为MNN模型
             print("load onnx model        :{}".format(model_file))
             if self.simplify: model_file = simplify_onnx(model_file, onnx_model=None, dynamic=dynamic)
             # if self.quant == 1:
             #     model_file = onnx_fp16(model_file, out_file="", **kwargs)
             # TODO 转换为RKNN模型
-            model_file, self.model = self.export_rknn(model_file, shapes=dynamic_shape, quant=quant, **kwargs)
+            model_file, self.model = self.export_rknn(model_file, shapes=dynamic_shape, quant=self.quant, **kwargs)
         # TODO 如果是RK机器，则加载RKNN模型
         if self.host_name.startswith("rk") and model_file.endswith(".rknn"):
             assert os.path.exists(model_file), f"model file not exists:{model_file}"
@@ -74,8 +75,7 @@ class RKNNEngine(object):
         print('-----------' * 5, flush=True)
 
     @staticmethod
-    def export_rknn(onnx_file, rknn_file="", shapes=[1, 3, 224, 224], device=None, quant=0,
-                    dataset="./images.txt", **kwargs):
+    def export_rknn(onnx_file, rknn_file="", shapes=None, device=None, quant=0, dataset="./images.txt", **kwargs):
         """
         TODO pip install rknn-toolkit2
         :param onnx_file:
@@ -126,7 +126,7 @@ class RKNNEngine(object):
         TODO
         :param rknn_file:
         :param quant:
-        :param dataset: dataset: find images/ -type f > images.txt, 包含所有图像的txt文件
+        :param dataset: dataset: find datasets/coco128/images/train2017 -type f -name "*.jpg" > images.txt, 包含所有图像的txt文件
         :return: rknn.release(), rknn_file
         """
         from rknnlite.api import RKNNLite
@@ -221,15 +221,15 @@ def get_system_host_name():
 
 if __name__ == "__main__":
     # model_file = "../../data/model/resnet18_224_224.onnx"
-    # model_file = "data/model/yolov8n-seg.onnx"
+    model_file = "data/model/yolov8n-seg.onnx"
     # model_file = "data/model/yolov8n-seg.rknn"
-    model_file = "data/model/yolov8n-seg_int8.rknn"
+    # model_file = "data/model/yolov8n-seg_int8.rknn"
     input_shape = [1, 3, 640, 640]
     dynamic_shape = [[[1, 3, 640, 640]], [[1, 3, 480, 480]], [[1, 3, 320, 320]]]
     np.random.seed(2020)
     inputs = np.random.randint(0, 255, size=input_shape).astype(np.float32)
     inputs = inputs.astype(np.uint8)
-    model = RKNNEngine(model_file, shape=input_shape, quant=0, simplify=False, device="rk3588",
+    model = RKNNEngine(model_file, shape=input_shape, quant=1, simplify=False, device="rk3588",
                        dynamic_shape=dynamic_shape)
     output = model.forward(inputs)
     model.performance(inputs)
