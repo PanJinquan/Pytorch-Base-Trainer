@@ -41,10 +41,11 @@ class RKNNEngine(object):
         :param dynamic: 是否动态输入, True: CPU模式逐个推理，比批量推理快
         :param dynamic_shape: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]，
                               ！！！！量化不支持动态输入，dynamic_input必须为None
-        :param kwargs: 其他参数
+        :param kwargs: 其他参数,
+                       --dataset: find datasets/coco128/images/train2017 -type f -name "*.jpg" > images.txt, 包含所有图像的txt文件
         TODO
         """
-        if not dynamic_shape: dynamic_shape = [[shape]]
+        if not dynamic_shape: dynamic_shape = [[list(shape)]]
         self.host_name = get_system_host_name()  # rk3588 rk3566 rk3568
         self.quant = quant
         self.simplify = simplify
@@ -83,7 +84,7 @@ class RKNNEngine(object):
         :param rknn_file:
         :param shapes: [[[1, 3, 640, 640]],[[1, 3, 480, 480]], [[1, 3, 320, 320]]]
         :param quant: 0:不进行量化(FP16)，1: 混合精度量化，2:进行INT8量化(INT8)
-        :param dataset: dataset: find images/ -type f > images.txt, 包含所有图像的txt文件
+        :param dataset: dataset: find datasets/coco128/images/train2017 -type f -name "*.jpg" > images.txt, 包含所有图像的txt文件
         :return: rknn.release(), rknn_file
         """
         # TODO 详细看02_Rockchip_RKNPU_User_Guide_RKNN_SDK_V2.3.2_CN.pdf
@@ -126,8 +127,7 @@ class RKNNEngine(object):
         """
         TODO
         :param rknn_file:
-        :param quant:
-        :param dataset: dataset: find datasets/coco128/images/train2017 -type f -name "*.jpg" > images.txt, 包含所有图像的txt文件
+        :param host_name:
         :return: rknn.release(), rknn_file
         """
         from rknnlite.api import RKNNLite
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     model_file = "data/model/yolov8n-seg.onnx"
     # model_file = "data/model/yolov8n-seg.rknn"
     # model_file = "data/model/yolov8n-seg_int8.rknn"
-    input_shape = [1, 3, 640, 640]
+    input_shape = (1, 3, 640, 640)
     dynamic_shape = [[[1, 3, 640, 640]], [[1, 3, 480, 480]], [[1, 3, 320, 320]]]
     np.random.seed(2020)
     inputs = np.random.randint(0, 255, size=input_shape).astype(np.float32)
