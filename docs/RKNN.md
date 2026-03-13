@@ -25,7 +25,9 @@ ps aux | grep rknn_server # 查询rknn_server进程
 kill -9 `pgrep rknn_server` # 关闭当前RKNN Server服务进程。
 sudo systemctl stop rknn_server #  停止
 sudo systemctl disable rknn_server 
-# 64位库
+
+# TODO 升级rknn-toolkit2/rknpu2  2.3.2
+# 64位库： 
 sudo cp runtime/Linux/rknn_server/aarch64/usr/bin/* /usr/bin
 sudo cp runtime/Linux/librknn_api/aarch64/librknnrt.so /usr/lib64 
 sudo cp runtime/Linux/librknn_api/aarch64/librknnrt.so /usr/lib 
