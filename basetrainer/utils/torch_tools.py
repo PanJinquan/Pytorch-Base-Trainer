@@ -199,7 +199,7 @@ def rename_module(state_dict, name_map={}):
     return new_state_dict
 
 
-def load_state_dict(model_path):
+def load_state_dict(model_path, weights_only=True):
     """
     Usage:
         model=Model()
@@ -211,7 +211,7 @@ def load_state_dict(model_path):
     state_dict = None
     if model_path:
         print('=> loading model from {}'.format(model_path))
-        state_dict = torch.load(model_path, map_location=torch.device('cpu'))
+        state_dict = torch.load(model_path, map_location=torch.device('cpu'), weights_only=weights_only)
         if "model" in state_dict:
             state_dict = state_dict["model"]
         if 'module' in list(state_dict.keys())[0]:
