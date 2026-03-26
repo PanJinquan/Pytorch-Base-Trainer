@@ -20,16 +20,24 @@ from basetrainer.utils.converter import onnx2mnn
 
 
 class MNNEngine(object):
-    def __init__(self, model_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
+    def __init__(self, model_file, quant=0, simplify=False, dynamic=True, num_thread=1, device="cpu", **kwargs):
         """
         pip install --upgrade docs/MNN/vulkan/mnn-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         pip install --upgrade docs/MNN/opencl/MNN-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         CPU, OPENCL, OPENGL, NN, VULKAN, METAL, TRT, CUDA, HIAI
-        config 中需要配置如下参数，均传整数，具体用法参考后面章节
-        backend    0 : CPU       1 : Metal      2 : CUDA    3 : OpenCL     5: NPU   7: Vulkan
-        precision  0 : normal    1 : high       2 : low
-        memory     0 : normal    1 : high       2 : low
-        power      0 : normal    1 : high       2 : low
+        config 中需要配置如下参数，均传整数，具体用法参考后面章节,详细见https://mnn-docs.readthedocs.io/en/latest/start/python.html
+        backend    0:CPU     1:Metal 2:CUDA  3:OPENCL  5: NPU   7: VULKAN
+        precision  0:normal(fp16存储，转换到fp32计算) 1:high(fp32存储和计算)  2:low(fp16存储和计算)
+        memory     0:normal  1:high  2:low    0/1:权重量化的模型，加载时将权重反量化为浮点
+        power      0:normal  1:high  2:low    目前仅高通的GPU支持调节
+        ---------------------------------------------------------------------
+        量化方法		              config            耗时 / ms	内存 / mb
+        ---------------------------------------------------------------------
+        FP32	            precision = 1, memory = 1	8.106100	19.242306
+        基于FP32的动态量化	precision = 1, memory = 2	4.739200	9.624172
+        FP16	            precision = 2, memory = 1	4.225200	9.762356
+        基于FP16的动态量化	precision = 2, memory = 2	3.663600	6.616970
+        ---------------------------------------------------------------------
         :param model_file:
         :param use_gpu: 是否使用GPU
         :param quant: 0:不进行量化，1:进行半精度量化(FP16)，2:进行INT8量化(INT8)
@@ -46,15 +54,15 @@ class MNNEngine(object):
             model_file = onnx2mnn.convert2mnn(model_file, fp16=self.quant == 1)
         assert os.path.exists(model_file), f"model file not exists:{model_file}"
         self.config = {
-            "backend": self.device,
-            "precision": "low" if self.quant == 1 else "normal",
+            "backend": self.device, # 后端idx,或者写设备名称CPU/CUDA/OPENCL/VULKAN
+            "precision": 2 if self.quant == 1 else 0,
             "numThread": num_thread,
-            "memory": "normal",
-            "power": "normal",
+            "memory": 2,
+            "power": 0,# 目前仅高通的GPU支持调节
         }
         # TODO
         rt = MNN.nn.create_runtime_manager((self.config,))
-        rt.set_cache(model_file.replace('.mnn', '.cache'))
+        # rt.set_cache(model_file.replace('.mnn', '.cache')) # 缓存模型文件，切换backend容易报错
         # TODO MNN.Interpreter（传统推理接口），MNN.nn.load_module_from_file（高级模块接口）推荐使用后者
         self.inp_names, self.out_names = self.get_node_names(model_file)
         # 若输入shape固定，应设 shape_mutable=False 以提升性能。
@@ -123,15 +131,29 @@ class MNNEngine(object):
 
 
 if __name__ == "__main__":
-    # model_file = "data/model/resnet/resnet18_224_224.mnn"
-    model_file = "data/model/yolov8n-seg.mnn"
+    import cv2
+    from pybaseutils import image_utils
+
+    model_file = "data/model/resnet/resnet18_224_224.mnn"
+    # model_file = "data/model/yolov8n-seg.mnn"
     # model_file = "data/model/yolov8n-seg.onnx"
-    input_shape = [1, 3, 640, 640]
-    np.random.seed(2020)
-    inputs = np.random.randn(*input_shape).astype(np.float32)
-    model = MNNEngine(model_file, quant=1, simplify=False, device="cpu", dynamic=True, op_block=['Cast'])
+
+    input_shape = [1, 3, 224, 224]
+    # np.random.seed(2020)
+    # inputs = np.random.randn(*input_shape).astype(np.float32)
+    filename = "data/test.jpg"
+    image = cv2.imread(filename)
+    image = cv2.resize(image, (224, 224))
+    mean = np.array([0.5, 0.5, 0.5], dtype=np.float32)
+    std = np.array([0.5, 0.5, 0.5], dtype=np.float32)
+    inputs = (image.astype(np.float32) / 255.0 - mean) / std
+    inputs = inputs.transpose(2, 0, 1)[np.newaxis, :]
+    # CPU/CUDA/OPENCL/VULKAN
+    model = MNNEngine(model_file, quant=0, simplify=False, device="VULKAN", num_thread=1,dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
-    print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
-    print_tensor("output", output, num=10)
+    # print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
+    # print_tensor("inputs{}".format(inputs.shape), inputs)
+    print(output)
+    # print_tensor("output", output, num=10)
     print(model_file)
