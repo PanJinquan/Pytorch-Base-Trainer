@@ -20,12 +20,14 @@ from basetrainer.utils.converter import onnx2mnn
 
 
 class MNNEngine(object):
-    def __init__(self, model_file, quant=0, simplify=False, dynamic=True, num_thread=1, device="cpu", **kwargs):
+    def __init__(self, model_file, quant=0, simplify=False, dynamic=True, num_thread=4, device="cpu", **kwargs):
         """
         pip install --upgrade docs/MNN/vulkan/mnn-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         pip install --upgrade docs/MNN/opencl/MNN-3.2.5-cp310-cp310-linux_x86_64.whl numpy==1.26.0 --force-reinstall
         CPU, OPENCL, OPENGL, NN, VULKAN, METAL, TRT, CUDA, HIAI
-        config 中需要配置如下参数，均传整数，具体用法参考后面章节,详细见https://mnn-docs.readthedocs.io/en/latest/start/python.html
+        config 中需要配置如下参数，均传整数，具体用法参考后面章节,详细见
+        https://mnn-docs.readthedocs.io/en/latest/start/python.html
+        https://github.com/alibaba/MNN/blob/master/docs/start/python.md
         backend    0:CPU     1:Metal 2:CUDA  3:OPENCL  5: NPU   7: VULKAN
         precision  0:normal(fp16存储，转换到fp32计算) 1:high(fp32存储和计算)  2:low(fp16存储和计算)
         memory     0:normal  1:high  2:low    0/1:权重量化的模型，加载时将权重反量化为浮点
@@ -57,12 +59,14 @@ class MNNEngine(object):
             "backend": self.device, # 后端idx,或者写设备名称CPU/CUDA/OPENCL/VULKAN
             "precision": 2 if self.quant == 1 else 0,
             "numThread": num_thread,
-            "memory": 2,
+            "memory": 1,
             "power": 0,# 目前仅高通的GPU支持调节
         }
         # TODO
         rt = MNN.nn.create_runtime_manager((self.config,))
         # rt.set_cache(model_file.replace('.mnn', '.cache')) # 缓存模型文件，切换backend容易报错
+        rt.set_mode(8) # Session_Backend_Fix = 8 Session_Backend_Auto = 9
+        rt.set_hint(0, 10) # tune_num = 20
         # TODO MNN.Interpreter（传统推理接口），MNN.nn.load_module_from_file（高级模块接口）推荐使用后者
         self.inp_names, self.out_names = self.get_node_names(model_file)
         # 若输入shape固定，应设 shape_mutable=False 以提升性能。
@@ -149,7 +153,7 @@ if __name__ == "__main__":
     inputs = (image.astype(np.float32) / 255.0 - mean) / std
     inputs = inputs.transpose(2, 0, 1)[np.newaxis, :]
     # CPU/CUDA/OPENCL/VULKAN
-    model = MNNEngine(model_file, quant=0, simplify=False, device="VULKAN", num_thread=1,dynamic=True, op_block=['Cast'])
+    model = MNNEngine(model_file, quant=1, simplify=False, device="VULKAN", dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     # print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
