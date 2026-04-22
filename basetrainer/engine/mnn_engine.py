@@ -59,7 +59,7 @@ class MNNEngine(object):
             "backend": self.device, # 后端idx,或者写设备名称CPU/CUDA/OPENCL/VULKAN
             "precision": 2 if self.quant == 1 else 0,
             "numThread": num_thread,
-            "memory": 1,
+            "memory": "low",
             "power": 0,# 目前仅高通的GPU支持调节
         }
         # TODO
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     inputs = (image.astype(np.float32) / 255.0 - mean) / std
     inputs = inputs.transpose(2, 0, 1)[np.newaxis, :]
     # CPU/CUDA/OPENCL/VULKAN
-    model = MNNEngine(model_file, quant=1, simplify=False, device="VULKAN", dynamic=True, op_block=['Cast'])
+    model = MNNEngine(model_file, quant=1, simplify=False, device="CPU", dynamic=True, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     # print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])

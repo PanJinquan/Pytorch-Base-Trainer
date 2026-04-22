@@ -56,15 +56,22 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
         inputs = torch.randn(1, C, H, W).to(device)
         dynamic_axes = None
     do_constant_folding = True
-    torch.onnx.export(model, inputs,
-                      onnx_file,
-                      verbose=False,
-                      export_params=True,
-                      do_constant_folding=do_constant_folding,
-                      input_names=input_names,
-                      output_names=output_names,
-                      dynamic_axes=dynamic_axes,
-                      opset_version=opset_version)
+    export_kwargs = dict(
+        verbose=False,
+        export_params=True,
+        do_constant_folding=do_constant_folding,
+        input_names=input_names,
+        output_names=output_names,
+        dynamic_axes=dynamic_axes,
+        opset_version=opset_version,
+    )
+    # Force legacy exporter path to avoid onnxscript-based version conversion failures
+    # when directly exporting to lower opset (for example opset 11).
+    try: # TODO dynamo 新路径/旧路径
+        torch.onnx.export(model, inputs, onnx_file, dynamo=False, **export_kwargs)
+    except TypeError:
+        # Older PyTorch versions do not support "dynamo" argument.
+        torch.onnx.export(model, inputs, onnx_file, **export_kwargs)
 
     onnx_model = onnx.load(onnx_file)
     onnx.checker.check_model(onnx_model)
