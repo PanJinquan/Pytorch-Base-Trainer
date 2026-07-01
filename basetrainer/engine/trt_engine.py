@@ -280,7 +280,7 @@ def test_performance(image_dir="./test.png", itera=10000):
         print("out_tensor:{}".format(out_tensor.shape))
 
 
-def test_example():
+def test_calibrator():
     from basetrainer.engine.trt_calibrator import ImageDataset, Calibrator, build_transform
     input_size = (640, 640)
     image_dir = '/home/PKing/nasdata/tmp/tmp/face_person/VOC/VOC2012/JPEGImages'
@@ -296,6 +296,18 @@ def test_example():
     print("out_tensor:{}".format(out_tensor.shape))
 
 
+def test_example():
+    input_size = (640, 640)
+    model_file = "data/model/yolov8n-seg.onnx"
+    input_shape = (1, 3, input_size[1], input_size[0])
+    engine = TRTEngine(model_file, input_shape=input_shape, quant=1)
+    inp_tensor = np.ones(shape=input_shape, dtype=np.float32)
+    out_tensor = engine(inp_tensor)[0]
+    print("inp_tensor:{}".format(inp_tensor.shape))
+    print("out_tensor:{}".format(out_tensor.shape))
+
+
 if __name__ == "__main__":
-    test_performance()
-    # test_example()
+    # test_performance()
+    # test_calibrator()
+    test_example()

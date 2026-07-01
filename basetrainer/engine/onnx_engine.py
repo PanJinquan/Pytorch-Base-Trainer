@@ -41,7 +41,7 @@ class ONNXEngine(object):
         if self.quant == 1:
             model_file = onnx_fp16(model_file, out_file="", **kwargs)
         assert os.path.exists(model_file), f"*.onnx file not exists:{model_file}"
-        available_providers = onnxruntime.get_available_providers()
+        providers = onnxruntime.get_available_providers()
         options = onnxruntime.SessionOptions()
         if use_gpu:
             self.providers = [('CUDAExecutionProvider', {'device_id': device_id}), 'CPUExecutionProvider']
@@ -54,7 +54,7 @@ class ONNXEngine(object):
         self.device = self.onnx_session.get_providers()
         self.inp_names = self.get_inp_names(self.onnx_session)
         self.out_names = self.get_out_names(self.onnx_session)
-        print("available_providers:{}".format(available_providers))
+        print("providers          :{}".format(providers))
         print("use device         :{}".format(self.device))
         print("inp_names          :{}".format(self.inp_names))
         print("out_names          :{}".format(self.out_names))
@@ -263,7 +263,7 @@ if __name__ == "__main__":
     input_shape = [1, 3, 640, 640]
     np.random.seed(2020)
     inputs = np.random.randint(0, 255, size=input_shape).astype(np.float32)
-    model = ONNXEngine(model_file, use_gpu=False, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
+    model = ONNXEngine(model_file, use_gpu=True, quant=0, simplify=False, dynamic=False, op_block=['Cast'])
     output = model.forward(inputs)
     model.performance(inputs)
     print_tensor("inputs{}".format(inputs.shape), inputs[0, 0, 0, 0:20])
