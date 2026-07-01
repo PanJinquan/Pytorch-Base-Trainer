@@ -5,6 +5,7 @@
 # @E-mail : pan_jinquan@163.com
 # @Date   : 2024-02-18 16:10:49
 # @Brief  : 常见问题
+    安装tensorrt请参考base-utils/docs/gpu-guides.md
     (1) TRT多模型推理时，Pytorch模型可能会出现冲突，建议Pytorch模型不要使用DataParallel加载模型推理
     (2) 推理输入数据batch_size>1时，需要在转换ONNX模型时，设置dynamic=True
     (3) 多次`import pycuda.autoinit` 可能出现异常:Error Code 1: Cask (Cask convolution execution)
@@ -299,6 +300,9 @@ def test_calibrator():
 def test_example():
     input_size = (640, 640)
     model_file = "data/model/yolov8n-seg.onnx"
+
+    input_size = (224, 224)
+    model_file = "data/model/resnet/resnet18_224_224.onnx"
     input_shape = (1, 3, input_size[1], input_size[0])
     engine = TRTEngine(model_file, input_shape=input_shape, quant=1)
     inp_tensor = np.ones(shape=input_shape, dtype=np.float32)
