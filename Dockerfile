@@ -1,4 +1,7 @@
-FROM glenaaa/tensorrt-ubuntu20.04-cuda12.1:v0.6
+#FROM nvidia/cuda:12.1.0-cudnn8-devel-ubuntu22.04
+#FROM docker.dm-ai.cn/algorithm-research/ubuntu22.04-cuda12.1-cudnn8-py310:opencv
+FROM docker.dm-ai.cn/algorithm-research/ubuntu22.04-cuda12.1-cudnn8-py310:torch2.8
+#FROM docker.dm-ai.cn/algorithm-research/ubuntu22.04-cuda12.1-cudnn8-py310:torch2.8-tensorrt8.6
 
 WORKDIR /app
 ADD app /app/
