@@ -6,16 +6,32 @@
 """
 import os
 import basetrainer
-import pypandoc
 from setuptools import setup, find_packages
 
 root = os.path.dirname(__file__)
-# long_description = pypandoc.convert_file(source_file='README.md', to='rst')
-long_description =""
+
+def get_description():
+    """
+    安全读取 README 作为 long_description。
+    优先尝试用 pypandoc 转换为 rst；若不可用则回退到原始 markdown。
+    """
+    mdfile = os.path.join(root, 'README.md')
+    try:  # 优先尝试 pypandoc 转换
+        import pypandoc
+        return pypandoc.convert_file(mdfile, 'rst')
+    except (ImportError, OSError):
+        pass
+    try:
+        # 回退：直接读取原始 markdown
+        with open(mdfile, 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        return ''
+
 setup(name='basetrainer',
       version=basetrainer.__version__,
       description='basetrainer',
-      long_description=long_description,
+      long_description=get_description(),
       url='https://github.com/PanJinquan/Pytorch-Base-Trainer',
       author='PanJinquan',
       author_email='pan_jinquan@163.com',
@@ -48,6 +64,7 @@ def readme2rst(in_file='README.md'):
         encoding：指定编码集
         outputfile：目标文件，比如test.html（注意outputfile的后缀要和to一致）
     """
+    import pypandoc
     # 修复中文乱码问题： <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     pypandoc.convert_file(in_file, 'html', format='md', outputfile="README.html", encoding='utf-8')
     pypandoc.convert_file(in_file, 'rst', format='md', outputfile="README.rst", encoding='utf-8')

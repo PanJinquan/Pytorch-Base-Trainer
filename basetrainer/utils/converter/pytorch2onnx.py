@@ -67,7 +67,7 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     )
     # Force legacy exporter path to avoid onnxscript-based version conversion failures
     # when directly exporting to lower opset (for example opset 11).
-    try: # TODO dynamo 新路径/旧路径
+    try:  # TODO dynamo 新路径/旧路径
         torch.onnx.export(model, inputs, onnx_file, dynamo=False, **export_kwargs)
     except TypeError:
         # Older PyTorch versions do not support "dynamo" argument.
@@ -80,7 +80,6 @@ def convert2onnx(model, input_shape, input_names=['input'], output_names=['outpu
     if simplify:
         simplify_onnx(onnx_file, onnx_model=onnx_model, dynamic=dynamic)
     return onnx_file
-
 
 if __name__ == "__main__":
     pass
